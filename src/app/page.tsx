@@ -1,11 +1,5 @@
 "use client";
-import {
-  ActionIcon,
-  Autocomplete,
-  Button,
-  ComboboxItem,
-  Select,
-} from "@mantine/core";
+import { ActionIcon, Autocomplete, Button, ComboboxItem } from "@mantine/core";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import {
   IconCurrentLocation,
@@ -14,8 +8,7 @@ import {
   IconWorld,
 } from "@tabler/icons-react";
 import { getDistance } from "geolib";
-import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "./components/logo";
 import { germanCitiesAbove50000 } from "./data/cities";
 import { Dealer } from "./lib/interfaces";
@@ -39,11 +32,11 @@ export default function Page() {
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSearchButton, setShowSearchButton] = useState(false);
-  const [distance, setDistance] = useState<string | null>("50000");
   const [value, setValue] = useState("");
   const [retailers, setRetailers] = useState<Dealer[]>([]);
   const [filteredRetailers, setFilteredRetailers] = useState<Dealer[]>([]);
   const [selectedRetailer, setSelectedRetailer] = useState("");
+  const [pendingFilter, setPendingFilter] = useState(false);
 
   useEffect(() => {
     getRetailers();
@@ -55,9 +48,13 @@ export default function Page() {
     setRetailers(dealers);
   };
 
-  const handleRetailerClick = useCallback((id: string) => {
-    setSelectedRetailer(id);
-  }, []);
+  const handleRetailerClick = (id: string) => {
+    if (selectedRetailer === id) {
+      setSelectedRetailer("");
+    } else {
+      setSelectedRetailer(id);
+    }
+  };
 
   const handleGetUserLocation = () => {
     if (!map) return;
@@ -70,6 +67,7 @@ export default function Page() {
           };
           map.panTo(loc);
           map.setZoom(9);
+          setPendingFilter(true);
         },
         (err) => {
           console.error(`Error getting location: ${err.message}`);
@@ -88,7 +86,6 @@ export default function Page() {
     const ne = bounds.getNorthEast();
     const sw = bounds.getSouthWest();
 
-    // distances center → north/south
     const latNorth = getDistance(
       { latitude: center.lat(), longitude: center.lng() },
       { latitude: ne.lat(), longitude: center.lng() }
@@ -97,8 +94,6 @@ export default function Page() {
       { latitude: center.lat(), longitude: center.lng() },
       { latitude: sw.lat(), longitude: center.lng() }
     );
-
-    // distances center → east/west
     const lngEast = getDistance(
       { latitude: center.lat(), longitude: center.lng() },
       { latitude: center.lat(), longitude: ne.lng() }
@@ -108,15 +103,12 @@ export default function Page() {
       { latitude: center.lat(), longitude: sw.lng() }
     );
 
-    // effective "half height" and "half width"
     const halfHeight = Math.min(latNorth, latSouth);
     const halfWidth = Math.min(lngEast, lngWest);
 
-    // use the smaller → guaranteed inside viewport
     return Math.min(halfHeight, halfWidth);
   };
 
-  // when user types a city and presses search
   const handleSearchSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     if (!map) return;
@@ -134,7 +126,6 @@ export default function Page() {
     filterRetailers();
   };
 
-  // when user clicks "Search this area"
   const handleAreaSubmit = () => {
     if (!map) return;
     filterRetailers();
@@ -146,7 +137,7 @@ export default function Page() {
     if (!latLng) return;
 
     const centerCoords = { lat: latLng.lat(), lng: latLng.lng() };
-    let effectiveDistance = +distance!;
+    let effectiveDistance = 50000;
 
     const radius = getRadiusFromMap(map);
     if (radius) effectiveDistance = radius;
@@ -175,9 +166,13 @@ export default function Page() {
     <main className="flex">
       <div className="w-1/2 flex flex-col items-start gap-4 p-8 shadow-2xl shadow-black max-h-screen overflow-y-scroll">
         <Logo />
-        <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
+        <form
+          onSubmit={handleSearchSubmit}
+          className="w-full flex items-center gap-1"
+        >
           <Autocomplete
-            placeholder="Enter address"
+            placeholder="Enter city"
+            className="flex-1"
             value={value}
             onChange={setValue}
             data={germanCitiesAbove50000}
@@ -192,18 +187,6 @@ export default function Page() {
               filtered.sort((a, b) => a.label.localeCompare(b.label));
               return filtered;
             }}
-          />
-          <Select
-            value={distance}
-            onChange={setDistance}
-            data={[
-              { label: "50 km", value: "50000" },
-              { label: "100 km", value: "100000" },
-              { label: "200 km", value: "200000" },
-            ]}
-            allowDeselect={false}
-            checkIconPosition="right"
-            w={120}
           />
           <ActionIcon.Group>
             <ActionIcon type="submit" size="lg">
@@ -246,7 +229,13 @@ export default function Page() {
             mapInstance.setCenter({ lat: 51.165691, lng: 10.451526 });
             mapInstance.setZoom(6.8);
           }}
-          onIdle={() => setShowSearchButton(true)}
+          onIdle={() => {
+            setShowSearchButton(true);
+            if (pendingFilter) {
+              filterRetailers();
+              setPendingFilter(false);
+            }
+          }}
         >
           {filteredRetailers.map((retailer, index) => {
             if (!retailer.addresse.latitude || !retailer.addresse.longitude)
@@ -262,10 +251,11 @@ export default function Page() {
                 onClick={() => handleRetailerClick(retailer.kdnr)}
                 icon={{
                   path: google.maps.SymbolPath.CIRCLE,
-                  scale: retailer.kdnr === selectedRetailer ? 16 : 12,
-                  fillColor: "#d2934d",
-                  fillOpacity: retailer.kdnr === selectedRetailer ? 1 : 0.66,
-                  strokeWeight: 2,
+                  scale: retailer.kdnr === selectedRetailer ? 12 : 8,
+                  fillColor: "#ef233c",
+                  fillOpacity: retailer.kdnr === selectedRetailer ? 1 : 0,
+                  strokeWeight: 1.5,
+                  strokeColor: "#ef233c",
                 }}
               />
             );
@@ -313,27 +303,32 @@ function Retailer({
         </h3>
         <p className="font-mono text-xs text-black/60">{address}</p>
       </header>
-      <div className="flex flex-row gap-2">
+      {/* <div className="flex gap-8">
         {data.map((d, i) => (
-          <Link key={i} href={d.href || ""} className="flex">
-            <d.icon size={20} />
+          <a
+            key={i}
+            href={d.href || ""}
+            target="_blank"
+            className="flex flex-col items-center gap-1"
+          >
+            <d.icon size={32} stroke={1.5} />
             <p>{d.label}</p>
-          </Link>
+          </a>
         ))}
-      </div>
-      <div className="flex flex-wrap gap-1">
+      </div> */}
+      {/* <div className="flex flex-wrap gap-1">
         {retailer.warengruppen.map(
-          (w, index) =>
+          (w, i) =>
             w.wgr1 !== "" && (
               <p
-                key={index}
-                className="text-xs px-2 py-1 rounded bg-white shadow-black/20 ring-1 ring-neutral-300 shadow-2xl"
+                key={i}
+                className="text-xs px-2 py-1 bg-white shadow-black/20 ring-1 ring-neutral-300 shadow-2xl"
               >
                 {w.wgr1} {w.wgr2} {w.wgr3} {w.wgr4} {w.wgr5}
               </p>
             )
         )}
-      </div>
+      </div> */}
     </div>
   );
 }
