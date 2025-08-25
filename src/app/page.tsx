@@ -1,15 +1,16 @@
 "use client";
 import { ActionIcon, Autocomplete, Button, ComboboxItem } from "@mantine/core";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 import {
+  IconChevronRight,
   IconCurrentLocation,
-  IconPhone,
   IconSearch,
-  IconWorld,
 } from "@tabler/icons-react";
 import { getDistance } from "geolib";
 import { useEffect, useRef, useState } from "react";
 import Logo from "./components/logo";
+import { Retailer } from "./components/retailer";
+import RetailerPin from "./components/retailerPin";
 import { germanCitiesAbove50000 } from "./data/cities";
 import { Dealer } from "./lib/interfaces";
 import mapStyles from "./styles/map.json";
@@ -31,6 +32,7 @@ export default function Page() {
   });
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [showSidebar, setShowSidebar] = useState(false);
   const [showSearchButton, setShowSearchButton] = useState(false);
   const [value, setValue] = useState("");
   const [retailers, setRetailers] = useState<Dealer[]>([]);
@@ -142,7 +144,7 @@ export default function Page() {
     if (!latLng) return;
 
     const centerCoords = { lat: latLng.lat(), lng: latLng.lng() };
-    let effectiveDistance = 50000;
+    let effectiveDistance = 30000;
 
     const radius = getRadiusFromMap(map);
     if (radius) effectiveDistance = radius;
@@ -162,71 +164,104 @@ export default function Page() {
     });
 
     setFilteredRetailers(nearbyRetailers);
-    setShowSearchButton(false);
+    setTimeout(() => setShowSearchButton(false), 900);
   };
 
   if (!isLoaded) return null;
 
   return (
-    <main className="flex">
-      <div className="w-1/2 flex flex-col items-start gap-4 p-8 shadow-2xl shadow-black max-h-screen overflow-y-scroll">
-        <Logo />
-        <form
-          onSubmit={handleSearchSubmit}
-          className="w-full flex items-center gap-1"
-        >
-          <Autocomplete
-            placeholder="Enter city"
-            className="flex-1"
-            value={value}
-            onChange={setValue}
-            data={germanCitiesAbove50000}
-            filter={({ options, search }) => {
-              const filtered = (options as ComboboxItem[]).filter((option) =>
-                option.label
-                  .toLowerCase()
-                  .trim()
-                  .includes(search.toLowerCase().trim())
-              );
+    <main className="relative flex">
+      <div
+        className="bg-[var(--foreground)] max-h-screen overflow-y-scroll transition-all duration-300"
+        style={
+          showSidebar
+            ? { transform: "translateX(0)", width: "420px", padding: "16px" }
+            : { transform: "translateX(-420px)", width: "0" }
+        }
+      >
+        {filteredRetailers.length > 0 ? (
+          <div className="w-full flex flex-col gap-2">
+            <h2 className="text-center text-white">
+              {filteredRetailers.length} retail locations
+            </h2>
+            {filteredRetailers.map((retailer, index) => (
+              <Retailer
+                key={index}
+                retailer={retailer}
+                handleRetailerClick={handleRetailerClick}
+                active={retailer.kdnr === selectedRetailer}
+                innerRef={(el) => {
+                  retailerRefs.current[retailer.kdnr] = el;
+                }}
+              />
+            ))}
+            {filteredRetailers.length < 1 && <></>}
+          </div>
+        ) : (
+          <div className="h-full flex justify-center items-center">
+            <p className="text-xs dimmed small">No dealers found.</p>
+          </div>
+        )}
+      </div>
 
-              filtered.sort((a, b) => a.label.localeCompare(b.label));
-              return filtered;
-            }}
-          />
-          <ActionIcon.Group>
-            <ActionIcon type="submit" size="lg">
-              <IconSearch size={20} />
-            </ActionIcon>
+      <div className="relative w-full h-screen">
+        <header className="absolute top-2 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center">
+          <Logo />
+          <form
+            onSubmit={handleSearchSubmit}
+            className="w-full flex items-center"
+          >
+            <Autocomplete
+              size="sm"
+              placeholder="Enter city"
+              className="flex-1 shadow-2xl shadow-black"
+              value={value}
+              onChange={setValue}
+              data={germanCitiesAbove50000}
+              filter={({ options, search }) => {
+                const filtered = (options as ComboboxItem[]).filter((option) =>
+                  option.label
+                    .toLowerCase()
+                    .trim()
+                    .includes(search.toLowerCase().trim())
+                );
+
+                filtered.sort((a, b) => a.label.localeCompare(b.label));
+                return filtered;
+              }}
+              rightSection={
+                <ActionIcon color="black" variant="transparent" type="submit">
+                  <IconSearch size={20} />
+                </ActionIcon>
+              }
+            />
             <ActionIcon
-              variant="light"
-              size="lg"
+              color="black"
+              size="input-sm"
               onClick={handleGetUserLocation}
             >
               <IconCurrentLocation size={20} />
             </ActionIcon>
-          </ActionIcon.Group>
-        </form>
-
-        <div className="w-full flex flex-col gap-2">
-          {filteredRetailers.map((retailer, index) => (
-            <Retailer
-              key={index}
-              retailer={retailer}
-              handleRetailerClick={handleRetailerClick}
-              active={retailer.kdnr === selectedRetailer}
-              innerRef={(el) => {
-                retailerRefs.current[retailer.kdnr] = el;
-              }}
+          </form>
+        </header>
+        <div className="absolute left-0 top-4 z-50">
+          <ActionIcon
+            color="black"
+            onClick={() => setShowSidebar(!showSidebar)}
+          >
+            <IconChevronRight
+              size={20}
+              className={`${
+                showSidebar ? "rotate-180" : "rotate-0"
+              } transition-all duration-300`}
             />
-          ))}
-          {filteredRetailers.length < 1 && <></>}
+          </ActionIcon>
         </div>
-      </div>
-
-      <div className="relative w-full h-screen">
         {showSearchButton && (
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 shadow-2xl shadow-black">
-            <Button onClick={handleAreaSubmit}>Search this area</Button>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50 backdrop-blur-md shadow-2xl shadow-black">
+            <Button size="xs" variant="light" onClick={handleAreaSubmit}>
+              Search this area
+            </Button>
           </div>
         )}
         <GoogleMap
@@ -246,100 +281,19 @@ export default function Page() {
           }}
         >
           {filteredRetailers.map((retailer, index) => {
-            if (!retailer.addresse.latitude || !retailer.addresse.longitude)
-              return null;
-
             return (
-              <Marker
+              <RetailerPin
                 key={index}
-                position={{
-                  lat: Number(retailer.addresse.latitude.replace(",", ".")),
-                  lng: Number(retailer.addresse.longitude.replace(",", ".")),
-                }}
-                onClick={() => handleRetailerClick(retailer.kdnr)}
-                icon={{
-                  path: google.maps.SymbolPath.CIRCLE,
-                  scale: retailer.kdnr === selectedRetailer ? 12 : 8,
-                  fillColor: "#ef233c",
-                  fillOpacity: retailer.kdnr === selectedRetailer ? 1 : 0,
-                  strokeWeight: 1.5,
-                  strokeColor: "#ef233c",
-                }}
+                retailer={retailer}
+                selectedRetailer={selectedRetailer}
+                handleRetailerClick={handleRetailerClick}
+                showSidebar={showSidebar}
+                setShowSidebar={setShowSidebar}
               />
             );
           })}
         </GoogleMap>
       </div>
     </main>
-  );
-}
-
-function Retailer({
-  retailer,
-  handleRetailerClick,
-  active,
-  innerRef,
-}: {
-  retailer: Dealer;
-  handleRetailerClick: (id: string) => void;
-  active: boolean;
-  innerRef?: React.Ref<HTMLDivElement>;
-}) {
-  const address = `${retailer.addresse.strasse}, ${retailer.addresse.plz} ${retailer.addresse.ort}`;
-
-  const data = [
-    {
-      icon: IconPhone,
-      label: retailer.addresse.telefon,
-      href: `tel:${retailer.addresse.telefon}`,
-    },
-    {
-      icon: IconWorld,
-      label: "Website",
-      href: retailer.addresse.www,
-    },
-  ];
-
-  return (
-    <div
-      ref={innerRef}
-      className={`flex flex-col gap-4 p-4 border ${
-        active ? "border-[var(--main)]" : "border-black/10"
-      }`}
-      onClick={() => handleRetailerClick(retailer.kdnr)}
-    >
-      <header className="flex flex-col">
-        <h3 className="text-xl font-bold tracking-tight">
-          {retailer.addresse.name1}
-        </h3>
-        <p className="text-xs text-black/60">{address}</p>
-      </header>
-      {/* <div className="flex gap-8">
-        {data.map((d, i) => (
-          <a
-            key={i}
-            href={d.href || ""}
-            target="_blank"
-            className="flex flex-col items-center gap-1"
-          >
-            <d.icon size={32} stroke={1.5} />
-            <p>{d.label}</p>
-          </a>
-        ))}
-      </div> */}
-      {/* <div className="flex flex-wrap gap-1">
-        {retailer.warengruppen.map(
-          (w, i) =>
-            w.wgr1 !== "" && (
-              <p
-                key={i}
-                className="text-xs px-2 py-1 bg-white shadow-black/20 ring-1 ring-neutral-300 shadow-2xl"
-              >
-                {w.wgr1} {w.wgr2} {w.wgr3} {w.wgr4} {w.wgr5}
-              </p>
-            )
-        )}
-      </div> */}
-    </div>
   );
 }
