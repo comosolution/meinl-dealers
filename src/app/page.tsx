@@ -8,7 +8,7 @@ import {
   IconWorld,
 } from "@tabler/icons-react";
 import { getDistance } from "geolib";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Logo from "./components/logo";
 import { germanCitiesAbove50000 } from "./data/cities";
 import { Dealer } from "./lib/interfaces";
@@ -37,6 +37,7 @@ export default function Page() {
   const [filteredRetailers, setFilteredRetailers] = useState<Dealer[]>([]);
   const [selectedRetailer, setSelectedRetailer] = useState("");
   const [pendingFilter, setPendingFilter] = useState(false);
+  const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     getRetailers();
@@ -53,6 +54,10 @@ export default function Page() {
       setSelectedRetailer("");
     } else {
       setSelectedRetailer(id);
+      const el = retailerRefs.current[id];
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
     }
   };
 
@@ -202,13 +207,16 @@ export default function Page() {
           </ActionIcon.Group>
         </form>
 
-        <div className="flex flex-col gap-2">
+        <div className="w-full flex flex-col gap-2">
           {filteredRetailers.map((retailer, index) => (
             <Retailer
               key={index}
               retailer={retailer}
               handleRetailerClick={handleRetailerClick}
               active={retailer.kdnr === selectedRetailer}
+              innerRef={(el) => {
+                retailerRefs.current[retailer.kdnr] = el;
+              }}
             />
           ))}
           {filteredRetailers.length < 1 && <></>}
@@ -217,7 +225,7 @@ export default function Page() {
 
       <div className="relative w-full h-screen">
         {showSearchButton && (
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 shadow-2xl shadow-black">
             <Button onClick={handleAreaSubmit}>Search this area</Button>
           </div>
         )}
@@ -270,10 +278,12 @@ function Retailer({
   retailer,
   handleRetailerClick,
   active,
+  innerRef,
 }: {
   retailer: Dealer;
   handleRetailerClick: (id: string) => void;
   active: boolean;
+  innerRef?: React.Ref<HTMLDivElement>;
 }) {
   const address = `${retailer.addresse.strasse}, ${retailer.addresse.plz} ${retailer.addresse.ort}`;
 
@@ -292,16 +302,17 @@ function Retailer({
 
   return (
     <div
+      ref={innerRef}
       className={`flex flex-col gap-4 p-4 border ${
         active ? "border-[var(--main)]" : "border-black/10"
       }`}
       onClick={() => handleRetailerClick(retailer.kdnr)}
     >
-      <header className="flex flex-col gap-1">
+      <header className="flex flex-col">
         <h3 className="text-xl font-bold tracking-tight">
           {retailer.addresse.name1}
         </h3>
-        <p className="font-mono text-xs text-black/60">{address}</p>
+        <p className="text-xs text-black/60">{address}</p>
       </header>
       {/* <div className="flex gap-8">
         {data.map((d, i) => (
