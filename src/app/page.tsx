@@ -213,7 +213,7 @@ export default function Page() {
           >
             <Autocomplete
               size="sm"
-              placeholder="Enter city"
+              placeholder="Enter your city"
               className="flex-1 shadow-2xl shadow-black"
               value={value}
               onChange={setValue}
@@ -244,7 +244,7 @@ export default function Page() {
             </ActionIcon>
           </form>
         </header>
-        <div className="absolute left-0 top-4 z-50">
+        <div className="absolute left-0 bottom-6 z-50">
           <ActionIcon
             color="black"
             onClick={() => setShowSidebar(!showSidebar)}
@@ -258,7 +258,7 @@ export default function Page() {
           </ActionIcon>
         </div>
         {showSearchButton && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50 backdrop-blur-md shadow-2xl shadow-black">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 backdrop-blur-md shadow-md shadow-black/20">
             <Button size="xs" variant="light" onClick={handleAreaSubmit}>
               Search this area
             </Button>

@@ -1,5 +1,6 @@
 import { Button, Popover } from "@mantine/core";
 import { OverlayView } from "@react-google-maps/api";
+import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Dealer } from "../lib/interfaces";
 
@@ -33,7 +34,7 @@ export default function RetailerPin({
         onChange={setOpened}
         width={280}
         position="top"
-        withArrow
+        offset={2}
         shadow="xl"
         withinPortal
       >
@@ -44,15 +45,43 @@ export default function RetailerPin({
               handleRetailerClick(retailer.kdnr);
             }}
             style={{
-              width: retailer.kdnr === selectedRetailer ? 20 : 12,
-              height: retailer.kdnr === selectedRetailer ? 20 : 12,
-              transform: "translate(-50%, -50%)",
-              borderRadius: "50%",
-              backgroundColor: "#ef233c",
-              opacity: retailer.kdnr === selectedRetailer ? 1 : 0.5,
+              position: "relative",
+              width: 20,
+              height: 20,
+              transform: "translate(-50%, -100%)",
               cursor: "pointer",
             }}
-          />
+          >
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                backgroundColor:
+                  retailer.kdnr === selectedRetailer ? "#ef233c" : "#000000",
+              }}
+            >
+              <Image
+                src="/logo_w.svg"
+                alt="Meinl Logo"
+                width={20}
+                height={20}
+              />
+            </div>
+            <div
+              style={{
+                position: "absolute",
+                bottom: -8,
+                left: 0,
+                width: 0,
+                height: 0,
+                borderLeft: "10px solid transparent",
+                borderRight: "10px solid transparent",
+                borderTop: `8px solid ${
+                  retailer.kdnr === selectedRetailer ? "#ef233c" : "#000000"
+                }`,
+              }}
+            />
+          </div>
         </Popover.Target>
         <Popover.Dropdown>
           <div className="flex flex-col gap-4">

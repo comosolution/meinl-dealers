@@ -1,7 +1,13 @@
 import { createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import type { Metadata } from "next";
+import { Titillium_Web } from "next/font/google";
 import "./globals.css";
+
+const titillium = Titillium_Web({
+  weight: ["200", "400", "600", "700"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "MEINL Dealers",
@@ -46,7 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${titillium.className}`}>
         <MantineProvider theme={theme}>{children}</MantineProvider>
       </body>
     </html>
