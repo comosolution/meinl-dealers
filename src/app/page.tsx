@@ -30,6 +30,7 @@ export default function Page() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
+  const mapRef = useRef<google.maps.Map | null>(null);
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -193,6 +194,7 @@ export default function Page() {
                 innerRef={(el) => {
                   retailerRefs.current[retailer.kdnr] = el;
                 }}
+                map={map}
               />
             ))}
             {filteredRetailers.length < 1 && <></>}

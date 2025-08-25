@@ -46,6 +46,7 @@ export default function RetailerPin({
             }}
             style={{
               position: "relative",
+              zIndex: retailer.kdnr === selectedRetailer ? 20 : 10,
               width: 20,
               height: 20,
               transform: "translate(-50%, -100%)",
