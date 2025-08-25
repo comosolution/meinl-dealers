@@ -1,5 +1,11 @@
 "use client";
-import { ActionIcon, Autocomplete, ComboboxItem, Select } from "@mantine/core";
+import {
+  ActionIcon,
+  Autocomplete,
+  Button,
+  ComboboxItem,
+  Select,
+} from "@mantine/core";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import {
   IconCurrentLocation,
@@ -14,11 +20,6 @@ import Logo from "./components/logo";
 import { germanCitiesAbove50000 } from "./data/cities";
 import { Dealer } from "./lib/interfaces";
 import mapStyles from "./styles/map.json";
-
-interface Location {
-  latitude: number;
-  longitude: number;
-}
 
 const mapContainerStyle = {
   width: "100%",
@@ -36,9 +37,8 @@ export default function Page() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
 
-  const [location, setLocation] = useState<Location | null>(null);
-  const [center, setCenter] = useState({ lat: 51.165691, lng: 10.451526 });
-  const [zoom, setZoom] = useState(6.8);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [showSearchButton, setShowSearchButton] = useState(false);
   const [distance, setDistance] = useState<string | null>("50000");
   const [value, setValue] = useState("");
   const [retailers, setRetailers] = useState<Dealer[]>([]);
@@ -50,9 +50,7 @@ export default function Page() {
   }, []);
 
   const getRetailers = async () => {
-    const res = await fetch("/api/dealer", {
-      method: "POST",
-    });
+    const res = await fetch("/api/dealer", { method: "POST" });
     const dealers = await res.json();
     setRetailers(dealers);
   };
@@ -62,18 +60,16 @@ export default function Page() {
   }, []);
 
   const handleGetUserLocation = () => {
+    if (!map) return;
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          setCenter({
+          const loc = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
-          });
-          setZoom(9);
+          };
+          map.panTo(loc);
+          map.setZoom(9);
         },
         (err) => {
           console.error(`Error getting location: ${err.message}`);
@@ -84,54 +80,102 @@ export default function Page() {
     }
   };
 
-  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
-    e?.preventDefault();
-    try {
-      const geocoder = new google.maps.Geocoder();
-      const result = await geocoder.geocode({ address: value });
+  const getRadiusFromMap = (map: google.maps.Map) => {
+    const bounds = map.getBounds();
+    if (!bounds) return null;
 
-      if (result.results.length > 0) {
-        const location = result.results[0].geometry.location;
-        const latLng = { lat: location.lat(), lng: location.lng() };
-        setCenter(latLng);
-        setZoom(+distance! <= 100000 ? 9 : 7.5);
+    const center = bounds.getCenter();
+    const ne = bounds.getNorthEast();
+    const sw = bounds.getSouthWest();
 
-        const nearbyRetailers = retailers.filter((retailer) => {
-          if (retailer.addresse.latitude && retailer.addresse.longitude) {
-            const dealerDistance = getDistance(
-              { latitude: latLng.lat, longitude: latLng.lng },
-              {
-                latitude: Number(retailer.addresse.latitude.replace(",", ".")),
-                longitude: Number(
-                  retailer.addresse.longitude.replace(",", ".")
-                ),
-              }
-            );
-            console.log(dealerDistance);
-            return dealerDistance <= +distance!;
-          } else {
-            return false;
-          }
-        });
-        setFilteredRetailers(nearbyRetailers);
-      }
-    } catch (error) {
-      console.error("Error getting location", error);
-    }
+    // distances center → north/south
+    const latNorth = getDistance(
+      { latitude: center.lat(), longitude: center.lng() },
+      { latitude: ne.lat(), longitude: center.lng() }
+    );
+    const latSouth = getDistance(
+      { latitude: center.lat(), longitude: center.lng() },
+      { latitude: sw.lat(), longitude: center.lng() }
+    );
+
+    // distances center → east/west
+    const lngEast = getDistance(
+      { latitude: center.lat(), longitude: center.lng() },
+      { latitude: center.lat(), longitude: ne.lng() }
+    );
+    const lngWest = getDistance(
+      { latitude: center.lat(), longitude: center.lng() },
+      { latitude: center.lat(), longitude: sw.lng() }
+    );
+
+    // effective "half height" and "half width"
+    const halfHeight = Math.min(latNorth, latSouth);
+    const halfWidth = Math.min(lngEast, lngWest);
+
+    // use the smaller → guaranteed inside viewport
+    return Math.min(halfHeight, halfWidth);
   };
 
-  useEffect(() => {
-    handleSubmit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [distance]);
+  // when user types a city and presses search
+  const handleSearchSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
+    if (!map) return;
 
-  if (!isLoaded) return <></>;
+    if (value) {
+      const geocoder = new google.maps.Geocoder();
+      const result = await geocoder.geocode({ address: value });
+      if (result.results.length > 0) {
+        const loc = result.results[0].geometry.location;
+        map.panTo(loc);
+        map.setZoom(9);
+      }
+    }
+
+    filterRetailers();
+  };
+
+  // when user clicks "Search this area"
+  const handleAreaSubmit = () => {
+    if (!map) return;
+    filterRetailers();
+  };
+
+  const filterRetailers = () => {
+    if (!map) return;
+    const latLng = map.getCenter();
+    if (!latLng) return;
+
+    const centerCoords = { lat: latLng.lat(), lng: latLng.lng() };
+    let effectiveDistance = +distance!;
+
+    const radius = getRadiusFromMap(map);
+    if (radius) effectiveDistance = radius;
+
+    const nearbyRetailers = retailers.filter((retailer) => {
+      if (retailer.addresse.latitude && retailer.addresse.longitude) {
+        const dealerDistance = getDistance(
+          { latitude: centerCoords.lat, longitude: centerCoords.lng },
+          {
+            latitude: Number(retailer.addresse.latitude.replace(",", ".")),
+            longitude: Number(retailer.addresse.longitude.replace(",", ".")),
+          }
+        );
+        return dealerDistance <= effectiveDistance;
+      }
+      return false;
+    });
+
+    setFilteredRetailers(nearbyRetailers);
+    setShowSearchButton(false);
+  };
+
+  if (!isLoaded) return null;
 
   return (
     <main className="flex">
       <div className="w-1/2 flex flex-col items-start gap-4 p-8 shadow-2xl shadow-black max-h-screen overflow-y-scroll">
         <Logo />
-        <form onSubmit={handleSubmit} className="flex items-center gap-2">
+        <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
           <Autocomplete
             placeholder="Enter address"
             value={value}
@@ -174,6 +218,7 @@ export default function Page() {
             </ActionIcon>
           </ActionIcon.Group>
         </form>
+
         <div className="flex flex-col gap-2">
           {filteredRetailers.map((retailer, index) => (
             <Retailer
@@ -186,16 +231,26 @@ export default function Page() {
           {filteredRetailers.length < 1 && <></>}
         </div>
       </div>
-      <div className="w-full h-screen">
+
+      <div className="relative w-full h-screen">
+        {showSearchButton && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50">
+            <Button onClick={handleAreaSubmit}>Search this area</Button>
+          </div>
+        )}
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
-          zoom={zoom}
-          center={center}
           options={mapOptions}
+          onLoad={(mapInstance) => {
+            setMap(mapInstance);
+            mapInstance.setCenter({ lat: 51.165691, lng: 10.451526 });
+            mapInstance.setZoom(6.8);
+          }}
+          onIdle={() => setShowSearchButton(true)}
         >
           {filteredRetailers.map((retailer, index) => {
             if (!retailer.addresse.latitude || !retailer.addresse.longitude)
-              return;
+              return null;
 
             return (
               <Marker
@@ -215,18 +270,6 @@ export default function Page() {
               />
             );
           })}
-          {location && (
-            <Marker
-              position={{ lat: location.latitude, lng: location.longitude }}
-              icon={{
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 8,
-                fillColor: "#ffffff",
-                fillOpacity: 1,
-                strokeWeight: 1,
-              }}
-            />
-          )}
         </GoogleMap>
       </div>
     </main>
@@ -242,8 +285,7 @@ function Retailer({
   handleRetailerClick: (id: string) => void;
   active: boolean;
 }) {
-  const address = `${retailer.addresse.strasse}, ${retailer.addresse.plz}
-          ${retailer.addresse.ort}`;
+  const address = `${retailer.addresse.strasse}, ${retailer.addresse.plz} ${retailer.addresse.ort}`;
 
   const data = [
     {
