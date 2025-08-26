@@ -1,7 +1,7 @@
 [
   {
     "elementType": "geometry",
-    "stylers": [{ "color": "#f5f5f5" }]
+    "stylers": [{ "color": "#ffffff" }]
   },
   {
     "elementType": "labels.text.fill",

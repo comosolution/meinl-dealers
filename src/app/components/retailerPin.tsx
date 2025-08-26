@@ -31,7 +31,7 @@ export default function RetailerPin({
         width={280}
         position="top"
         offset={2}
-        shadow="xl"
+        shadow="md"
         withinPortal
       >
         <Popover.Target>

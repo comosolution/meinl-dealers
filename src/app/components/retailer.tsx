@@ -101,6 +101,7 @@ export function Retailer({
                   lat: Number(retailer.addresse.latitude.replace(",", ".")),
                   lng: Number(retailer.addresse.longitude.replace(",", ".")),
                 });
+                map.setZoom(11);
               }}
               fullWidth
             >
