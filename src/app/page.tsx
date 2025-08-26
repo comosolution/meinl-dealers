@@ -64,7 +64,7 @@ export default function Page() {
         if (el) {
           el.scrollIntoView({ behavior: "smooth", block: "center" });
         }
-      }, 500);
+      }, 300);
     }
   };
 
@@ -269,6 +269,7 @@ export default function Page() {
       <div className="relative w-full h-screen">
         <div className="absolute left-0 top-16 z-50">
           <ActionIcon
+            size="input-sm"
             color="black"
             onClick={() => setShowSidebar(!showSidebar)}
           >
