@@ -18,7 +18,7 @@ export default function Page() {
     return (
       <main className="gradient fixed w-screen h-screen z-50 flex flex-col justify-between items-center gap-8 p-8">
         <Logo />
-        <div className="flex-1 flex flex-col gap-4 text-4xl">
+        <form className="flex-1 flex flex-col gap-4 text-4xl">
           <div className="flex items-center gap-2">
             I&apos;m looking for {type === "retail" ? "a" : "an"}{" "}
             <TypeSelect large /> store{" "}
@@ -32,6 +32,7 @@ export default function Page() {
             that offers <BrandSelect large />.{" "}
           </div>
           <Button
+            type="submit"
             size="xl"
             onClick={() => {
               setSubmittedSearch(search);
@@ -41,12 +42,12 @@ export default function Page() {
           >
             Show dealers
           </Button>
-        </div>
+        </form>
         <Button
-          size="lg"
+          color="white"
           variant="transparent"
           onClick={() => setSubmitted(true)}
-          rightSection={<IconChevronRight size={24} />}
+          rightSection={<IconChevronRight size={20} />}
           className="justify-self-end"
         >
           Skip
