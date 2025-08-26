@@ -55,14 +55,16 @@ export default function Page() {
     if (selectedRetailer === id) {
       setSelectedRetailer("");
     } else {
-      setSelectedRetailer(id);
-      const el = retailerRefs.current[id];
-      if (el) {
-        setTimeout(
-          () => el.scrollIntoView({ behavior: "smooth", block: "center" }),
-          300
-        );
+      if (!showSidebar) {
+        setShowSidebar(true);
       }
+      setTimeout(() => {
+        setSelectedRetailer(id);
+        const el = retailerRefs.current[id];
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 500);
     }
   };
 
@@ -182,11 +184,60 @@ export default function Page() {
 
   return (
     <main className="relative flex">
+      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2">
+        <form
+          onSubmit={handleSearchSubmit}
+          className="w-full flex items-center shadow-md shadow-black/20"
+        >
+          <Autocomplete
+            size="sm"
+            placeholder="Enter your city"
+            className="flex-1"
+            value={value}
+            onChange={setValue}
+            data={germanCitiesAbove50000}
+            filter={({ options, search }) => {
+              const filtered = (options as ComboboxItem[]).filter((option) =>
+                option.label
+                  .toLowerCase()
+                  .trim()
+                  .includes(search.toLowerCase().trim())
+              );
+
+              filtered.sort((a, b) => a.label.localeCompare(b.label));
+              return filtered;
+            }}
+            rightSection={
+              <ActionIcon color="black" variant="transparent" type="submit">
+                <IconSearch size={20} />
+              </ActionIcon>
+            }
+          />
+          <ActionIcon
+            color="black"
+            size="input-sm"
+            onClick={handleGetUserLocation}
+          >
+            <IconCurrentLocation size={20} />
+          </ActionIcon>
+        </form>
+        {showSearchButton && (
+          <div className="backdrop-blur-md shadow-md shadow-black/20">
+            <Button size="xs" variant="light" onClick={handleAreaSubmit}>
+              Search this area
+            </Button>
+          </div>
+        )}
+      </div>
       <div
         className="bg-[var(--foreground)] max-h-screen overflow-y-scroll transition-all duration-300"
         style={
           showSidebar
-            ? { transform: "translateX(0)", width: "420px", padding: "16px" }
+            ? {
+                transform: "translateX(0)",
+                width: "420px",
+                padding: "64px 16px",
+              }
             : { transform: "translateX(-420px)", width: "0" }
         }
       >
@@ -216,43 +267,7 @@ export default function Page() {
         )}
       </div>
       <div className="relative w-full h-screen">
-        <form
-          onSubmit={handleSearchSubmit}
-          className="absolute top-4 left-1/2 -translate-x-1/2 z-50 flex items-center"
-        >
-          <Autocomplete
-            size="sm"
-            placeholder="Enter your city"
-            className="flex-1 shadow-2xl shadow-black"
-            value={value}
-            onChange={setValue}
-            data={germanCitiesAbove50000}
-            filter={({ options, search }) => {
-              const filtered = (options as ComboboxItem[]).filter((option) =>
-                option.label
-                  .toLowerCase()
-                  .trim()
-                  .includes(search.toLowerCase().trim())
-              );
-
-              filtered.sort((a, b) => a.label.localeCompare(b.label));
-              return filtered;
-            }}
-            rightSection={
-              <ActionIcon color="black" variant="transparent" type="submit">
-                <IconSearch size={20} />
-              </ActionIcon>
-            }
-          />
-          <ActionIcon
-            color="black"
-            size="input-sm"
-            onClick={handleGetUserLocation}
-          >
-            <IconCurrentLocation size={20} />
-          </ActionIcon>
-        </form>
-        <div className="absolute left-0 top-6 z-50">
+        <div className="absolute left-0 top-16 z-50">
           <ActionIcon
             color="black"
             onClick={() => setShowSidebar(!showSidebar)}
@@ -265,13 +280,6 @@ export default function Page() {
             />
           </ActionIcon>
         </div>
-        {showSearchButton && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 backdrop-blur-md shadow-md shadow-black/20">
-            <Button size="xs" variant="light" onClick={handleAreaSubmit}>
-              Search this area
-            </Button>
-          </div>
-        )}
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           options={mapOptions}

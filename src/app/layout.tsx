@@ -55,8 +55,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${titillium.className}`}>
         <MantineProvider theme={theme}>
-          <Header />
-          {children}
+          <div className="w-screen h-screen flex flex-col">
+            <Header />
+            {children}
+          </div>
         </MantineProvider>
       </body>
     </html>
