@@ -1,21 +1,17 @@
-import { Button, Popover } from "@mantine/core";
+import { Popover } from "@mantine/core";
 import { OverlayView } from "@react-google-maps/api";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Dealer } from "../lib/interfaces";
 
 export default function RetailerPin({
   retailer,
   selectedRetailer,
   handleRetailerClick,
-  showSidebar,
-  setShowSidebar,
 }: {
   retailer: Dealer;
   selectedRetailer: string;
   handleRetailerClick: (id: string) => void;
-  showSidebar: boolean;
-  setShowSidebar: Dispatch<SetStateAction<boolean>>;
 }) {
   const [opened, setOpened] = useState(false);
 
@@ -95,19 +91,6 @@ export default function RetailerPin({
                 {retailer.addresse.ort}
               </p>
             </header>
-            {!showSidebar && (
-              <Button
-                size="xs"
-                variant="light"
-                fullWidth
-                onClick={() => {
-                  setShowSidebar(true);
-                  setOpened(false);
-                }}
-              >
-                More information
-              </Button>
-            )}
           </div>
         </Popover.Dropdown>
       </Popover>

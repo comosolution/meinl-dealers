@@ -32,3 +32,8 @@ interface ProductGroup {
   storeAnpNr: number;
   urlNr: number;
 }
+
+export interface Location {
+  latitude: number;
+  longitude: number;
+}

@@ -1,6 +1,6 @@
 "use client";
 import { ActionIcon, Autocomplete, Button, ComboboxItem } from "@mantine/core";
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import {
   IconChevronRight,
   IconCurrentLocation,
@@ -12,7 +12,7 @@ import Logo from "./components/logo";
 import { Retailer } from "./components/retailer";
 import RetailerPin from "./components/retailerPin";
 import { germanCitiesAbove50000 } from "./data/cities";
-import { Dealer } from "./lib/interfaces";
+import { Dealer, Location } from "./lib/interfaces";
 import mapStyles from "./styles/map.json";
 
 const mapContainerStyle = {
@@ -30,7 +30,6 @@ export default function Page() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
-  const mapRef = useRef<google.maps.Map | null>(null);
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -39,6 +38,7 @@ export default function Page() {
   const [retailers, setRetailers] = useState<Dealer[]>([]);
   const [filteredRetailers, setFilteredRetailers] = useState<Dealer[]>([]);
   const [selectedRetailer, setSelectedRetailer] = useState("");
+  const [location, setLocation] = useState<Location | null>(null);
   const [pendingFilter, setPendingFilter] = useState(false);
   const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -59,7 +59,10 @@ export default function Page() {
       setSelectedRetailer(id);
       const el = retailerRefs.current[id];
       if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(
+          () => el.scrollIntoView({ behavior: "smooth", block: "center" }),
+          300
+        );
       }
     }
   };
@@ -73,6 +76,10 @@ export default function Page() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
           map.panTo(loc);
           map.setZoom(9);
           setPendingFilter(true);
@@ -126,6 +133,10 @@ export default function Page() {
       const result = await geocoder.geocode({ address: value });
       if (result.results.length > 0) {
         const loc = result.results[0].geometry.location;
+        setLocation({
+          latitude: loc.lat(),
+          longitude: loc.lng(),
+        });
         map.panTo(loc);
         map.setZoom(9);
       }
@@ -246,7 +257,7 @@ export default function Page() {
             </ActionIcon>
           </form>
         </header>
-        <div className="absolute left-0 bottom-6 z-50">
+        <div className="absolute left-0 top-6 z-50">
           <ActionIcon
             color="black"
             onClick={() => setShowSidebar(!showSidebar)}
@@ -289,11 +300,22 @@ export default function Page() {
                 retailer={retailer}
                 selectedRetailer={selectedRetailer}
                 handleRetailerClick={handleRetailerClick}
-                showSidebar={showSidebar}
-                setShowSidebar={setShowSidebar}
               />
             );
           })}
+          {location && (
+            <Marker
+              position={{ lat: location.latitude, lng: location.longitude }}
+              icon={{
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 6,
+                fillColor: "#ef233c",
+                fillOpacity: 1,
+                strokeColor: "#ffffff",
+                strokeWeight: 1,
+              }}
+            />
+          )}
         </GoogleMap>
       </div>
     </main>
