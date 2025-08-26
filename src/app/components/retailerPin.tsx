@@ -1,6 +1,7 @@
 import { Popover } from "@mantine/core";
 import { OverlayView } from "@react-google-maps/api";
 import Image from "next/image";
+import { useState } from "react";
 import { Dealer } from "../lib/interfaces";
 
 export default function RetailerPin({
@@ -12,6 +13,8 @@ export default function RetailerPin({
   selectedRetailer: string;
   handleRetailerClick: (id: string) => void;
 }) {
+  const [opened, setOpened] = useState(false);
+
   if (!retailer.addresse.latitude || !retailer.addresse.longitude) return null;
 
   return (
@@ -23,7 +26,8 @@ export default function RetailerPin({
       mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
     >
       <Popover
-        opened={retailer.kdnr === selectedRetailer}
+        opened={opened}
+        onChange={setOpened}
         width={280}
         position="top"
         offset={2}
@@ -34,6 +38,7 @@ export default function RetailerPin({
           <div
             onClick={() => {
               handleRetailerClick(retailer.kdnr);
+              setTimeout(() => setOpened((o) => !o), 300);
             }}
             style={{
               position: "relative",

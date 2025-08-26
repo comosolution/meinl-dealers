@@ -64,7 +64,7 @@ export default function Page() {
         if (el) {
           el.scrollIntoView({ behavior: "smooth", block: "center" });
         }
-      }, 300);
+      }, 200);
     }
   };
 
