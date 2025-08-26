@@ -65,6 +65,6 @@ img.inverted {
   color: var(--mantine-color-dimmed);
 }
 
-.mantine-Input-input {
-  border-color: black;
+.gradient {
+  background-image: linear-gradient(to top, #feada6 0%, #f5efef 100%);
 }

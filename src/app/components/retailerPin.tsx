@@ -11,7 +11,7 @@ export default function RetailerPin({
 }: {
   retailer: Dealer;
   selectedRetailer: string;
-  handleRetailerClick: (id: string) => void;
+  handleRetailerClick: (id: string, scroll?: boolean) => void;
 }) {
   const [opened, setOpened] = useState(false);
 
@@ -37,7 +37,7 @@ export default function RetailerPin({
         <Popover.Target>
           <div
             onClick={() => {
-              handleRetailerClick(retailer.kdnr);
+              handleRetailerClick(retailer.kdnr, true);
               setTimeout(
                 () => setOpened(retailer.kdnr !== selectedRetailer),
                 300
