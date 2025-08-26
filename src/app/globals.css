@@ -35,7 +35,17 @@ h3 {
 }
 
 .active {
-  color: var(--main);
+  position: relative;
+  color: var(--foreground);
+}
+
+.active::after {
+  position: absolute;
+  bottom: -14px;
+  content: "";
+  width: 100%;
+  height: 2px;
+  background: var(--foreground);
 }
 
 a.link {

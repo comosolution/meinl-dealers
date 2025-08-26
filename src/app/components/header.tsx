@@ -15,15 +15,37 @@ export default function Header() {
           { icon: IconBuildingStore, label: "Retail" },
           { icon: IconShoppingCart, label: "Online" },
         ].map((n, i) => (
-          <div key={i} className="flex items-center gap-1">
+          <div
+            key={i}
+            className={`flex items-center gap-1 ${
+              i === 0 ? "active" : "dimmed"
+            } cursor-pointer`}
+          >
             <n.icon size={24} stroke={2} />
             <p className="font-bold">{n.label}</p>
           </div>
         ))}
       </div>
+      {/* <SegmentedControl
+        size="md"
+        data={[
+          { icon: IconBuildingStore, label: "Retail" },
+          { icon: IconShoppingCart, label: "Online" },
+        ].map((i) => {
+          return {
+            value: i.label,
+            label: (
+              <div className="flex justify-center items-center gap-1">
+                <i.icon />
+                <p className="font-bold">{i.label}</p>
+              </div>
+            ),
+          };
+        })}
+      /> */}
       <Button
         className="place-self-end"
-        variant="light"
+        variant="transparent"
         leftSection={<IconCirclePlus size={16} />}
       >
         Become a MEINL dealer
