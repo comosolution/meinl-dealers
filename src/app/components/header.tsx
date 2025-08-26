@@ -1,9 +1,14 @@
-import { IconBuildingStore, IconShoppingCart } from "@tabler/icons-react";
+import { Button } from "@mantine/core";
+import {
+  IconBuildingStore,
+  IconCirclePlus,
+  IconShoppingCart,
+} from "@tabler/icons-react";
 import Logo from "./logo";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 z-50 w-full grid grid-cols-3 items-center gap-8 px-4 py-2 bg-[var(--background)]">
+    <header className="fixed top-0 z-50 w-full grid grid-cols-3 items-center gap-8 px-4 py-2 bg-[var(--background)] shadow-2xl">
       <Logo />
       <div className="flex justify-center gap-8">
         {[
@@ -16,7 +21,13 @@ export default function Header() {
           </div>
         ))}
       </div>
-      <div />
+      <Button
+        className="place-self-end"
+        variant="light"
+        leftSection={<IconCirclePlus size={16} />}
+      >
+        Become a MEINL dealer
+      </Button>
     </header>
   );
 }

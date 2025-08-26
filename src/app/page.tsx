@@ -222,7 +222,7 @@ export default function Page() {
           </ActionIcon>
         </form>
         {showSearchButton && (
-          <div className="backdrop-blur-md shadow-md shadow-black/20">
+          <div className="backdrop-blur-md">
             <Button size="xs" variant="light" onClick={handleAreaSubmit}>
               Search this area
             </Button>
