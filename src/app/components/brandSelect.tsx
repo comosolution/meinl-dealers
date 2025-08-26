@@ -31,6 +31,7 @@ export default function BrandSelect({ large }: { large?: boolean }) {
     >
       <Combobox.Target>
         <InputBase
+          tabIndex={0}
           w={300}
           size={large ? "xl" : "md"}
           variant="filled"

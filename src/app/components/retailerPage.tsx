@@ -26,7 +26,7 @@ export default function RetailerPage() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
-  const { search, submittedSearch, setSubmittedSearch } = useDealerContext();
+  const { search, submittedSearch } = useDealerContext();
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -230,7 +230,7 @@ export default function RetailerPage() {
         )}
       </div>
       <div
-        className="bg-[var(--background)] max-h-screen overflow-y-scroll transition-all duration-300"
+        className="bg-[var(--foreground)] text-white max-h-screen overflow-y-scroll transition-all duration-300"
         style={
           showSidebar
             ? {
@@ -244,7 +244,7 @@ export default function RetailerPage() {
         {filteredRetailers.length > 0 ? (
           <div className="w-full flex flex-col gap-2">
             <h2 className="text-center">
-              {filteredRetailers.length} retail locations
+              {filteredRetailers.length} locations
             </h2>
             {filteredRetailers.map((retailer, index) => (
               <Retailer

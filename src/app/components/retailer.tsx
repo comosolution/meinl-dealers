@@ -44,7 +44,7 @@ export function Retailer({
     <div
       ref={innerRef}
       className={`flex flex-col gap-4 p-4 border ${
-        active ? "border-[var(--main)]" : "border-black/20"
+        active ? "border-[var(--main)]" : "border-white/20"
       }`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
