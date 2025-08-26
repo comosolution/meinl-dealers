@@ -2,6 +2,7 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import type { Metadata } from "next";
 import { Titillium_Web } from "next/font/google";
+import Header from "./components/header";
 import "./globals.css";
 
 const titillium = Titillium_Web({
@@ -53,7 +54,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${titillium.className}`}>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <Header />
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );

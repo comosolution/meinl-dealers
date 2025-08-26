@@ -8,7 +8,6 @@ import {
 } from "@tabler/icons-react";
 import { getDistance } from "geolib";
 import { useEffect, useRef, useState } from "react";
-import Logo from "./components/logo";
 import { Retailer } from "./components/retailer";
 import RetailerPin from "./components/retailerPin";
 import { germanCitiesAbove50000 } from "./data/cities";
@@ -216,47 +215,43 @@ export default function Page() {
           </div>
         )}
       </div>
-
       <div className="relative w-full h-screen">
-        <header className="absolute top-2 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center">
-          <Logo />
-          <form
-            onSubmit={handleSearchSubmit}
-            className="w-full flex items-center"
-          >
-            <Autocomplete
-              size="sm"
-              placeholder="Enter your city"
-              className="flex-1 shadow-2xl shadow-black"
-              value={value}
-              onChange={setValue}
-              data={germanCitiesAbove50000}
-              filter={({ options, search }) => {
-                const filtered = (options as ComboboxItem[]).filter((option) =>
-                  option.label
-                    .toLowerCase()
-                    .trim()
-                    .includes(search.toLowerCase().trim())
-                );
+        <form
+          onSubmit={handleSearchSubmit}
+          className="absolute top-4 left-1/2 -translate-x-1/2 z-50 flex items-center"
+        >
+          <Autocomplete
+            size="sm"
+            placeholder="Enter your city"
+            className="flex-1 shadow-2xl shadow-black"
+            value={value}
+            onChange={setValue}
+            data={germanCitiesAbove50000}
+            filter={({ options, search }) => {
+              const filtered = (options as ComboboxItem[]).filter((option) =>
+                option.label
+                  .toLowerCase()
+                  .trim()
+                  .includes(search.toLowerCase().trim())
+              );
 
-                filtered.sort((a, b) => a.label.localeCompare(b.label));
-                return filtered;
-              }}
-              rightSection={
-                <ActionIcon color="black" variant="transparent" type="submit">
-                  <IconSearch size={20} />
-                </ActionIcon>
-              }
-            />
-            <ActionIcon
-              color="black"
-              size="input-sm"
-              onClick={handleGetUserLocation}
-            >
-              <IconCurrentLocation size={20} />
-            </ActionIcon>
-          </form>
-        </header>
+              filtered.sort((a, b) => a.label.localeCompare(b.label));
+              return filtered;
+            }}
+            rightSection={
+              <ActionIcon color="black" variant="transparent" type="submit">
+                <IconSearch size={20} />
+              </ActionIcon>
+            }
+          />
+          <ActionIcon
+            color="black"
+            size="input-sm"
+            onClick={handleGetUserLocation}
+          >
+            <IconCurrentLocation size={20} />
+          </ActionIcon>
+        </form>
         <div className="absolute left-0 top-6 z-50">
           <ActionIcon
             color="black"
