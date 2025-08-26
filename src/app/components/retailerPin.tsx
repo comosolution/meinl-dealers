@@ -38,7 +38,10 @@ export default function RetailerPin({
           <div
             onClick={() => {
               handleRetailerClick(retailer.kdnr);
-              setTimeout(() => setOpened((o) => !o), 300);
+              setTimeout(
+                () => setOpened(retailer.kdnr !== selectedRetailer),
+                300
+              );
             }}
             style={{
               position: "relative",
