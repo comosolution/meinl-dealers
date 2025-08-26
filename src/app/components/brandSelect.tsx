@@ -7,7 +7,7 @@ export default function BrandSelect({ large }: { large?: boolean }) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<string | null>("MC");
 
   const brands = [
     { label: "MEINL Cymbals", value: "MC" },

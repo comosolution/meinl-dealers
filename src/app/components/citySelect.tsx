@@ -10,7 +10,7 @@ export default function CitySelect({ large }: { large?: boolean }) {
     <Autocomplete
       variant="filled"
       size={large ? "xl" : "sm"}
-      placeholder="Enter your city"
+      placeholder={large ? "my city" : "Enter your city"}
       className="flex-1"
       w={400}
       value={search}
