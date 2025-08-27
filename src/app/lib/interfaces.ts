@@ -15,11 +15,21 @@ export interface Dealer {
     longitude: string | null;
     latitude: string | null;
   };
+  brands: Array<Brand>;
   warengruppen: Array<ProductGroup>;
   kdnr: string;
   vanr: number;
 }
 
+interface Brand {
+  id: number;
+  wg: string;
+  value: string;
+  title: string;
+  mediapath: string;
+  parent: number;
+  sorting: number;
+}
 interface ProductGroup {
   wgr1: string;
   wgr2: string;

@@ -31,7 +31,7 @@ export default function OnlinePage() {
             id={`letter-${shop.title[0].toUpperCase()}`}
             href={shop.website}
             target="_blank"
-            className="flex flex-col items-center px-4 py-8 border border-transparent group hover:border-[var(--main)]"
+            className="flex flex-col items-center px-4 py-8 border border-transparent group hover:border-black/20"
           >
             <div
               className="relative overflow-hidden"

@@ -3,6 +3,7 @@ import { ActionIcon, Button } from "@mantine/core";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { IconChevronRight, IconCurrentLocation } from "@tabler/icons-react";
 import { getDistance } from "geolib";
+import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { Dealer, Location } from "../lib/interfaces";
@@ -26,7 +27,7 @@ export default function RetailerPage() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
-  const { search, submittedSearch } = useDealerContext();
+  const { brand, search, submittedSearch } = useDealerContext();
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -159,19 +160,23 @@ export default function RetailerPage() {
     const radius = getRadiusFromMap(map);
     if (radius) effectiveDistance = radius;
 
-    const nearbyRetailers = retailers.filter((retailer) => {
-      if (retailer.addresse.latitude && retailer.addresse.longitude) {
-        const dealerDistance = getDistance(
-          { latitude: centerCoords.lat, longitude: centerCoords.lng },
-          {
-            latitude: Number(retailer.addresse.latitude.replace(",", ".")),
-            longitude: Number(retailer.addresse.longitude.replace(",", ".")),
-          }
-        );
-        return dealerDistance <= effectiveDistance;
-      }
-      return false;
-    });
+    const nearbyRetailers = retailers
+      .filter((retailer) =>
+        brand ? retailer.brands.find((b) => b.wg === `B2BNEW-${brand}`) : true
+      )
+      .filter((retailer) => {
+        if (retailer.addresse.latitude && retailer.addresse.longitude) {
+          const dealerDistance = getDistance(
+            { latitude: centerCoords.lat, longitude: centerCoords.lng },
+            {
+              latitude: Number(retailer.addresse.latitude.replace(",", ".")),
+              longitude: Number(retailer.addresse.longitude.replace(",", ".")),
+            }
+          );
+          return dealerDistance <= effectiveDistance;
+        }
+        return false;
+      });
 
     setFilteredRetailers(nearbyRetailers);
     setTimeout(() => setShowSearchButton(false), 900);
@@ -183,7 +188,7 @@ export default function RetailerPage() {
       setPendingFilter(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, retailers, location]);
+  }, [map, retailers, location, brand]);
 
   useEffect(() => {
     if (!map || !submittedSearch) return;
@@ -207,7 +212,7 @@ export default function RetailerPage() {
 
   return (
     <main className="relative flex">
-      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
+      <div className="absolute top-24 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
         <form
           onSubmit={handleSearchSubmit}
           className="w-full flex items-center shadow-md shadow-black/20"
@@ -230,13 +235,13 @@ export default function RetailerPage() {
         )}
       </div>
       <div
-        className="bg-[var(--foreground)] text-white max-h-screen overflow-y-scroll transition-all duration-300"
+        className="bg-[var(--background-subtle)] border-r border-black max-h-screen overflow-y-scroll transition-all duration-300"
         style={
           showSidebar
             ? {
                 transform: "translateX(0)",
                 width: "420px",
-                padding: "64px 16px",
+                padding: "96px 16px 16px 16px",
               }
             : { transform: "translateX(-420px)", width: "0" }
         }
@@ -244,7 +249,8 @@ export default function RetailerPage() {
         {filteredRetailers.length > 0 ? (
           <div className="w-full flex flex-col gap-2">
             <h2 className="text-center">
-              {filteredRetailers.length} locations
+              {filteredRetailers.length}{" "}
+              {pluralize("location", filteredRetailers.length)}
             </h2>
             {filteredRetailers.map((retailer, index) => (
               <Retailer
@@ -267,7 +273,7 @@ export default function RetailerPage() {
         )}
       </div>
       <div className="relative w-full h-screen">
-        <div className="absolute left-0 top-16 z-30">
+        <div className="absolute left-0 top-24 z-30">
           <ActionIcon
             size="input-sm"
             color="black"

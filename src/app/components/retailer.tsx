@@ -1,11 +1,11 @@
 import { Button } from "@mantine/core";
 import {
-  IconGlobe,
-  IconMail,
   IconPhone,
   IconRoute,
+  IconWorld,
   IconZoomScan,
 } from "@tabler/icons-react";
+import Image from "next/image";
 import { Dealer } from "../lib/interfaces";
 
 export function Retailer({
@@ -30,12 +30,7 @@ export function Retailer({
       href: `tel:${retailer.addresse.telefon}`,
     },
     {
-      icon: IconMail,
-      label: retailer.addresse.email,
-      href: `mailto:${retailer.addresse.email}`,
-    },
-    {
-      icon: IconGlobe,
+      icon: IconWorld,
       label: retailer.addresse.www,
       href: retailer.addresse.www,
     },
@@ -44,12 +39,12 @@ export function Retailer({
     <div
       ref={innerRef}
       className={`flex flex-col gap-4 p-4 border ${
-        active ? "border-[var(--main)]" : "border-white/20"
+        active ? "border-[var(--main)]" : "border-black/20"
       }`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
     >
-      <header className="flex flex-col">
+      <header className="flex flex-col items-center text-center">
         <h3 className="text-xl font-bold tracking-tight">
           {retailer.addresse.name1}
         </h3>
@@ -57,25 +52,46 @@ export function Retailer({
       </header>
       {active && (
         <>
-          <nav className="flex flex-col gap-1">
+          <Button.Group orientation="vertical">
             {data.map(
               (d, i) =>
                 d.label && (
-                  <a
+                  <Button
                     key={i}
+                    size="xs"
+                    variant="transparent"
+                    component="a"
                     href={d.href!}
                     target="_blank"
-                    className="link text-xs flex items-center gap-1"
                     onClick={(e) => e.stopPropagation()}
+                    leftSection={<d.icon size={16} />}
+                    fullWidth
                   >
-                    <d.icon size={16} stroke={1.5} /> {d.label}
-                  </a>
+                    {d.label}
+                  </Button>
                 )
             )}
-          </nav>
+          </Button.Group>
+          <div className="grid grid-cols-2 gap-1">
+            {retailer.brands
+              .sort((a, b) => a.sorting - b.sorting)
+              .map((b, i) => (
+                <div key={i} className="flex gap-1 items-center">
+                  <Image
+                    src={`/brands/${b.wg.replace("B2BNEW-", "")}.png`}
+                    width={16}
+                    height={16}
+                    alt={b.title}
+                    className="inverted"
+                  />
+                  <p className="text-xs tracking-tighter">{b.title}</p>
+                </div>
+              ))}
+          </div>
           <Button.Group>
             <Button
               size="xs"
+              color="gray"
               leftSection={<IconRoute size={16} />}
               component="a"
               href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
@@ -89,7 +105,8 @@ export function Retailer({
             </Button>
             <Button
               size="xs"
-              variant="light"
+              color="gray"
+              variant="transparent"
               leftSection={<IconZoomScan size={16} />}
               onClick={(e) => {
                 e.stopPropagation();
@@ -108,19 +125,6 @@ export function Retailer({
               View on map
             </Button>
           </Button.Group>
-          {/* <div className="flex flex-wrap gap-1">
-            {retailer.warengruppen.map(
-              (w, i) =>
-                w.wgr1 !== "" && (
-                  <p
-                    key={i}
-                    className="text-xs px-2 py-1 shadow-black/20 ring-1 ring-neutral-300 shadow-2xl"
-                  >
-                    {w.wgr1} {w.wgr2} {w.wgr3} {w.wgr4} {w.wgr5}
-                  </p>
-                )
-            )}
-          </div> */}
         </>
       )}
     </div>

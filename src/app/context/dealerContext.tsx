@@ -6,6 +6,8 @@ type DealerMode = "retail" | "online";
 interface DealerContextType {
   type: DealerMode;
   setType: (type: DealerMode) => void;
+  brand: string | null;
+  setBrand: (brand: string | null) => void;
   search: string;
   setSearch: (search: string) => void;
   submittedSearch: string | null;
@@ -16,6 +18,7 @@ const DealerContext = createContext<DealerContextType | undefined>(undefined);
 
 export function DealerProvider({ children }: { children: ReactNode }) {
   const [type, setType] = useState<DealerMode>("retail");
+  const [brand, setBrand] = useState<string | null>("");
   const [search, setSearch] = useState<string>("");
   const [submittedSearch, setSubmittedSearch] = useState<string | null>(null);
 
@@ -24,6 +27,8 @@ export function DealerProvider({ children }: { children: ReactNode }) {
       value={{
         type,
         setType,
+        brand,
+        setBrand,
         search,
         setSearch,
         submittedSearch,

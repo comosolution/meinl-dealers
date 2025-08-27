@@ -1,52 +1,71 @@
 "use client";
-import { Combobox, Input, InputBase, useCombobox } from "@mantine/core";
+import {
+  CloseButton,
+  Combobox,
+  Input,
+  InputBase,
+  useCombobox,
+} from "@mantine/core";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-
-const brands = [
-  { label: "MEINL Cymbals", value: "MC" },
-  { label: "MEINL Percussion", value: "MP" },
-  { label: "MEINL Stick & Brush", value: "SB" },
-  { label: "MEINL Sonic Energy", value: "SE" },
-  { label: "Nino Percussion", value: "NP" },
-  { label: "Ortega Guitars", value: "OG" },
-];
+import { useEffect } from "react";
+import { useDealerContext } from "../context/dealerContext";
+import { brands } from "../data/brands";
 
 export default function BrandSelect({ large }: { large?: boolean }) {
   const searchParams = useSearchParams();
-  const brand = searchParams.get("brand");
+  const brandParam = searchParams.get("brand");
+
+  const { brand, setBrand } = useDealerContext();
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-  const [value, setValue] = useState<string | null>(
-    (brand && brands.find((b) => b.value === brand?.toUpperCase())?.value) ||
-      "MC"
-  );
 
-  const selectedOption = brands.find((g) => g.value === value);
-  const size = large ? 32 : 20;
+  useEffect(() => {
+    if (brandParam) {
+      setBrand(
+        brands.find((b) => b.value === brandParam?.toUpperCase())?.value ||
+          brands[0].value
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [brandParam]);
+
+  const selectedOption = brands.find((b) => b.value === brand);
+  const size = large ? 32 : 24;
 
   return (
     <Combobox
       store={combobox}
       onOptionSubmit={(val) => {
-        setValue(val);
+        setBrand(val);
         combobox.closeDropdown();
       }}
     >
       <Combobox.Target>
         <InputBase
           tabIndex={0}
-          w={300}
+          w={240}
           size={large ? "xl" : "md"}
+          className="flex-1"
           variant="filled"
           component="button"
           type="button"
           pointer
+          rightSection={
+            brand !== null ? (
+              <CloseButton
+                size="sm"
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => setBrand(null)}
+              />
+            ) : (
+              <Combobox.Chevron />
+            )
+          }
+          rightSectionPointerEvents={brand === null ? "none" : "all"}
           onClick={() => combobox.toggleDropdown()}
-          className="flex-1"
         >
           {selectedOption ? (
             <div className="flex gap-2 items-center">
@@ -67,23 +86,23 @@ export default function BrandSelect({ large }: { large?: boolean }) {
               </div>
             </div>
           ) : (
-            <Input.Placeholder>Select your brand</Input.Placeholder>
+            <Input.Placeholder>Select brand</Input.Placeholder>
           )}
         </InputBase>
       </Combobox.Target>
       <Combobox.Dropdown>
         <Combobox.Options>
-          {brands.map((g) => (
-            <Combobox.Option value={g.value} key={g.value}>
-              <div className="flex gap-2 items-center">
+          {brands.map((b) => (
+            <Combobox.Option value={b.value} key={b.value}>
+              <div className="flex gap-4 items-center">
                 <Image
-                  src={`/brands/${g.value}.png`}
+                  src={`/brands/${b.value}.png`}
                   width={size}
                   height={size}
-                  alt={g.label}
+                  alt={b.label}
                   className="inverted"
                 />
-                <p className="text-xl">{g.label}</p>
+                <p className={large ? "text-xl" : ""}>{b.label}</p>
               </div>
             </Combobox.Option>
           ))}

@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 const theme = createTheme({
+  fontFamily: "Titillium Web",
   primaryColor: "red",
   colors: {
     red: [
