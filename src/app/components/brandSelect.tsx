@@ -1,22 +1,29 @@
 "use client";
 import { Combobox, Input, InputBase, useCombobox } from "@mantine/core";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
+const brands = [
+  { label: "MEINL Cymbals", value: "MC" },
+  { label: "MEINL Percussion", value: "MP" },
+  { label: "MEINL Stick & Brush", value: "SB" },
+  { label: "MEINL Sonic Energy", value: "SE" },
+  { label: "Nino Percussion", value: "NP" },
+  { label: "Ortega Guitars", value: "OG" },
+];
+
 export default function BrandSelect({ large }: { large?: boolean }) {
+  const searchParams = useSearchParams();
+  const brand = searchParams.get("brand");
+
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-  const [value, setValue] = useState<string | null>("MC");
-
-  const brands = [
-    { label: "MEINL Cymbals", value: "MC" },
-    { label: "MEINL Percussion", value: "MP" },
-    { label: "MEINL Stick & Brush", value: "SB" },
-    { label: "MEINL Sonic Energy", value: "SE" },
-    { label: "Nino Percussion", value: "NP" },
-    { label: "Ortega Guitars", value: "OG" },
-  ];
+  const [value, setValue] = useState<string | null>(
+    (brand && brands.find((b) => b.value === brand?.toUpperCase())?.value) ||
+      "MC"
+  );
 
   const selectedOption = brands.find((g) => g.value === value);
   const size = large ? 32 : 20;
