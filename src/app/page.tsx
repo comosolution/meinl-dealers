@@ -35,14 +35,14 @@ export default function Page() {
             I&apos;m looking for {type === "retail" ? "a" : "an"}{" "}
             <TypeSelect large /> store{" "}
           </div>
+          <div className="flex items-center gap-2">
+            that offers <BrandSelect large />
+          </div>
           {type === "retail" && (
             <div className="flex items-center gap-2">
               in <CitySelect large />
             </div>
-          )}{" "}
-          <div className="flex items-center gap-2">
-            that offers <BrandSelect large />.{" "}
-          </div>
+          )}
           <Button
             type="submit"
             size="xl"
