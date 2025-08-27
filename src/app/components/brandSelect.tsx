@@ -46,7 +46,7 @@ export default function BrandSelect({ large }: { large?: boolean }) {
           type="button"
           pointer
           onClick={() => combobox.toggleDropdown()}
-          multiline
+          className="flex-1"
         >
           {selectedOption ? (
             <div className="flex gap-2 items-center">
