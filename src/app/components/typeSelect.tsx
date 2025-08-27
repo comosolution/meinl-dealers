@@ -29,6 +29,7 @@ export default function TypeSelect({ large }: { large?: boolean }) {
           ),
         };
       })}
+      tabIndex={0}
     />
   );
 }

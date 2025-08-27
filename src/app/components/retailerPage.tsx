@@ -207,7 +207,7 @@ export default function RetailerPage() {
 
   return (
     <main className="relative flex">
-      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2">
+      <div className="absolute top-16 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
         <form
           onSubmit={handleSearchSubmit}
           className="w-full flex items-center shadow-md shadow-black/20"
@@ -267,7 +267,7 @@ export default function RetailerPage() {
         )}
       </div>
       <div className="relative w-full h-screen">
-        <div className="absolute left-0 top-16 z-50">
+        <div className="absolute left-0 top-16 z-30">
           <ActionIcon
             size="input-sm"
             color="black"
