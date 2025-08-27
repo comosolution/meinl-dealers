@@ -12,7 +12,7 @@ export default function Header() {
       </div>
       <div className="flex items-center gap-2 bg-[var(--background-subtle)]">
         <TypeSelect />
-        <IconChevronRight size={16} color="gray" />
+        <IconChevronRight size={16} />
         <BrandSelect />
       </div>
     </header>

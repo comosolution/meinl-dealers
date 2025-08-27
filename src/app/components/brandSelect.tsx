@@ -61,7 +61,7 @@ export default function BrandSelect({ large }: { large?: boolean }) {
                 onClick={() => setBrand(null)}
               />
             ) : (
-              <Combobox.Chevron />
+              <Combobox.Chevron color="black" />
             )
           }
           rightSectionPointerEvents={brand === null ? "none" : "all"}
