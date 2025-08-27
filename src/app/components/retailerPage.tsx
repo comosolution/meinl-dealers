@@ -161,9 +161,9 @@ export default function RetailerPage() {
     if (radius) effectiveDistance = radius;
 
     const nearbyRetailers = retailers
-      .filter((retailer) =>
-        brand ? retailer.brands.find((b) => b.wg === `B2BNEW-${brand}`) : true
-      )
+      // .filter((retailer) =>
+      //   brand ? retailer.brands.find((b) => b.wg === `B2BNEW-${brand}`) : true
+      // )
       .filter((retailer) => {
         if (retailer.addresse.latitude && retailer.addresse.longitude) {
           const dealerDistance = getDistance(
