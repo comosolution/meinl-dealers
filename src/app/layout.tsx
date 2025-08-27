@@ -2,6 +2,7 @@ import { createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import type { Metadata } from "next";
 import { Titillium_Web } from "next/font/google";
+import { Suspense } from "react";
 import Header from "./components/header";
 import { DealerProvider } from "./context/dealerContext";
 import "./globals.css";
@@ -55,14 +56,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${titillium.className}`}>
-        <MantineProvider theme={theme}>
-          <DealerProvider>
-            <div className="w-screen h-screen flex flex-col">
-              <Header />
-              {children}
-            </div>
-          </DealerProvider>
-        </MantineProvider>
+        <Suspense>
+          <MantineProvider theme={theme}>
+            <DealerProvider>
+              <div className="w-screen h-screen flex flex-col">
+                <Header />
+                {children}
+              </div>
+            </DealerProvider>
+          </MantineProvider>
+        </Suspense>
       </body>
     </html>
   );
