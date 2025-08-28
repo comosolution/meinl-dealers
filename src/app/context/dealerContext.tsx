@@ -18,7 +18,7 @@ const DealerContext = createContext<DealerContextType | undefined>(undefined);
 
 export function DealerProvider({ children }: { children: ReactNode }) {
   const [type, setType] = useState<DealerMode>("retail");
-  const [brand, setBrand] = useState<string | null>("");
+  const [brand, setBrand] = useState<string | null>(null);
   const [search, setSearch] = useState<string>("");
   const [submittedSearch, setSubmittedSearch] = useState<string | null>(null);
 
