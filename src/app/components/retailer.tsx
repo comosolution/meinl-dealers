@@ -27,11 +27,13 @@ export function Retailer({
     {
       icon: IconPhone,
       label: retailer.addresse.telefon,
+      address: retailer.addresse.telefon,
       href: `tel:${retailer.addresse.telefon}`,
     },
     {
       icon: IconWorld,
-      label: retailer.addresse.www,
+      label: "Visit website",
+      address: retailer.addresse.www,
       href: retailer.addresse.www,
     },
   ];
@@ -52,27 +54,23 @@ export function Retailer({
       </header>
       {active && (
         <>
-          <Button.Group orientation="vertical">
+          <div className="flex justify-center items-center">
             {data.map(
               (d, i) =>
-                d.label && (
-                  <Button
+                d.address && (
+                  <a
                     key={i}
-                    size="xs"
-                    color="black"
-                    variant="transparent"
-                    component="a"
                     href={d.href!}
                     target="_blank"
                     onClick={(e) => e.stopPropagation()}
-                    leftSection={<d.icon size={16} />}
-                    fullWidth
+                    className="link w-1/2 flex flex-col items-center gap-1"
                   >
-                    {d.label}
-                  </Button>
+                    <d.icon size={24} stroke={1.5} />
+                    <p className="text-xs">{d.label}</p>
+                  </a>
                 )
             )}
-          </Button.Group>
+          </div>
           <div className="grid grid-cols-2 gap-1">
             {retailer.brands
               .sort((a, b) => a.sorting - b.sorting)
