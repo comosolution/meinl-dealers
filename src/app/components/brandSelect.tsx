@@ -75,10 +75,9 @@ export default function BrandSelect({ large }: { large?: boolean }) {
                 style={{ width: `${size}px`, height: `${size}px` }}
               >
                 <Image
-                  src={`/brands/${selectedOption.value.replaceAll(
-                    " ",
-                    "-"
-                  )}.png`}
+                  src={`/brands/${selectedOption.value
+                    .replaceAll(" ", "-")
+                    .toUpperCase()}.png`}
                   fill
                   alt={selectedOption.label}
                   style={{ objectFit: "contain" }}
@@ -100,7 +99,9 @@ export default function BrandSelect({ large }: { large?: boolean }) {
             <Combobox.Option value={b.value} key={b.value}>
               <div className="flex gap-4 items-center">
                 <Image
-                  src={`/brands/${b.value.replaceAll(" ", "-")}.png`}
+                  src={`/brands/${b.value
+                    .replaceAll(" ", "-")
+                    .toUpperCase()}.png`}
                   width={size}
                   height={size}
                   alt={b.label}
