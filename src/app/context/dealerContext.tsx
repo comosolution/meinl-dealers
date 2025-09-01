@@ -1,5 +1,6 @@
 "use client";
 import { createContext, ReactNode, useContext, useState } from "react";
+import { brands } from "../data/brands";
 
 type DealerMode = "retail" | "online";
 
@@ -18,7 +19,7 @@ const DealerContext = createContext<DealerContextType | undefined>(undefined);
 
 export function DealerProvider({ children }: { children: ReactNode }) {
   const [type, setType] = useState<DealerMode>("retail");
-  const [brand, setBrand] = useState<string | null>(null);
+  const [brand, setBrand] = useState<string | null>(brands[0].value);
   const [search, setSearch] = useState<string>("");
   const [submittedSearch, setSubmittedSearch] = useState<string | null>(null);
 

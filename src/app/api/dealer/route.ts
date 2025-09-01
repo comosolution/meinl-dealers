@@ -1,4 +1,6 @@
-export async function POST() {
+export async function POST(req: Request) {
+  const data = await req.json();
+
   const headers = new Headers();
   headers.append("Content-Type", "application/json");
   headers.set(
@@ -12,8 +14,15 @@ export async function POST() {
       method: "POST",
       headers: headers,
       body: JSON.stringify({
-        kdnr: null,
-        vanr: 0,
+        locale: "de-DE",
+        brands: [...data.brands],
+        radius: data.distance || 10,
+        address: null,
+        coordinates: {
+          latitude: data.latitude,
+          longitude: data.longitude,
+          distance: 0.0,
+        },
       }),
     }
   );

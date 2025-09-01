@@ -33,21 +33,10 @@ export default function RetailerPage() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [showSearchButton, setShowSearchButton] = useState(false);
   const [retailers, setRetailers] = useState<Dealer[]>([]);
-  const [filteredRetailers, setFilteredRetailers] = useState<Dealer[]>([]);
   const [selectedRetailer, setSelectedRetailer] = useState("");
   const [location, setLocation] = useState<Location | null>(null);
   const [pendingFilter, setPendingFilter] = useState(false);
   const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
-
-  useEffect(() => {
-    getRetailers();
-  }, []);
-
-  const getRetailers = async () => {
-    const res = await fetch("/api/dealer", { method: "POST" });
-    const dealers = await res.json();
-    setRetailers(dealers);
-  };
 
   const handleRetailerClick = (id: string, scroll?: boolean) => {
     if (selectedRetailer === id) {
@@ -149,36 +138,29 @@ export default function RetailerPage() {
     filterRetailers();
   };
 
-  const filterRetailers = () => {
+  const filterRetailers = async () => {
     if (!map) return;
     const latLng = map.getCenter();
     if (!latLng) return;
 
-    const centerCoords = { lat: latLng.lat(), lng: latLng.lng() };
-    let effectiveDistance = 30000;
+    console.log(latLng.lat());
 
+    let effectiveDistance = 30000;
     const radius = getRadiusFromMap(map);
     if (radius) effectiveDistance = radius;
 
-    const nearbyRetailers = retailers
-      // .filter((retailer) =>
-      //   brand ? retailer.brands.find((b) => b.wg === `B2BNEW-${brand}`) : true
-      // )
-      .filter((retailer) => {
-        if (retailer.addresse.latitude && retailer.addresse.longitude) {
-          const dealerDistance = getDistance(
-            { latitude: centerCoords.lat, longitude: centerCoords.lng },
-            {
-              latitude: Number(retailer.addresse.latitude.replace(",", ".")),
-              longitude: Number(retailer.addresse.longitude.replace(",", ".")),
-            }
-          );
-          return dealerDistance <= effectiveDistance;
-        }
-        return false;
-      });
+    const res = await fetch("/api/dealer", {
+      method: "POST",
+      body: JSON.stringify({
+        brands: brand,
+        latitude: latLng.lat() || location!.latitude,
+        longitude: latLng.lng() || location!.longitude,
+        distance: effectiveDistance / 1000,
+      }),
+    });
+    const dealers = await res.json();
+    setRetailers(dealers);
 
-    setFilteredRetailers(nearbyRetailers);
     setTimeout(() => setShowSearchButton(false), 900);
   };
 
@@ -188,7 +170,7 @@ export default function RetailerPage() {
       setPendingFilter(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, retailers, location, brand]);
+  }, [map, location, brand]);
 
   useEffect(() => {
     if (!map || !submittedSearch) return;
@@ -246,13 +228,12 @@ export default function RetailerPage() {
             : { transform: "translateX(-420px)", width: "0" }
         }
       >
-        {filteredRetailers.length > 0 ? (
+        {retailers.length > 0 ? (
           <div className="w-full flex flex-col gap-2">
             <h2 className="text-center">
-              {filteredRetailers.length}{" "}
-              {pluralize("location", filteredRetailers.length)}
+              {retailers.length} {pluralize("location", retailers.length)}
             </h2>
-            {filteredRetailers.map((retailer, index) => (
+            {retailers.map((retailer, index) => (
               <Retailer
                 key={index}
                 retailer={retailer}
@@ -264,7 +245,7 @@ export default function RetailerPage() {
                 map={map}
               />
             ))}
-            {filteredRetailers.length < 1 && <></>}
+            {retailers.length < 1 && <></>}
           </div>
         ) : (
           <div className="h-full flex justify-center items-center">
@@ -303,16 +284,17 @@ export default function RetailerPage() {
             }
           }}
         >
-          {filteredRetailers.map((retailer, index) => {
-            return (
-              <RetailerPin
-                key={index}
-                retailer={retailer}
-                selectedRetailer={selectedRetailer}
-                handleRetailerClick={handleRetailerClick}
-              />
-            );
-          })}
+          {retailers.length > 0 &&
+            retailers.map((retailer, index) => {
+              return (
+                <RetailerPin
+                  key={index}
+                  retailer={retailer}
+                  selectedRetailer={selectedRetailer}
+                  handleRetailerClick={handleRetailerClick}
+                />
+              );
+            })}
           {location && (
             <Marker
               position={{ lat: location.latitude, lng: location.longitude }}

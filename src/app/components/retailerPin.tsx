@@ -15,13 +15,14 @@ export default function RetailerPin({
 }) {
   const [opened, setOpened] = useState(false);
 
-  if (!retailer.addresse.latitude || !retailer.addresse.longitude) return null;
+  if (!retailer.coordinates.latitude || !retailer.coordinates.longitude)
+    return null;
 
   return (
     <OverlayView
       position={{
-        lat: Number(retailer.addresse.latitude.replace(",", ".")),
-        lng: Number(retailer.addresse.longitude.replace(",", ".")),
+        lat: retailer.coordinates.latitude,
+        lng: retailer.coordinates.longitude,
       }}
       mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
     >
@@ -87,11 +88,11 @@ export default function RetailerPin({
           <div className="flex flex-col gap-4">
             <header>
               <h3 className="text-xl font-bold tracking-tight">
-                {retailer.addresse.name1}
+                {retailer.name1}
               </h3>
               <p className="text-xs text-black/60">
-                {retailer.addresse.strasse}, {retailer.addresse.plz}{" "}
-                {retailer.addresse.ort}
+                {retailer.postalAddress.street}, {retailer.postalAddress.zip}{" "}
+                {retailer.postalAddress.city}
               </p>
             </header>
           </div>

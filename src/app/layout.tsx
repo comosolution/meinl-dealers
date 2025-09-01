@@ -56,6 +56,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="theme-color" content="#ef233c" />
+      </head>
       <body className={`${titillium.className}`}>
         <Suspense>
           <MantineProvider theme={theme}>

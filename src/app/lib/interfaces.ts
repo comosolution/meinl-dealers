@@ -1,49 +1,29 @@
 export interface Dealer {
-  addresse: {
-    name1: string | null;
-    name2: string | null;
-    name3: string | null;
-    telefon: string | null;
-    email: string | null;
-    www: string | null;
-    bild: string | null;
-    strasse: string | null;
-    plz: string | null;
-    ort: string | null;
-    land: string | null;
-    zusatz: string | null;
-    longitude: string | null;
-    latitude: string | null;
-  };
-  brands: Array<Brand>;
-  warengruppen: Array<ProductGroup>;
   kdnr: string;
-  vanr: number;
+  vanr: string;
+  name1: string;
+  name2: string;
+  name3: string;
+  postalAddress: {
+    street: string;
+    zip: string;
+    city: string;
+    country: string;
+  };
+  phone: string;
+  email: string;
+  www: string;
+  coordinates: Location;
+  brands: Brand[];
 }
 
 interface Brand {
-  id: number;
-  wg: string;
-  value: string;
   title: string;
   mediapath: string;
-  parent: number;
-  sorting: number;
-}
-interface ProductGroup {
-  wgr1: string;
-  wgr2: string;
-  wgr3: string;
-  wgr4: string;
-  wgr5: string;
-  wert: string;
-  bild: string;
-  storeAdrNr: number;
-  storeAnpNr: number;
-  urlNr: number;
 }
 
 export interface Location {
   latitude: number;
   longitude: number;
+  distance?: number;
 }
