@@ -74,12 +74,12 @@ export const mapStyles = [
   {
     featureType: "water",
     elementType: "geometry",
-    stylers: [{ color: "#e9e9e9" }],
+    stylers: [{ color: "#F1F3F5" }],
   },
   {
     featureType: "water",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#9e9e9e" }],
+    stylers: [{ color: "#F1F3F5" }],
   },
   {
     featureType: "poi",

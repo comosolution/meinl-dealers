@@ -12,6 +12,7 @@ export default function CitySelect({ large }: { large?: boolean }) {
       size={large ? "xl" : "sm"}
       placeholder={large ? "Enter city" : "Enter your city"}
       className="flex-1"
+      styles={{ input: { background: large ? undefined : "white" } }}
       w={400}
       value={search}
       onChange={setSearch}
