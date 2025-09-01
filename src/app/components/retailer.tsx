@@ -46,9 +46,14 @@ export function Retailer({
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
     >
-      <header className="flex flex-col items-center text-center">
-        <h3 className="text-xl font-bold tracking-tight">{retailer.name1}</h3>
-        <p className="text-xs dimmed">{address}</p>
+      <header className="flex flex-col">
+        <div className="flex justify-between items-baseline">
+          <h3 className="text-xl font-bold tracking-tight">{retailer.name1}</h3>
+          <span className="text-[10px] font-mono tracking-tighter">
+            {retailer.coordinates.distance?.toFixed(0)}km
+          </span>
+        </div>
+        {active && <p className="text-xs dimmed">{address}</p>}
       </header>
       {active && (
         <>

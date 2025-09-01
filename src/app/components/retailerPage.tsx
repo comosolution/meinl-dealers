@@ -194,28 +194,6 @@ export default function RetailerPage() {
 
   return (
     <main className="relative flex">
-      <div className="absolute top-24 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
-        <form
-          onSubmit={handleSearchSubmit}
-          className="w-full flex items-center shadow-md shadow-black/20"
-        >
-          <CitySelect />
-          <ActionIcon
-            color="black"
-            size="input-sm"
-            onClick={handleGetUserLocation}
-          >
-            <IconCurrentLocation size={20} />
-          </ActionIcon>
-        </form>
-        {showSearchButton && (
-          <div className="backdrop-blur-md">
-            <Button size="xs" variant="light" onClick={handleAreaSubmit}>
-              Search this area
-            </Button>
-          </div>
-        )}
-      </div>
       <div
         className="bg-[var(--background-subtle)] border-r border-black max-h-screen overflow-y-scroll transition-all duration-300"
         style={
@@ -233,18 +211,23 @@ export default function RetailerPage() {
             <h2 className="text-center">
               {retailers.length} {pluralize("location", retailers.length)}
             </h2>
-            {retailers.map((retailer, index) => (
-              <Retailer
-                key={index}
-                retailer={retailer}
-                handleRetailerClick={handleRetailerClick}
-                active={retailer.kdnr === selectedRetailer}
-                innerRef={(el) => {
-                  retailerRefs.current[retailer.kdnr] = el;
-                }}
-                map={map}
-              />
-            ))}
+            {retailers
+              .sort(
+                (a, b) =>
+                  (a.coordinates.distance || 0) - (b.coordinates.distance || 0)
+              )
+              .map((retailer, index) => (
+                <Retailer
+                  key={index}
+                  retailer={retailer}
+                  handleRetailerClick={handleRetailerClick}
+                  active={retailer.kdnr === selectedRetailer}
+                  innerRef={(el) => {
+                    retailerRefs.current[retailer.kdnr] = el;
+                  }}
+                  map={map}
+                />
+              ))}
             {retailers.length < 1 && <></>}
           </div>
         ) : (
@@ -268,6 +251,26 @@ export default function RetailerPage() {
             />
           </ActionIcon>
         </div>
+        <form
+          onSubmit={handleSearchSubmit}
+          className="absolute top-24 left-1/2 -translate-x-1/2 z-30 flex items-center shadow-md shadow-black/20"
+        >
+          <CitySelect />
+          <ActionIcon
+            color="black"
+            size="input-sm"
+            onClick={handleGetUserLocation}
+          >
+            <IconCurrentLocation size={20} />
+          </ActionIcon>
+        </form>
+        {showSearchButton && (
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30  backdrop-blur-md">
+            <Button size="xs" variant="light" onClick={handleAreaSubmit}>
+              Search this area
+            </Button>
+          </div>
+        )}
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           options={mapOptions}
