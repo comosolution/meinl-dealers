@@ -143,11 +143,7 @@ export default function RetailerPage() {
     const latLng = map.getCenter();
     if (!latLng) return;
 
-    console.log(latLng.lat());
-
-    let effectiveDistance = 30000;
-    const radius = getRadiusFromMap(map);
-    if (radius) effectiveDistance = radius;
+    const radius = getRadiusFromMap(map) || 30000;
 
     const res = await fetch("/api/dealer", {
       method: "POST",
@@ -155,12 +151,11 @@ export default function RetailerPage() {
         brands: brand,
         latitude: latLng.lat() || location!.latitude,
         longitude: latLng.lng() || location!.longitude,
-        distance: effectiveDistance / 1000,
+        distance: radius / 1000,
       }),
     });
     const dealers = await res.json();
     setRetailers(dealers);
-
     setTimeout(() => setShowSearchButton(false), 900);
   };
 
