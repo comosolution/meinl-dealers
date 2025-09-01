@@ -227,7 +227,7 @@ export default function RetailerPage() {
           </div>
         ) : (
           <div className="h-full flex justify-center items-center">
-            <p className="text-xs dimmed small">No dealers found.</p>
+            <p className="text-xs text-white small">No dealers found.</p>
           </div>
         )}
       </div>
