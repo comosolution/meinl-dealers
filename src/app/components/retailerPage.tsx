@@ -201,7 +201,7 @@ export default function RetailerPage() {
             ? {
                 transform: "translateX(0)",
                 width: "420px",
-                padding: "96px 16px 16px 16px",
+                padding: "64px 16px 16px 16px",
               }
             : { transform: "translateX(-420px)", width: "0" }
         }
@@ -237,7 +237,7 @@ export default function RetailerPage() {
         )}
       </div>
       <div className="relative w-full h-screen">
-        <div className="absolute left-0 top-24 z-30 backdrop-blur-md">
+        <div className="absolute left-0 top-16 z-30 backdrop-blur-md">
           <ActionIcon
             size="input-sm"
             variant="light"
@@ -253,7 +253,7 @@ export default function RetailerPage() {
         </div>
         <form
           onSubmit={handleSearchSubmit}
-          className="absolute top-24 left-1/2 -translate-x-1/2 z-30 flex items-center shadow-md shadow-black/20"
+          className="absolute top-16 left-1/2 -translate-x-1/2 z-30 flex items-center shadow-md shadow-black/20"
         >
           <CitySelect />
           <ActionIcon

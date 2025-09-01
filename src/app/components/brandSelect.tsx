@@ -1,11 +1,5 @@
 "use client";
-import {
-  CloseButton,
-  Combobox,
-  Input,
-  InputBase,
-  useCombobox,
-} from "@mantine/core";
+import { Combobox, Input, InputBase, useCombobox } from "@mantine/core";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -47,25 +41,13 @@ export default function BrandSelect({ large }: { large?: boolean }) {
       <Combobox.Target>
         <InputBase
           tabIndex={0}
-          w={240}
+          w={220}
           size={large ? "xl" : "md"}
           className="flex-1"
           variant="filled"
           component="button"
           type="button"
           pointer
-          rightSection={
-            brand !== null ? (
-              <CloseButton
-                size="sm"
-                onMouseDown={(event) => event.preventDefault()}
-                onClick={() => setBrand(null)}
-              />
-            ) : (
-              <Combobox.Chevron color="black" />
-            )
-          }
-          rightSectionPointerEvents={brand === null ? "none" : "all"}
           onClick={() => combobox.toggleDropdown()}
         >
           {selectedOption ? (
