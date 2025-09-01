@@ -1,5 +1,12 @@
 "use client";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { brands } from "../data/brands";
 
 type DealerMode = "retail" | "online";
@@ -22,6 +29,18 @@ export function DealerProvider({ children }: { children: ReactNode }) {
   const [brand, setBrand] = useState<string | null>(brands[0].value);
   const [search, setSearch] = useState<string>("");
   const [submittedSearch, setSubmittedSearch] = useState<string | null>(null);
+
+  const searchParams = useSearchParams();
+  const brandParam = searchParams.get("brand");
+
+  useEffect(() => {
+    if (brandParam) {
+      setBrand(
+        brands.find((b) => b.value === brandParam?.replaceAll("-", " "))
+          ?.value || brands[0].value
+      );
+    }
+  }, [brandParam]);
 
   return (
     <DealerContext.Provider

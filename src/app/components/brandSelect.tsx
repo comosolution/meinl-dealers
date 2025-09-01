@@ -1,31 +1,15 @@
 "use client";
 import { Combobox, Input, InputBase, useCombobox } from "@mantine/core";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { brands } from "../data/brands";
 
 export default function BrandSelect({ large }: { large?: boolean }) {
-  const searchParams = useSearchParams();
-  const brandParam = searchParams.get("brand");
-
   const { brand, setBrand } = useDealerContext();
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
-
-  useEffect(() => {
-    if (brandParam) {
-      setBrand(
-        brands.find(
-          (b) => b.value === brandParam?.replaceAll(" ", "-").toUpperCase()
-        )?.value || brands[0].value
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [brandParam]);
 
   const selectedOption = brands.find((b) => b.value === brand);
   const size = large ? 32 : 24;
