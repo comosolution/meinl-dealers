@@ -69,7 +69,7 @@ export default function RetailerPage() {
             longitude: position.coords.longitude,
           });
           map.panTo(loc);
-          map.setZoom(9);
+          map.setZoom(10);
           setPendingFilter(true);
         },
         (err) => {
@@ -126,7 +126,7 @@ export default function RetailerPage() {
           longitude: loc.lng(),
         });
         map.panTo(loc);
-        map.setZoom(9);
+        map.setZoom(10);
       }
     }
 
@@ -184,7 +184,7 @@ export default function RetailerPage() {
           longitude: loc.lng(),
         });
         map.panTo(loc);
-        map.setZoom(9);
+        map.setZoom(10);
         setPendingFilter(true);
       }
     });
