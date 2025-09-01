@@ -47,51 +47,20 @@ export function Retailer({
       onClick={() => handleRetailerClick(retailer.kdnr)}
     >
       <header className="flex flex-col">
-        <div className="flex justify-between items-baseline">
+        <div className="flex justify-between items-center">
           <h3 className="text-xl font-bold tracking-tight">{retailer.name1}</h3>
-          <span className="text-[10px] font-mono tracking-tighter">
+          <span className="text-[10px] font-mono tracking-tighter dimmed">
             {retailer.coordinates.distance?.toFixed(0)}km
           </span>
         </div>
-        {active && <p className="text-xs dimmed">{address}</p>}
+        {active && <p className="text-xs">{address}</p>}
       </header>
       {active && (
         <>
-          <div className="flex justify-center items-center">
-            {data.map(
-              (d, i) =>
-                d.address && (
-                  <a
-                    key={i}
-                    href={d.href!}
-                    target="_blank"
-                    onClick={(e) => e.stopPropagation()}
-                    className="link w-1/2 flex flex-col items-center gap-1"
-                  >
-                    <d.icon size={24} stroke={1.5} />
-                    <p className="text-xs">{d.label}</p>
-                  </a>
-                )
-            )}
-          </div>
-          <div className="grid grid-cols-2 gap-1">
-            {retailer.brands.map((b, i) => (
-              <div key={i} className="flex gap-1 items-center">
-                <Image
-                  src={`/brands/${b.title.replaceAll(" ", "-")}.png`}
-                  width={16}
-                  height={16}
-                  alt={b.title}
-                  className="inverted"
-                />
-                <p className="text-xs tracking-tighter">{b.title}</p>
-              </div>
-            ))}
-          </div>
           <Button.Group>
             <Button
               size="xs"
-              color="gray"
+              color="black"
               leftSection={<IconRoute size={16} />}
               component="a"
               href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
@@ -106,7 +75,7 @@ export function Retailer({
             <Button
               size="xs"
               color="gray"
-              variant="transparent"
+              variant="light"
               leftSection={<IconZoomScan size={16} />}
               onClick={(e) => {
                 e.stopPropagation();
@@ -127,6 +96,40 @@ export function Retailer({
             >
               View on map
             </Button>
+          </Button.Group>
+          <div className="grid grid-cols-2 gap-1">
+            {retailer.brands.map((b, i) => (
+              <div key={i} className="flex gap-1 items-center">
+                <Image
+                  src={`/brands/${b.title.replaceAll(" ", "-")}.png`}
+                  width={16}
+                  height={16}
+                  alt={b.title}
+                  className="inverted"
+                />
+                <p className="text-xs tracking-tighter">{b.title}</p>
+              </div>
+            ))}
+          </div>
+          <Button.Group>
+            {data.map(
+              (d, i) =>
+                d.address && (
+                  <Button
+                    key={i}
+                    size="xs"
+                    variant="transparent"
+                    component="a"
+                    href={d.href!}
+                    target="_blank"
+                    leftSection={<d.icon size={16} />}
+                    onClick={(e) => e.stopPropagation()}
+                    fullWidth
+                  >
+                    {d.label}
+                  </Button>
+                )
+            )}
           </Button.Group>
         </>
       )}
