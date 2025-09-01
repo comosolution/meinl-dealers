@@ -195,7 +195,7 @@ export default function RetailerPage() {
   return (
     <main className="relative flex">
       <div
-        className="bg-[var(--background-subtle)] border-r border-black max-h-screen overflow-y-scroll transition-all duration-300"
+        className="gradient max-h-screen overflow-y-scroll transition-all duration-300"
         style={
           showSidebar
             ? {
@@ -237,10 +237,10 @@ export default function RetailerPage() {
         )}
       </div>
       <div className="relative w-full h-screen">
-        <div className="absolute left-0 top-24 z-30">
+        <div className="absolute left-0 top-24 z-30 backdrop-blur-md">
           <ActionIcon
             size="input-sm"
-            color="black"
+            variant="light"
             onClick={() => setShowSidebar(!showSidebar)}
           >
             <IconChevronRight
@@ -265,8 +265,8 @@ export default function RetailerPage() {
           </ActionIcon>
         </form>
         {showSearchButton && (
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30  backdrop-blur-md">
-            <Button size="xs" variant="light" onClick={handleAreaSubmit}>
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
+            <Button size="xs" onClick={handleAreaSubmit}>
               Search this area
             </Button>
           </div>
