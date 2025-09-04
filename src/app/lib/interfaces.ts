@@ -14,12 +14,7 @@ export interface Dealer {
   email: string;
   www: string;
   coordinates: Location;
-  brands: Brand[];
-}
-
-interface Brand {
-  title: string;
-  mediapath: string;
+  brands: string[];
 }
 
 export interface Location {

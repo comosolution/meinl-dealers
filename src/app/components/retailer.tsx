@@ -99,17 +99,17 @@ export function Retailer({
               View on map
             </Button>
           </Button.Group>
-          <div className="grid grid-cols-2 gap-1">
+          <div className="grid grid-cols-2 gap-2">
             {retailer.brands.map((b, i) => (
-              <div key={i} className="flex gap-1 items-center">
+              <div key={i} className="flex gap-2 items-center">
                 <Image
-                  src={`/brands/${b.title.replaceAll(" ", "-")}.png`}
+                  src={`/brands/${b.replaceAll(" ", "-")}.png`}
                   width={16}
                   height={16}
-                  alt={b.title}
+                  alt={b}
                   className="inverted"
                 />
-                <p className="text-xs tracking-tighter">{b.title}</p>
+                <p className="text-xs tracking-tighter">{b}</p>
               </div>
             ))}
           </div>
