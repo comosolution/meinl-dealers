@@ -34,7 +34,9 @@ export function Retailer({
       icon: IconWorld,
       label: "Visit website",
       address: retailer.www,
-      href: retailer.www,
+      href: retailer.www.startsWith("http")
+        ? retailer.www
+        : `https://${retailer.www}`,
     },
   ];
   return (
