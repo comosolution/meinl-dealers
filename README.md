@@ -1,1 +1,1 @@
-# MEINL Dealer Locator
+# MEINL DealerLocator
