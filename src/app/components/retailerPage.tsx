@@ -190,7 +190,7 @@ export default function RetailerPage() {
   return (
     <main className="relative flex">
       <div
-        className="gradient max-h-screen overflow-y-scroll transition-all duration-300"
+        className="bg-[var(--background-subtle)] max-h-screen overflow-y-scroll transition-all duration-300"
         style={
           showSidebar
             ? {
