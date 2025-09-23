@@ -42,9 +42,9 @@ export function Retailer({
   return (
     <div
       ref={innerRef}
-      className={`flex flex-col gap-4 p-4 border ${
-        active ? "border-[var(--main)]" : "border-transparent"
-      } bg-[var(--background)] cursor-pointer`}
+      className={`flex flex-col gap-4 p-4 ${
+        active ? "bg-[var(--background)] shadow-xl" : ""
+      } hover:bg-[var(--background)] cursor-pointer`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
     >
