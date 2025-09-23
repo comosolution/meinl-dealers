@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useDealerContext } from "../context/dealerContext";
 import { brands } from "../data/brands";
 
-export default function BrandSelect({ large }: { large?: boolean }) {
+export default function BrandSelect() {
   const { brand, setBrand } = useDealerContext();
 
   const combobox = useCombobox({
@@ -12,7 +12,7 @@ export default function BrandSelect({ large }: { large?: boolean }) {
   });
 
   const selectedOption = brands.find((b) => b.value === brand);
-  const size = large ? 32 : 24;
+  const size = 24;
 
   return (
     <Combobox
@@ -26,7 +26,7 @@ export default function BrandSelect({ large }: { large?: boolean }) {
         <InputBase
           tabIndex={0}
           w={220}
-          size={large ? "xl" : "md"}
+          size="md"
           className="flex-1"
           variant="filled"
           component="button"
@@ -73,7 +73,7 @@ export default function BrandSelect({ large }: { large?: boolean }) {
                   alt={b.label}
                   className="inverted"
                 />
-                <p className={large ? "text-xl" : ""}>{b.label}</p>
+                <p>{b.label}</p>
               </div>
             </Combobox.Option>
           ))}

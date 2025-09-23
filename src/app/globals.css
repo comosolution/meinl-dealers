@@ -64,11 +64,3 @@ img.inverted {
 .dimmed {
   color: var(--mantine-color-dimmed);
 }
-
-.gradient {
-  background-image: linear-gradient(
-    to top,
-    var(--main) 0%,
-    var(--background-subtle) 100%
-  );
-}

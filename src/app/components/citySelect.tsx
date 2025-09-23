@@ -1,18 +1,18 @@
 import { ActionIcon, Autocomplete, ComboboxItem } from "@mantine/core";
-import { IconMapPin, IconSearch } from "@tabler/icons-react";
+import { IconSearch } from "@tabler/icons-react";
 import { useDealerContext } from "../context/dealerContext";
 import { germanCitiesAbove50000 } from "../data/cities";
 
-export default function CitySelect({ large }: { large?: boolean }) {
+export default function CitySelect() {
   const { search, setSearch } = useDealerContext();
 
   return (
     <Autocomplete
       variant="filled"
-      size={large ? "xl" : "sm"}
-      placeholder={large ? "Enter city" : "Enter your city"}
+      size="sm"
+      placeholder="Enter your city"
       className="flex-1"
-      styles={{ input: { background: large ? undefined : "white" } }}
+      styles={{ input: { background: "white" } }}
       w={400}
       value={search}
       onChange={setSearch}
@@ -28,13 +28,10 @@ export default function CitySelect({ large }: { large?: boolean }) {
         filtered.sort((a, b) => a.label.localeCompare(b.label));
         return filtered;
       }}
-      leftSection={large ? <IconMapPin size={28} color="black" /> : null}
       rightSection={
-        large ? null : (
-          <ActionIcon color="black" variant="transparent" type="submit">
-            <IconSearch size={20} />
-          </ActionIcon>
-        )
+        <ActionIcon color="black" variant="transparent" type="submit">
+          <IconSearch size={20} />
+        </ActionIcon>
       }
     />
   );

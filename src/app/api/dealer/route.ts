@@ -16,6 +16,7 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         locale: "de-DE",
         brands: [data.brands],
+        campagne: data.campagne,
         radius: data.distance || 50,
         address: null,
         coordinates: {

@@ -3,12 +3,12 @@ import { SegmentedControl } from "@mantine/core";
 import { IconBuildingStore, IconShoppingCart } from "@tabler/icons-react";
 import { useDealerContext } from "../context/dealerContext";
 
-export default function TypeSelect({ large }: { large?: boolean }) {
+export default function TypeSelect() {
   const { type, setType } = useDealerContext();
 
   return (
     <SegmentedControl
-      size={large ? "xl" : "md"}
+      size="md"
       value={type}
       onChange={(val) => setType(val as "retail" | "online")}
       data={[
@@ -18,11 +18,7 @@ export default function TypeSelect({ large }: { large?: boolean }) {
         return {
           value: i.value,
           label: (
-            <div
-              className={`flex justify-center items-center ${
-                large ? "gap-2" : "gap-1"
-              }`}
-            >
+            <div className="flex justify-center items-center gap-1">
               <i.icon />
               <p>{i.label}</p>
             </div>

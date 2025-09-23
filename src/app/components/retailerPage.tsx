@@ -3,6 +3,7 @@ import { ActionIcon, Button } from "@mantine/core";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { IconChevronRight, IconCurrentLocation } from "@tabler/icons-react";
 import { getDistance } from "geolib";
+import { useSearchParams } from "next/navigation";
 import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
@@ -28,6 +29,9 @@ export default function RetailerPage() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
   const { brand, search, submittedSearch } = useDealerContext();
+
+  const searchParams = useSearchParams();
+  const campagne = searchParams.get("campagne");
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSidebar, setShowSidebar] = useState(false);
@@ -149,6 +153,7 @@ export default function RetailerPage() {
       method: "POST",
       body: JSON.stringify({
         brands: brand,
+        campagne: campagne,
         latitude: latLng.lat() || location!.latitude,
         longitude: latLng.lng() || location!.longitude,
         distance: radius / 1000,
@@ -195,10 +200,10 @@ export default function RetailerPage() {
           showSidebar
             ? {
                 transform: "translateX(0)",
-                width: "420px",
+                width: "480px",
                 padding: "64px 16px 16px 16px",
               }
-            : { transform: "translateX(-420px)", width: "0" }
+            : { transform: "translateX(-480px)", width: "0" }
         }
       >
         {retailers.length > 0 ? (
