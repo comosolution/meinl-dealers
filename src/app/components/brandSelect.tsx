@@ -25,7 +25,7 @@ export default function BrandSelect() {
       <Combobox.Target>
         <InputBase
           tabIndex={0}
-          w={220}
+          w={210}
           size="md"
           className="flex-1"
           variant="filled"
@@ -50,9 +50,7 @@ export default function BrandSelect() {
                   className="inverted"
                 />
               </div>
-              <div>
-                <p>{selectedOption.label}</p>
-              </div>
+              <p>{selectedOption.label}</p>
             </div>
           ) : (
             <Input.Placeholder>Select brand</Input.Placeholder>

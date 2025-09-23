@@ -10,7 +10,7 @@ export default function Header() {
       <div className="place-self-start">
         <Logo />
       </div>
-      <div className="flex items-center gap-2 bg-[var(--background-subtle)]">
+      <div className="flex items-center gap-1 bg-[var(--background-subtle)]">
         <TypeSelect />
         <IconChevronRight size={16} />
         <BrandSelect />
