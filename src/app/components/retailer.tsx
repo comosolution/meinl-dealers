@@ -5,7 +5,6 @@ import {
   IconWorld,
   IconZoomScan,
 } from "@tabler/icons-react";
-import Image from "next/image";
 import { Dealer } from "../lib/interfaces";
 
 export function Retailer({
@@ -58,7 +57,28 @@ export function Retailer({
         {active && <p className="text-xs">{address}</p>}
       </header>
       {active && (
-        <>
+        <div>
+          <Button.Group>
+            {data.map(
+              (d, i) =>
+                d.address && (
+                  <Button
+                    key={i}
+                    size="xs"
+                    variant="transparent"
+                    color="black"
+                    component="a"
+                    href={d.href!}
+                    target="_blank"
+                    leftSection={<d.icon size={16} />}
+                    onClick={(e) => e.stopPropagation()}
+                    fullWidth
+                  >
+                    {d.label}
+                  </Button>
+                )
+            )}
+          </Button.Group>
           <Button.Group>
             <Button
               size="xs"
@@ -76,7 +96,7 @@ export function Retailer({
             </Button>
             <Button
               size="xs"
-              color="gray"
+              color="black"
               variant="light"
               leftSection={<IconZoomScan size={16} />}
               onClick={(e) => {
@@ -99,41 +119,7 @@ export function Retailer({
               View on map
             </Button>
           </Button.Group>
-          <div className="grid grid-cols-2 gap-2">
-            {retailer.brands.map((b, i) => (
-              <div key={i} className="flex gap-2 items-center">
-                <Image
-                  src={`/brands/${b.replaceAll(" ", "-")}.png`}
-                  width={16}
-                  height={16}
-                  alt={b}
-                  className="inverted"
-                />
-                <p className="text-xs tracking-tighter">{b}</p>
-              </div>
-            ))}
-          </div>
-          <Button.Group>
-            {data.map(
-              (d, i) =>
-                d.address && (
-                  <Button
-                    key={i}
-                    size="xs"
-                    variant="transparent"
-                    component="a"
-                    href={d.href!}
-                    target="_blank"
-                    leftSection={<d.icon size={16} />}
-                    onClick={(e) => e.stopPropagation()}
-                    fullWidth
-                  >
-                    {d.label}
-                  </Button>
-                )
-            )}
-          </Button.Group>
-        </>
+        </div>
       )}
     </div>
   );

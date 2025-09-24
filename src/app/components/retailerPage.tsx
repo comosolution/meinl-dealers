@@ -271,6 +271,7 @@ export default function RetailerPage() {
           <ActionIcon
             size="input-sm"
             variant="light"
+            color="gray"
             onClick={() => setShowSidebar(!showSidebar)}
           >
             <IconChevronRight
