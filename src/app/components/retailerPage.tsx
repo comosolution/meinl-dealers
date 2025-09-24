@@ -190,6 +190,13 @@ export default function RetailerPage() {
     });
   }, [map, submittedSearch]);
 
+  useEffect(() => {
+    if (campagne && map) {
+      setTimeout(() => filterRetailers(), 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [campagne, map]);
+
   if (!isLoaded) return null;
 
   return (

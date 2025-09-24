@@ -44,7 +44,7 @@ export function Retailer({
       ref={innerRef}
       className={`flex flex-col gap-4 p-4 ${
         active ? "bg-[var(--background)] shadow-xl" : ""
-      } hover:bg-[var(--background)] cursor-pointer`}
+      } hover:bg-[var(--background)] cursor-pointer transition-all`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
     >
