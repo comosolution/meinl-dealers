@@ -13,17 +13,6 @@ import CitySelect from "./citySelect";
 import { Retailer } from "./retailer";
 import RetailerPin from "./retailerPin";
 
-const mapContainerStyle = {
-  width: "100%",
-  height: "100%",
-};
-
-const mapOptions = {
-  disableDefaultUI: true,
-  zoomControl: true,
-  styles: mapStyles,
-};
-
 export default function RetailerPage() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
@@ -40,7 +29,10 @@ export default function RetailerPage() {
   const [selectedRetailer, setSelectedRetailer] = useState("");
   const [location, setLocation] = useState<Location | null>(null);
   const [pendingFilter, setPendingFilter] = useState(false);
+
   const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const lastCenterRef = useRef<{ lat: number; lng: number } | null>(null);
+  const lastZoomRef = useRef<number | null>(null);
 
   const handleRetailerClick = (id: string, scroll?: boolean) => {
     if (selectedRetailer === id) {
@@ -82,6 +74,37 @@ export default function RetailerPage() {
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
+    }
+  };
+
+  const handleIdle = () => {
+    if (!map) return;
+
+    const newCenter = map.getCenter();
+    const newZoom = map.getZoom();
+    if (!newCenter || !newZoom) return;
+
+    const center = { lat: newCenter.lat(), lng: newCenter.lng() };
+
+    const lastCenter = lastCenterRef.current;
+    const lastZoom = lastZoomRef.current;
+
+    const centerChanged =
+      !lastCenter ||
+      lastCenter.lat !== center.lat ||
+      lastCenter.lng !== center.lng;
+    const zoomChanged = lastZoom !== null && lastZoom !== newZoom;
+
+    if (centerChanged || zoomChanged) {
+      setShowSearchButton(true);
+    }
+
+    lastCenterRef.current = center;
+    lastZoomRef.current = newZoom;
+
+    if (pendingFilter) {
+      filterRetailers();
+      setPendingFilter(false);
     }
   };
 
@@ -192,7 +215,7 @@ export default function RetailerPage() {
 
   useEffect(() => {
     if (campagne && map) {
-      setTimeout(() => filterRetailers(), 0);
+      setTimeout(() => filterRetailers(), 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campagne, map]);
@@ -279,20 +302,21 @@ export default function RetailerPage() {
           </div>
         )}
         <GoogleMap
-          mapContainerStyle={mapContainerStyle}
-          options={mapOptions}
+          mapContainerStyle={{
+            width: "100%",
+            height: "100%",
+          }}
+          options={{
+            disableDefaultUI: true,
+            zoomControl: true,
+            styles: mapStyles,
+          }}
           onLoad={(mapInstance) => {
             setMap(mapInstance);
             mapInstance.setCenter({ lat: 51.165691, lng: 10.451526 });
             mapInstance.setZoom(6.8);
           }}
-          onIdle={() => {
-            setShowSearchButton(true);
-            if (pendingFilter) {
-              filterRetailers();
-              setPendingFilter(false);
-            }
-          }}
+          onIdle={handleIdle}
         >
           {retailers.length > 0 &&
             retailers.map((retailer, index) => {
