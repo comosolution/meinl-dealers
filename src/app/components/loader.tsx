@@ -4,7 +4,7 @@ export default function Loader() {
   return (
     <div className="w-screen h-screen flex justify-center items-center p-8">
       <Image
-        src="/logo.svg"
+        src="/logo_b.svg"
         alt="Meinl Logo"
         width={48}
         height={48}
