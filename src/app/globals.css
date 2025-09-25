@@ -51,6 +51,14 @@ img.inverted {
   color: var(--mantine-color-dimmed);
 }
 
+.gradient {
+  background-image: linear-gradient(
+    to bottom,
+    var(--background) 0%,
+    var(--background-subtle) 100%
+  );
+}
+
 .mantine-Input-input.mantine-InputBase-input {
   border-color: transparent;
 }

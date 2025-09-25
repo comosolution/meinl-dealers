@@ -225,7 +225,7 @@ export default function RetailerPage() {
   return (
     <main className="relative flex">
       <div
-        className="flex flex-col gap-8 bg-gradient-to-b from-[var(--background)] to-[var(--background-subtle)] max-h-screen overflow-y-scroll transition-all duration-300"
+        className="flex flex-col gap-8 gradient max-h-screen overflow-y-scroll transition-all duration-300"
         style={
           showSidebar
             ? {
