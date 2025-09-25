@@ -9,7 +9,7 @@ export default function CitySelect() {
   return (
     <Autocomplete
       variant="filled"
-      size="sm"
+      size="md"
       placeholder="Enter your city"
       className="flex-1"
       styles={{ input: { background: "white" } }}

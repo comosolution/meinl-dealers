@@ -239,7 +239,7 @@ export default function RetailerPage() {
         <div className="flex flex-col">
           <form
             onSubmit={handleSearchSubmit}
-            className="flex items-center shadow-xl"
+            className="flex items-center shadow-lg"
           >
             <CitySelect />
           </form>
@@ -286,7 +286,7 @@ export default function RetailerPage() {
       <div className="relative w-full h-screen">
         <div className="absolute left-0 top-16 z-30 backdrop-blur-md">
           <ActionIcon
-            size="input-sm"
+            size="input-md"
             variant="light"
             color="gray"
             onClick={() => setShowSidebar(!showSidebar)}
