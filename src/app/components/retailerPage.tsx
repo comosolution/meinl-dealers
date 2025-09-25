@@ -23,7 +23,7 @@ export default function RetailerPage() {
   const campagne = searchParams.get("campagne");
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
   const [showSearchButton, setShowSearchButton] = useState(false);
   const [retailers, setRetailers] = useState<Dealer[]>([]);
   const [selectedRetailer, setSelectedRetailer] = useState("");
@@ -214,18 +214,18 @@ export default function RetailerPage() {
   }, [map, submittedSearch]);
 
   useEffect(() => {
-    if (campagne && map) {
+    if (map) {
       setTimeout(() => filterRetailers(), 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [campagne, map]);
+  }, [map]);
 
   if (!isLoaded) return null;
 
   return (
     <main className="relative flex">
       <div
-        className="bg-[var(--background-subtle)] max-h-screen overflow-y-scroll transition-all duration-300"
+        className="flex flex-col gap-8 bg-[var(--background-subtle)] max-h-screen overflow-y-scroll transition-all duration-300"
         style={
           showSidebar
             ? {
@@ -236,11 +236,27 @@ export default function RetailerPage() {
             : { transform: "translateX(-480px)", width: "0" }
         }
       >
+        <div className="flex flex-col gap-2">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="flex items-center shadow-md shadow-black/20"
+          >
+            <CitySelect />
+          </form>
+          <Button
+            variant="light"
+            color="black"
+            onClick={handleGetUserLocation}
+            leftSection={<IconCurrentLocation size={16} />}
+          >
+            Use current location
+          </Button>
+        </div>
         {retailers.length > 0 ? (
           <div className="w-full flex flex-col gap-2">
-            <h2 className="text-center">
+            <p className="text-xs text-center">
               {retailers.length} {pluralize("location", retailers.length)}
-            </h2>
+            </p>
             {retailers
               .sort(
                 (a, b) =>
@@ -282,19 +298,6 @@ export default function RetailerPage() {
             />
           </ActionIcon>
         </div>
-        <form
-          onSubmit={handleSearchSubmit}
-          className="absolute top-16 left-1/2 -translate-x-1/2 z-30 flex items-center shadow-md shadow-black/20"
-        >
-          <CitySelect />
-          <ActionIcon
-            color="black"
-            size="input-sm"
-            onClick={handleGetUserLocation}
-          >
-            <IconCurrentLocation size={20} />
-          </ActionIcon>
-        </form>
         {showSearchButton && (
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
             <Button size="xs" onClick={handleAreaSubmit}>

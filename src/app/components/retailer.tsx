@@ -57,28 +57,23 @@ export function Retailer({
         {active && <p className="text-xs">{address}</p>}
       </header>
       {active && (
-        <div>
-          <Button.Group>
+        <>
+          <div className="flex flex-col">
             {data.map(
               (d, i) =>
                 d.address && (
-                  <Button
+                  <a
                     key={i}
-                    size="xs"
-                    variant="transparent"
-                    color="black"
-                    component="a"
                     href={d.href!}
                     target="_blank"
-                    leftSection={<d.icon size={16} />}
                     onClick={(e) => e.stopPropagation()}
-                    fullWidth
+                    className="link text-xs"
                   >
                     {d.label}
-                  </Button>
+                  </a>
                 )
             )}
-          </Button.Group>
+          </div>
           <Button.Group>
             <Button
               size="xs"
@@ -119,7 +114,7 @@ export function Retailer({
               View on map
             </Button>
           </Button.Group>
-        </div>
+        </>
       )}
     </div>
   );
