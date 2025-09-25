@@ -225,7 +225,7 @@ export default function RetailerPage() {
   return (
     <main className="relative flex">
       <div
-        className="flex flex-col gap-8 bg-[var(--background-subtle)] max-h-screen overflow-y-scroll transition-all duration-300"
+        className="flex flex-col gap-8 bg-gradient-to-b from-[var(--background)] to-[var(--background-subtle)] max-h-screen overflow-y-scroll transition-all duration-300"
         style={
           showSidebar
             ? {
@@ -236,15 +236,15 @@ export default function RetailerPage() {
             : { transform: "translateX(-480px)", width: "0" }
         }
       >
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col">
           <form
             onSubmit={handleSearchSubmit}
-            className="flex items-center shadow-md shadow-black/20"
+            className="flex items-center shadow-xl"
           >
             <CitySelect />
           </form>
           <Button
-            variant="light"
+            variant="transparent"
             color="black"
             onClick={handleGetUserLocation}
             leftSection={<IconCurrentLocation size={16} />}
@@ -255,7 +255,8 @@ export default function RetailerPage() {
         {retailers.length > 0 ? (
           <div className="w-full flex flex-col gap-2">
             <p className="text-xs text-center">
-              {retailers.length} {pluralize("location", retailers.length)}
+              {retailers.length} retail{" "}
+              {pluralize("location", retailers.length)}
             </p>
             {retailers
               .sort(
