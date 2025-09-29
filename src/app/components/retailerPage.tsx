@@ -227,12 +227,11 @@ export default function RetailerPage() {
       <div
         className={`${
           showSidebar ? "w-full md:w-[480px]" : "w-0"
-        } flex flex-col gap-8 gradient max-h-screen overflow-y-scroll transition-all duration-300`}
+        } p-4 pt-26 md:pt-16 flex flex-col gap-8 gradient max-h-screen overflow-y-scroll transition-all duration-300`}
         style={
           showSidebar
             ? {
                 transform: "translateX(0)",
-                padding: "64px 16px 16px 16px",
               }
             : { transform: "translateX(-480px)" }
         }
