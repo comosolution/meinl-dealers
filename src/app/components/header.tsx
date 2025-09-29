@@ -38,14 +38,12 @@ export default function Header() {
         </div>
       )}
       <header className="flex flex-col md:flex-row justify-between md:items-center gap-2 px-4 py-2">
-        <div className="md:place-self-start">
-          <Logo />
-        </div>
         <div className="flex items-center gap-1 bg-[var(--background-subtle)]">
           <TypeSelect />
           <IconChevronRight size={16} />
           <BrandSelect />
         </div>
+        <Logo />
       </header>
     </div>
   );

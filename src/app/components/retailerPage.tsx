@@ -6,6 +6,7 @@ import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { Dealer, Location } from "../lib/interfaces";
+import { getZoomLevel } from "../lib/utils";
 import { mapStyles } from "../styles/map";
 import CitySelect from "./citySelect";
 import { Retailer } from "./retailer";
@@ -177,11 +178,18 @@ export default function RetailerPage() {
   }, [map, submittedSearch]);
 
   useEffect(() => {
+    if (!map || !distance) return;
+
+    const zoom = getZoomLevel(Number(distance));
+    map.setZoom(zoom);
+  }, [distance, map]);
+
+  useEffect(() => {
     if (map) {
       setTimeout(() => filterRetailers(), 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, brand, campaign]);
+  }, [map, brand, campaign, distance]);
 
   if (!isLoaded) return null;
 
