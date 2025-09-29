@@ -40,7 +40,7 @@ export default function RetailerPin({
             width: "100%",
             height: "100%",
             backgroundColor:
-              retailer.kdnr === selectedRetailer ? "#ef233c" : "#000000",
+              retailer.kdnr === selectedRetailer ? "var(--main)" : "#000000",
           }}
         >
           <Image src="/logo_w.svg" alt="Meinl Logo" width={20} height={20} />
@@ -55,7 +55,7 @@ export default function RetailerPin({
             borderLeft: "10px solid transparent",
             borderRight: "10px solid transparent",
             borderTop: `8px solid ${
-              retailer.kdnr === selectedRetailer ? "#ef233c" : "#000000"
+              retailer.kdnr === selectedRetailer ? "var(--main)" : "#000000"
             }`,
           }}
         />

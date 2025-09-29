@@ -1,11 +1,23 @@
 "use client";
 import { Combobox, Input, InputBase, useCombobox } from "@mantine/core";
 import Image from "next/image";
+import { useEffect } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { brands } from "../data/brands";
 
 export default function BrandSelect() {
   const { brand, setBrand } = useDealerContext();
+
+  useEffect(() => {
+    if (brand) {
+      brands.forEach((b) =>
+        document.body.classList.toggle(
+          b.value.replaceAll(" ", "-").replaceAll("&", "").toLowerCase(),
+          b.value.replaceAll(" ", "-") === brand.replaceAll(" ", "-")
+        )
+      );
+    }
+  }, [brand]);
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),

@@ -12,6 +12,30 @@
   --filter-inverted: invert(1) brightness(0.9) contrast(1.2);
 }
 
+.meinl-cymbals {
+  --main: #d2934d;
+}
+
+.meinl-stick--brush {
+  --main: #6d492e;
+}
+
+.meinl-sonic-energy {
+  --main: #d2942f;
+}
+
+.nino-percussion {
+  --main: #52ae32;
+}
+
+.ortega {
+  --main: #f49600;
+}
+
+.ibanez {
+  --main: #303030;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
