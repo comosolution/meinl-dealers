@@ -22,3 +22,13 @@ export interface Location {
   longitude: number;
   distance?: number;
 }
+
+export interface Campaign {
+  id: number;
+  brand: string;
+  title: string;
+  description: string;
+  start: string | null;
+  end: string | null;
+  dealers: number[];
+}

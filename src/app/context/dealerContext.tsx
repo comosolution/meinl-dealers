@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import { brands } from "../data/brands";
+import { Campaign } from "../lib/interfaces";
 
 type DealerMode = "retail" | "online";
 
@@ -16,6 +17,8 @@ interface DealerContextType {
   setType: (type: DealerMode) => void;
   brand: string | null;
   setBrand: (brand: string | null) => void;
+  campaign: Campaign | undefined;
+  setCampaign: (campaign: Campaign) => void;
   search: string;
   setSearch: (search: string) => void;
   submittedSearch: string | null;
@@ -27,11 +30,20 @@ const DealerContext = createContext<DealerContextType | undefined>(undefined);
 export function DealerProvider({ children }: { children: ReactNode }) {
   const [type, setType] = useState<DealerMode>("retail");
   const [brand, setBrand] = useState<string | null>(brands[0].value);
+  const [campaign, setCampaign] = useState<Campaign>();
   const [search, setSearch] = useState<string>("");
   const [submittedSearch, setSubmittedSearch] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const brandParam = searchParams.get("brand");
+  const campaignParam =
+    searchParams.get("campagne") || searchParams.get("campaign");
+
+  const getCampaignDetails = async () => {
+    const res = await fetch(`/api/campaign/${campaignParam}`);
+    const data = await res.json();
+    setCampaign(data[0]);
+  };
 
   useEffect(() => {
     if (brandParam) {
@@ -42,6 +54,13 @@ export function DealerProvider({ children }: { children: ReactNode }) {
     }
   }, [brandParam]);
 
+  useEffect(() => {
+    if (campaignParam) {
+      getCampaignDetails();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [campaignParam]);
+
   return (
     <DealerContext.Provider
       value={{
@@ -49,6 +68,8 @@ export function DealerProvider({ children }: { children: ReactNode }) {
         setType,
         brand,
         setBrand,
+        campaign,
+        setCampaign,
         search,
         setSearch,
         submittedSearch,

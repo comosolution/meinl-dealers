@@ -3,7 +3,6 @@ import { ActionIcon, Button } from "@mantine/core";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { IconChevronRight, IconCurrentLocation } from "@tabler/icons-react";
 import { getDistance } from "geolib";
-import { useSearchParams } from "next/navigation";
 import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
@@ -17,10 +16,7 @@ export default function RetailerPage() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
-  const { brand, search, submittedSearch } = useDealerContext();
-
-  const searchParams = useSearchParams();
-  const campagne = searchParams.get("campagne");
+  const { brand, campaign, search, submittedSearch } = useDealerContext();
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSidebar, setShowSidebar] = useState(true);
@@ -176,7 +172,7 @@ export default function RetailerPage() {
       method: "POST",
       body: JSON.stringify({
         brands: brand,
-        campagne: campagne,
+        campagne: campaign?.id,
         latitude: latLng.lat() || location!.latitude,
         longitude: latLng.lng() || location!.longitude,
         distance: radius / 1000,
@@ -225,9 +221,9 @@ export default function RetailerPage() {
   return (
     <main className="relative flex flex-col md:flex-row">
       <div
-        className={`${
-          showSidebar ? "w-full md:w-[480px]" : "w-0"
-        } p-4 pt-26 md:pt-16 flex flex-col gap-8 gradient max-h-screen overflow-y-scroll transition-all duration-300`}
+        className={`${showSidebar ? "w-full md:w-[480px]" : "w-0"} p-4 ${
+          campaign ? "pt-40 md:pt-28" : "pt-28 md:pt-16"
+        }  flex flex-col gap-8 gradient max-h-screen overflow-y-scroll transition-all duration-300`}
         style={
           showSidebar
             ? {
@@ -284,7 +280,11 @@ export default function RetailerPage() {
         )}
       </div>
       <div className="relative w-full h-screen">
-        <div className="hidden md:block absolute left-0 top-16 z-30 backdrop-blur-md">
+        <div
+          className={`hidden md:block absolute left-0 ${
+            campaign ? "top-28" : "top-16"
+          } z-30 backdrop-blur-md`}
+        >
           <ActionIcon
             size="input-md"
             variant="light"
