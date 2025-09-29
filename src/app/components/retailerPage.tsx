@@ -214,7 +214,7 @@ export default function RetailerPage() {
       setTimeout(() => filterRetailers(), 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, brand]);
+  }, [map, brand, campaign]);
 
   if (!isLoaded) return null;
 
