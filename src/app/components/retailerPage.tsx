@@ -223,17 +223,18 @@ export default function RetailerPage() {
   if (!isLoaded) return null;
 
   return (
-    <main className="relative flex">
+    <main className="relative flex flex-col md:flex-row">
       <div
-        className="flex flex-col gap-8 gradient max-h-screen overflow-y-scroll transition-all duration-300"
+        className={`${
+          showSidebar ? "w-full md:w-[480px]" : "w-0"
+        } flex flex-col gap-8 gradient max-h-screen overflow-y-scroll transition-all duration-300`}
         style={
           showSidebar
             ? {
                 transform: "translateX(0)",
-                width: "480px",
                 padding: "64px 16px 16px 16px",
               }
-            : { transform: "translateX(-480px)", width: "0" }
+            : { transform: "translateX(-480px)" }
         }
       >
         <div className="flex flex-col">
@@ -284,7 +285,7 @@ export default function RetailerPage() {
         )}
       </div>
       <div className="relative w-full h-screen">
-        <div className="absolute left-0 top-16 z-30 backdrop-blur-md">
+        <div className="hidden md:block absolute left-0 top-16 z-30 backdrop-blur-md">
           <ActionIcon
             size="input-md"
             variant="light"
