@@ -1,5 +1,6 @@
 import { OverlayView } from "@react-google-maps/api";
 import Image from "next/image";
+import { useDealerContext } from "../context/dealerContext";
 import { Dealer } from "../lib/interfaces";
 
 export default function RetailerPin({
@@ -11,6 +12,8 @@ export default function RetailerPin({
   selectedRetailer: string;
   handleRetailerClick: (id: string, scroll?: boolean) => void;
 }) {
+  const { brand } = useDealerContext();
+
   if (!retailer.coordinates.latitude || !retailer.coordinates.longitude)
     return null;
 
@@ -29,8 +32,8 @@ export default function RetailerPin({
         style={{
           position: "relative",
           zIndex: retailer.kdnr === selectedRetailer ? 20 : 10,
-          width: 20,
-          height: 20,
+          width: 36,
+          height: 36,
           transform: "translate(-50%, -100%)",
           cursor: "pointer",
         }}
@@ -39,11 +42,22 @@ export default function RetailerPin({
           style={{
             width: "100%",
             height: "100%",
+            padding: "2px",
             backgroundColor:
               retailer.kdnr === selectedRetailer ? "var(--main)" : "#000000",
           }}
+          className="flex items-center"
         >
-          <Image src="/logo_w.svg" alt="Meinl Logo" width={20} height={20} />
+          <Image
+            src={
+              brand
+                ? `/brands/${brand.replaceAll(" ", "-").toUpperCase()}.png`
+                : "/logo_w.svg"
+            }
+            alt="Meinl Logo"
+            width={32}
+            height={32}
+          />
         </div>
         <div
           style={{
@@ -52,8 +66,8 @@ export default function RetailerPin({
             left: 0,
             width: 0,
             height: 0,
-            borderLeft: "10px solid transparent",
-            borderRight: "10px solid transparent",
+            borderLeft: "18px solid transparent",
+            borderRight: "18px solid transparent",
             borderTop: `8px solid ${
               retailer.kdnr === selectedRetailer ? "var(--main)" : "#000000"
             }`,
