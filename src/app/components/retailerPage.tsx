@@ -1,8 +1,7 @@
 "use client";
-import { ActionIcon, Button } from "@mantine/core";
+import { ActionIcon, Button, Select } from "@mantine/core";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { IconChevronRight, IconCurrentLocation } from "@tabler/icons-react";
-import { getDistance } from "geolib";
 import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
@@ -25,6 +24,7 @@ export default function RetailerPage() {
   const [selectedRetailer, setSelectedRetailer] = useState("");
   const [location, setLocation] = useState<Location | null>(null);
   const [pendingFilter, setPendingFilter] = useState(false);
+  const [distance, setDistance] = useState<string | null>("500000");
 
   const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const lastCenterRef = useRef<{ lat: number; lng: number } | null>(null);
@@ -104,37 +104,6 @@ export default function RetailerPage() {
     }
   };
 
-  const getRadiusFromMap = (map: google.maps.Map) => {
-    const bounds = map.getBounds();
-    if (!bounds) return null;
-
-    const center = bounds.getCenter();
-    const ne = bounds.getNorthEast();
-    const sw = bounds.getSouthWest();
-
-    const latNorth = getDistance(
-      { latitude: center.lat(), longitude: center.lng() },
-      { latitude: ne.lat(), longitude: center.lng() }
-    );
-    const latSouth = getDistance(
-      { latitude: center.lat(), longitude: center.lng() },
-      { latitude: sw.lat(), longitude: center.lng() }
-    );
-    const lngEast = getDistance(
-      { latitude: center.lat(), longitude: center.lng() },
-      { latitude: center.lat(), longitude: ne.lng() }
-    );
-    const lngWest = getDistance(
-      { latitude: center.lat(), longitude: center.lng() },
-      { latitude: center.lat(), longitude: sw.lng() }
-    );
-
-    const halfHeight = Math.min(latNorth, latSouth);
-    const halfWidth = Math.min(lngEast, lngWest);
-
-    return Math.min(halfHeight, halfWidth);
-  };
-
   const handleSearchSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     if (!map) return;
@@ -166,8 +135,6 @@ export default function RetailerPage() {
     const latLng = map.getCenter();
     if (!latLng) return;
 
-    const radius = getRadiusFromMap(map) || 30000;
-
     const res = await fetch("/api/dealer", {
       method: "POST",
       body: JSON.stringify({
@@ -175,7 +142,7 @@ export default function RetailerPage() {
         campagne: campaign?.id,
         latitude: latLng.lat() || location!.latitude,
         longitude: latLng.lng() || location!.longitude,
-        distance: radius / 1000,
+        distance: +distance! / 1000,
       }),
     });
     const dealers = await res.json();
@@ -239,14 +206,29 @@ export default function RetailerPage() {
           >
             <CitySelect />
           </form>
-          <Button
-            variant="transparent"
-            color="black"
-            onClick={handleGetUserLocation}
-            leftSection={<IconCurrentLocation size={16} />}
-          >
-            Use current location
-          </Button>
+          <div className="flex justify-between">
+            <Button
+              variant="transparent"
+              color="black"
+              onClick={handleGetUserLocation}
+              leftSection={<IconCurrentLocation size={16} />}
+            >
+              Use current location
+            </Button>
+            <Select
+              variant="unstyled"
+              data={[
+                { label: "100km", value: "100000" },
+                { label: "200km", value: "200000" },
+                { label: "500km", value: "500000" },
+              ]}
+              value={distance}
+              onChange={setDistance}
+              w={80}
+              withCheckIcon={false}
+              allowDeselect={false}
+            />
+          </div>
         </div>
         {retailers.length > 0 ? (
           <div className="w-full flex flex-col gap-2">
@@ -271,7 +253,6 @@ export default function RetailerPage() {
                   map={map}
                 />
               ))}
-            {retailers.length < 1 && <></>}
           </div>
         ) : (
           <div className="h-full flex justify-center items-center">
