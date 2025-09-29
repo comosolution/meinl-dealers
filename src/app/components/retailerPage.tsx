@@ -340,7 +340,7 @@ export default function RetailerPage() {
               icon={{
                 path: google.maps.SymbolPath.CIRCLE,
                 scale: 6,
-                fillColor: "#ef233c",
+                fillColor: "#000000",
                 fillOpacity: 1,
                 strokeColor: "#ffffff",
                 strokeWeight: 1,
