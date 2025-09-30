@@ -37,7 +37,7 @@ export default function Header() {
           </Marquee>
         </div>
       )}
-      <header className="flex flex-col md:flex-row justify-between md:items-center gap-2 px-4 py-2">
+      <header className="flex flex-col-reverse md:flex-row justify-between md:items-center gap-2 px-4 py-2">
         <div className="flex items-center gap-1 bg-[var(--background-subtle)]">
           <TypeSelect />
           <IconChevronRight size={16} />

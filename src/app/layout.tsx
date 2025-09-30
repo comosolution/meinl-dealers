@@ -1,5 +1,7 @@
 import { createTheme, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import { Notifications } from "@mantine/notifications";
+import "@mantine/notifications/styles.css";
 import type { Metadata } from "next";
 import { Titillium_Web } from "next/font/google";
 import { Suspense } from "react";
@@ -63,6 +65,7 @@ export default function RootLayout({
         <Suspense>
           <MantineProvider theme={theme}>
             <DealerProvider>
+              <Notifications />
               <App>{children}</App>
             </DealerProvider>
           </MantineProvider>

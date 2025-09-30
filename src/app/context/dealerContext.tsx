@@ -1,4 +1,8 @@
 "use client";
+import { Button } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { IconRefresh } from "@tabler/icons-react";
+import { formatDistance, isAfter, isBefore } from "date-fns";
 import { useSearchParams } from "next/navigation";
 import {
   createContext,
@@ -60,6 +64,74 @@ export function DealerProvider({ children }: { children: ReactNode }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaignParam]);
+
+  useEffect(() => {
+    if (!campaign) return;
+
+    setBrand(campaign.brand);
+
+    const now = new Date();
+    const start = campaign.start ? new Date(campaign.start) : null;
+    const end = campaign.end ? new Date(campaign.end) : null;
+
+    const action = (
+      <Button
+        size="xs"
+        color="black"
+        variant="light"
+        mt={8}
+        leftSection={<IconRefresh size={12} />}
+        onClick={() => {
+          setCampaign(undefined);
+          notifications.hide(`campaign-${campaignParam}`);
+        }}
+      >
+        Show all {campaign.brand} dealers
+      </Button>
+    );
+
+    if (start && isAfter(start, now)) {
+      notifications.show({
+        id: `campaign-${campaignParam}`,
+        color: "black",
+        title: campaign.title,
+        message: (
+          <>
+            <p>
+              This campaign will start{" "}
+              {formatDistance(start, now, { addSuffix: true })}. Please come
+              back later.
+            </p>
+            {action}
+          </>
+        ),
+        position: "top-right",
+        autoClose: false,
+      });
+      return;
+    }
+
+    if (end && isBefore(end, now)) {
+      notifications.show({
+        id: `campaign-${campaignParam}`,
+        color: "black",
+        title: campaign.title,
+        message: (
+          <>
+            <p>
+              This campaign ended{" "}
+              {formatDistance(end, now, { addSuffix: true })}.
+            </p>
+            {action}
+          </>
+        ),
+        position: "top-right",
+        autoClose: false,
+      });
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [campaign]);
 
   return (
     <DealerContext.Provider
