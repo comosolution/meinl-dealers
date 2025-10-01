@@ -33,7 +33,7 @@ const DealerContext = createContext<DealerContextType | undefined>(undefined);
 
 export function DealerProvider({ children }: { children: ReactNode }) {
   const [type, setType] = useState<DealerMode>("retail");
-  const [brand, setBrand] = useState<string | null>(brands[0].value);
+  const [brand, setBrand] = useState<string | null>(brands[0]);
   const [campaign, setCampaign] = useState<Campaign>();
   const [search, setSearch] = useState<string>("");
   const [submittedSearch, setSubmittedSearch] = useState<string | null>(null);
@@ -52,8 +52,7 @@ export function DealerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (brandParam) {
       setBrand(
-        brands.find((b) => b.value === brandParam?.replaceAll("-", " "))
-          ?.value || brands[0].value
+        brands.find((b) => b === brandParam?.replaceAll("-", " ")) || brands[0]
       );
     }
   }, [brandParam]);

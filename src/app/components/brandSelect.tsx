@@ -12,8 +12,8 @@ export default function BrandSelect() {
     if (brand) {
       brands.forEach((b) =>
         document.body.classList.toggle(
-          b.value.replaceAll(" ", "-").replaceAll("&", "").toLowerCase(),
-          b.value.replaceAll(" ", "-") === brand.replaceAll(" ", "-")
+          b.replaceAll(" ", "-").replaceAll("&", "").toLowerCase(),
+          b.replaceAll(" ", "-") === brand.replaceAll(" ", "-")
         )
       );
     }
@@ -23,7 +23,7 @@ export default function BrandSelect() {
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
 
-  const selectedOption = brands.find((b) => b.value === brand);
+  const selectedOption = brands.find((b) => b === brand);
   const size = 24;
 
   return (
@@ -53,16 +53,16 @@ export default function BrandSelect() {
                 style={{ width: `${size}px`, height: `${size}px` }}
               >
                 <Image
-                  src={`/brands/${selectedOption.value
+                  src={`/brands/${selectedOption
                     .replaceAll(" ", "-")
                     .toUpperCase()}.png`}
                   fill
-                  alt={selectedOption.label}
+                  alt={selectedOption}
                   style={{ objectFit: "contain" }}
                   className="inverted"
                 />
               </div>
-              <p className="hidden sm:block">{selectedOption.label}</p>
+              <p className="hidden sm:block">{selectedOption}</p>
             </div>
           ) : (
             <Input.Placeholder>Select brand</Input.Placeholder>
@@ -72,18 +72,16 @@ export default function BrandSelect() {
       <Combobox.Dropdown>
         <Combobox.Options>
           {brands.map((b) => (
-            <Combobox.Option value={b.value} key={b.value}>
+            <Combobox.Option value={b} key={b}>
               <div className="flex gap-4 items-center">
                 <Image
-                  src={`/brands/${b.value
-                    .replaceAll(" ", "-")
-                    .toUpperCase()}.png`}
+                  src={`/brands/${b.replaceAll(" ", "-").toUpperCase()}.png`}
                   width={size}
                   height={size}
-                  alt={b.label}
+                  alt={b}
                   className="inverted"
                 />
-                <p>{b.label}</p>
+                <p>{b}</p>
               </div>
             </Combobox.Option>
           ))}

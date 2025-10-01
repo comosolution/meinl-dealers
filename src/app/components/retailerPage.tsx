@@ -23,9 +23,12 @@ export default function RetailerPage() {
   const [showSearchButton, setShowSearchButton] = useState(false);
   const [retailers, setRetailers] = useState<Dealer[]>([]);
   const [selectedRetailer, setSelectedRetailer] = useState("");
-  const [location, setLocation] = useState<Location | null>(null);
+  const [location, setLocation] = useState<Location | null>({
+    latitude: 49.6096464,
+    longitude: 10.6364508,
+  });
   const [pendingFilter, setPendingFilter] = useState(false);
-  const [distance, setDistance] = useState<string | null>("500000");
+  const [distance, setDistance] = useState<string | null>("100000");
 
   const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const lastCenterRef = useRef<{ lat: number; lng: number } | null>(null);
@@ -308,8 +311,8 @@ export default function RetailerPage() {
           }}
           onLoad={(mapInstance) => {
             setMap(mapInstance);
-            mapInstance.setCenter({ lat: 51.165691, lng: 10.451526 });
-            mapInstance.setZoom(6.8);
+            mapInstance.setCenter({ lat: 49.6096464, lng: 10.6364508 });
+            mapInstance.setZoom(9);
           }}
           onIdle={handleIdle}
         >
