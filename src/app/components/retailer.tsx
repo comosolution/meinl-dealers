@@ -98,6 +98,11 @@ export function Retailer({
               leftSection={<IconZoomScan size={16} />}
               onClick={(e) => {
                 e.stopPropagation();
+                const mapEl = document.getElementById("map");
+                if (mapEl) {
+                  mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+
                 if (!map) return;
                 if (
                   !retailer.coordinates.latitude ||
