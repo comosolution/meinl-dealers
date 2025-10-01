@@ -7,7 +7,7 @@ export default function OnlinePage() {
   );
 
   return (
-    <div className="mt-20 p-4">
+    <div className="mt-28 md:mt-24 p-4">
       <div className="fixed left-4 top-1/2 -translate-y-1/2 flex flex-col gap-1 text-sm">
         {existingLetters.map((letter) => (
           <button
@@ -24,7 +24,7 @@ export default function OnlinePage() {
           </button>
         ))}
       </div>
-      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 ml-12">
+      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mx-8">
         {online.map((shop, index) => (
           <a
             key={index}
