@@ -60,7 +60,11 @@ export default function OnlinePage() {
             <a
               key={index}
               id={`letter-${retailer.name1[0].toUpperCase()}`}
-              href={retailer.www}
+              href={
+                retailer.www.startsWith("http")
+                  ? retailer.www
+                  : `https://${retailer.www}`
+              }
               target="_blank"
               className="flex flex-col items-center gap-2 px-4 py-8 group hover:shadow-xl transition-all"
             >
