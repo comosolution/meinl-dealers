@@ -5,8 +5,8 @@ export const brands = [
   { label: "MEINL Sonic Energy", value: "Meinl Sonic Energy" },
   { label: "Nino Percussion", value: "Nino Percussion" },
   { label: "Ortega", value: "Ortega" },
-  { label: "Ibanez", value: "Ibanez" },
-  { label: "TAMA", value: "Tama" },
-  { label: "Hardcase", value: "Hardcase" },
-  { label: "Backun", value: "Backun" },
+  // { label: "Ibanez", value: "Ibanez" },
+  // { label: "TAMA", value: "Tama" },
+  // { label: "Hardcase", value: "Hardcase" },
+  // { label: "Backun", value: "Backun" },
 ];
