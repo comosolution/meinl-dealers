@@ -147,6 +147,7 @@ export default function RetailerPage() {
         latitude: latLng.lat() || location!.latitude,
         longitude: latLng.lng() || location!.longitude,
         distance: +distance! / 1000,
+        type: 1,
       }),
     });
     const dealers = await res.json();

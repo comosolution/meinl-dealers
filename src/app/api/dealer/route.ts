@@ -18,12 +18,12 @@ export async function POST(req: Request) {
       brands: [data.brands],
       campagne: data.campagne,
       radius: data.distance || 50,
-      address: null,
       coordinates: {
         latitude: data.latitude,
         longitude: data.longitude,
         distance: 0.0,
       },
+      type: data.type,
     }),
   });
   const item = await res.json();
