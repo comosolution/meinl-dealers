@@ -33,7 +33,6 @@ export default function BrandSelect() {
         setBrand(val);
         combobox.closeDropdown();
       }}
-      disabled
     >
       <Combobox.Target>
         <InputBase
