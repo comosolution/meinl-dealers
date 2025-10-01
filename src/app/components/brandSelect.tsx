@@ -1,6 +1,5 @@
 "use client";
 import { Combobox, Input, InputBase, useCombobox } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useDealerContext } from "../context/dealerContext";
@@ -8,7 +7,6 @@ import { brands } from "../data/brands";
 
 export default function BrandSelect() {
   const { brand, setBrand } = useDealerContext();
-  const isMobile = useMediaQuery("(max-width: 620px)");
 
   useEffect(() => {
     if (brand) {
