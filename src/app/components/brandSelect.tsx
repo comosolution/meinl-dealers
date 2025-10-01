@@ -1,5 +1,6 @@
 "use client";
 import { Combobox, Input, InputBase, useCombobox } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useDealerContext } from "../context/dealerContext";
@@ -7,6 +8,7 @@ import { brands } from "../data/brands";
 
 export default function BrandSelect() {
   const { brand, setBrand } = useDealerContext();
+  const isMobile = useMediaQuery("(max-width: 620px)");
 
   useEffect(() => {
     if (brand) {
@@ -33,6 +35,7 @@ export default function BrandSelect() {
         setBrand(val);
         combobox.closeDropdown();
       }}
+      disabled
     >
       <Combobox.Target>
         <InputBase
@@ -62,7 +65,7 @@ export default function BrandSelect() {
                   className="inverted"
                 />
               </div>
-              <p>{selectedOption.label}</p>
+              <p className="hidden sm:block">{selectedOption.label}</p>
             </div>
           ) : (
             <Input.Placeholder>Select brand</Input.Placeholder>

@@ -221,7 +221,7 @@ export default function RetailerPage() {
               onClick={handleGetUserLocation}
               leftSection={<IconCurrentLocation size={16} />}
             >
-              Use current location
+              Use my location
             </Button>
             <Select
               variant="unstyled"

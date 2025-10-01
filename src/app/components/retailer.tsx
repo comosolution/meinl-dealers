@@ -43,6 +43,8 @@ export function Retailer({
       ref={innerRef}
       className={`flex flex-col gap-4 p-4 ${
         active ? "bg-[var(--background)] shadow-xl" : ""
+      } ${
+        retailer.kdnr === "49625" ? "border border-[var(--main)]" : ""
       } hover:bg-[var(--background)] cursor-pointer transition-all`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}

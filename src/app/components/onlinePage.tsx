@@ -24,7 +24,7 @@ export default function OnlinePage() {
           </button>
         ))}
       </div>
-      <main className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 ml-12">
+      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 ml-12">
         {online.map((shop, index) => (
           <a
             key={index}
