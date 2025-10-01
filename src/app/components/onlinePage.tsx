@@ -54,7 +54,7 @@ export default function OnlinePage() {
           </button>
         ))}
       </div>
-      <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mx-8">
+      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-16">
         {retailers.length > 0 &&
           retailers.map((retailer, index) => (
             <a
@@ -66,7 +66,7 @@ export default function OnlinePage() {
                   : `https://${retailer.www}`
               }
               target="_blank"
-              className="flex flex-col items-center gap-2 px-4 py-8 group hover:shadow-xl transition-all"
+              className="flex flex-col hover:text-[var(--main)] transition-all"
             >
               {/* <div
               className="relative overflow-hidden"
@@ -80,13 +80,8 @@ export default function OnlinePage() {
                 className="grayscale-100 group-hover:grayscale-0 transition-all"
               />
             </div> */}
-              <div className="flex flex-col items-center text-center">
-                <h2>{retailer.name1}</h2>
-                <p className="text-xs dimmed">
-                  {retailer.postalAddress.street}, {retailer.postalAddress.zip}{" "}
-                  {retailer.postalAddress.city}
-                </p>
-              </div>
+              <h2>{retailer.name1}</h2>
+              <p className="text-xs opacity-50">{retailer.www}</p>
             </a>
           ))}
       </main>
