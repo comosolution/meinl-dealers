@@ -32,6 +32,14 @@
   --main: #f49600;
 }
 
+.ibanez {
+  --main: #303030;
+}
+
+.tama {
+  --main: #d80c18;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
