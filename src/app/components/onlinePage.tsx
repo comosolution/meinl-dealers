@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
+import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
 
 export default function OnlinePage() {
@@ -54,7 +55,7 @@ export default function OnlinePage() {
           </button>
         ))}
       </div>
-      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-16">
+      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-16">
         {retailers.length > 0 &&
           retailers.map((retailer, index) => (
             <a
@@ -66,7 +67,11 @@ export default function OnlinePage() {
                   : `https://${retailer.www}`
               }
               target="_blank"
-              className="flex flex-col hover:text-[var(--main)] transition-all"
+              className={`flex flex-col ${
+                flagshipStores.includes(retailer.kdnr)
+                  ? "border border-[var(--main)]"
+                  : ""
+              } px-4 py-2 hover:text-[var(--main)] transition-all`}
             >
               {/* <div
               className="relative overflow-hidden"

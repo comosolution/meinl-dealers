@@ -9,3 +9,5 @@ export const brands = [
   "Hardcase",
   "Tama",
 ];
+
+export const flagshipStores = ["49625"];

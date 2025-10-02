@@ -11,7 +11,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { brands } from "../data/brands";
+import { brands } from "../data/data";
 import { Campaign } from "../lib/interfaces";
 
 type DealerMode = "retail" | "online";

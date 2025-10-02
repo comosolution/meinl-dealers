@@ -243,7 +243,7 @@ export default function RetailerPage() {
           </div>
         </div>
         {retailers.length > 0 ? (
-          <div className="w-full flex flex-col gap-2">
+          <div className="w-full flex flex-col gap-1 md:gap-2">
             <p className="text-xs text-center">
               {retailers.length} retail{" "}
               {pluralize("location", retailers.length)}

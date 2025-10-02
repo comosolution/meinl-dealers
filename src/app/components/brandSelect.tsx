@@ -1,12 +1,16 @@
 "use client";
 import { Combobox, Input, InputBase, useCombobox } from "@mantine/core";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useDealerContext } from "../context/dealerContext";
-import { brands } from "../data/brands";
+import { brands } from "../data/data";
 
 export default function BrandSelect() {
   const { brand, setBrand } = useDealerContext();
+
+  const searchParams = useSearchParams();
+  const brandParam = searchParams.has("brand");
 
   useEffect(() => {
     if (brand) {
@@ -33,6 +37,7 @@ export default function BrandSelect() {
         setBrand(val);
         combobox.closeDropdown();
       }}
+      disabled={brandParam}
     >
       <Combobox.Target>
         <InputBase

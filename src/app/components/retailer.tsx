@@ -5,6 +5,7 @@ import {
   IconWorld,
   IconZoomScan,
 } from "@tabler/icons-react";
+import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
 
 export function Retailer({
@@ -44,7 +45,9 @@ export function Retailer({
       className={`flex flex-col gap-4 p-4 ${
         active ? "bg-[var(--background)] shadow-xl" : ""
       } ${
-        retailer.kdnr === "49625" ? "border border-[var(--main)]" : ""
+        flagshipStores.includes(retailer.kdnr)
+          ? "border border-[var(--main)]"
+          : ""
       } hover:bg-[var(--background)] cursor-pointer transition-all`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
