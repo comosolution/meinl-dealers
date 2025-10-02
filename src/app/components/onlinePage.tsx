@@ -49,7 +49,7 @@ export default function OnlinePage() {
                 el.scrollIntoView({ behavior: "smooth", block: "center" });
               }
             }}
-            className="text-gray-400 hover:text-black cursor-pointer"
+            className="hover:text-[var(--main)] cursor-pointer"
           >
             {letter}
           </button>
