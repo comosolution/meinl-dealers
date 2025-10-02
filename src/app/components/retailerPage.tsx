@@ -241,7 +241,7 @@ export default function RetailerPage() {
         </div>
         {retailers.length > 0 ? (
           <div className="w-full flex flex-col gap-1 md:gap-2">
-            <p className="text-xs text-center">
+            <p className="text-xs dimmed text-center">
               {retailers.length} retail{" "}
               {pluralize("location", retailers.length)}
             </p>
@@ -265,7 +265,7 @@ export default function RetailerPage() {
           </div>
         ) : (
           <div className="h-full flex justify-center items-center">
-            <p className="text-xs dimmed small">No dealers found.</p>
+            <p className="text-xs dimmed text-center">No dealers found.</p>
           </div>
         )}
       </div>
