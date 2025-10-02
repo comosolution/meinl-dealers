@@ -25,7 +25,7 @@ export default function TypeSelect() {
           label: (
             <div className="flex justify-center items-center gap-1">
               <i.icon />
-              <p>{i.label}</p>
+              <p className="text-sm sm:text-base">{i.label}</p>
             </div>
           ),
         };
