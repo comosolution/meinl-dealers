@@ -200,7 +200,7 @@ export default function RetailerPage() {
   return (
     <main className="relative flex flex-col md:flex-row">
       <div
-        className={`${showSidebar ? "w-full md:w-[480px]" : "w-0"} p-4 ${
+        className={`${showSidebar ? "w-full md:w-[480px] p-4" : "w-0 p-0"}  ${
           campaign ? "pt-40 md:pt-28" : "pt-28 md:pt-16"
         }  flex flex-col gap-8 gradient max-h-screen overflow-y-scroll transition-all duration-300`}
         style={
