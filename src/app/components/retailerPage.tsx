@@ -212,10 +212,7 @@ export default function RetailerPage() {
         }
       >
         <div className="flex flex-col">
-          <form
-            onSubmit={handleSearchSubmit}
-            className="flex items-center shadow-lg"
-          >
+          <form onSubmit={handleSearchSubmit} className="flex items-center">
             <CitySelect />
           </form>
           <div className="flex justify-between">

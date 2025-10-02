@@ -90,3 +90,11 @@ img.inverted {
 .mantine-Input-input.mantine-InputBase-input {
   border-color: transparent;
 }
+
+.mantine-Autocomplete-input:focus {
+  border-color: var(--main);
+}
+
+.mantine-Autocomplete-option:where([data-combobox-selected]) {
+  background-color: var(--main);
+}

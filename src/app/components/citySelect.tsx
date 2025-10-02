@@ -8,11 +8,9 @@ export default function CitySelect() {
 
   return (
     <Autocomplete
-      variant="filled"
       size="md"
       placeholder="Enter city"
       className="flex-1"
-      styles={{ input: { background: "white" } }}
       w={400}
       value={search}
       onChange={setSearch}
