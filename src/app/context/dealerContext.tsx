@@ -14,7 +14,7 @@ import {
 import { brands } from "../data/data";
 import { Campaign } from "../lib/interfaces";
 
-type DealerMode = "retail" | "online";
+type DealerMode = "retail" | "online" | "flagship";
 
 interface DealerContextType {
   type: DealerMode;

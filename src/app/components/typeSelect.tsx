@@ -1,6 +1,10 @@
 "use client";
 import { SegmentedControl } from "@mantine/core";
-import { IconBuildingStore, IconShoppingCart } from "@tabler/icons-react";
+import {
+  IconBuildingStore,
+  IconShoppingCart,
+  IconStars,
+} from "@tabler/icons-react";
 import { useDealerContext } from "../context/dealerContext";
 
 export default function TypeSelect() {
@@ -14,6 +18,7 @@ export default function TypeSelect() {
       data={[
         { icon: IconBuildingStore, label: "Retail", value: "retail" },
         { icon: IconShoppingCart, label: "Online", value: "online" },
+        { icon: IconStars, label: "Flagship", value: "flagship" },
       ].map((i) => {
         return {
           value: i.value,

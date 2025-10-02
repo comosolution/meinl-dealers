@@ -4,7 +4,7 @@ import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
 
 export default function OnlinePage() {
-  const { brand, campaign } = useDealerContext();
+  const { brand, campaign, type } = useDealerContext();
   const [retailers, setRetailers] = useState<Dealer[]>([]);
   const [letters, setLetters] = useState<string[]>([]);
 
@@ -22,7 +22,10 @@ export default function OnlinePage() {
     });
 
     const dealers: Dealer[] = await res.json();
-    const sortedDealers = dealers.sort((a, b) =>
+    const filteredDealers = dealers.filter((d) =>
+      type === "flagship" ? flagshipStores.includes(d.kdnr) : true
+    );
+    const sortedDealers = filteredDealers.sort((a, b) =>
       a.name1.localeCompare(b.name1, "de", { sensitivity: "base" })
     );
 
@@ -35,26 +38,28 @@ export default function OnlinePage() {
   useEffect(() => {
     filterRetailers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [brand]);
+  }, [brand, type]);
 
   return (
     <div className="mt-28 md:mt-24 p-4">
-      <div className="fixed left-4 top-1/2 -translate-y-1/2 flex flex-col gap-1 text-sm">
-        {letters.map((letter) => (
-          <button
-            key={letter}
-            onClick={() => {
-              const el = document.getElementById(`letter-${letter}`);
-              if (el) {
-                el.scrollIntoView({ behavior: "smooth", block: "center" });
-              }
-            }}
-            className="hover:text-[var(--main)] cursor-pointer"
-          >
-            {letter}
-          </button>
-        ))}
-      </div>
+      {type !== "flagship" && (
+        <div className="fixed left-4 top-1/2 -translate-y-1/2 flex flex-col gap-1 text-sm">
+          {letters.map((letter) => (
+            <button
+              key={letter}
+              onClick={() => {
+                const el = document.getElementById(`letter-${letter}`);
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+              }}
+              className="hover:text-[var(--main)] cursor-pointer"
+            >
+              {letter}
+            </button>
+          ))}
+        </div>
+      )}
       <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-16">
         {retailers.length > 0 &&
           retailers.map((retailer, index) => (
@@ -67,11 +72,7 @@ export default function OnlinePage() {
                   : `https://${retailer.www}`
               }
               target="_blank"
-              className={`flex flex-col ${
-                flagshipStores.includes(retailer.kdnr)
-                  ? "border border-[var(--main)]"
-                  : ""
-              } px-4 py-2 hover:text-[var(--main)] transition-all`}
+              className="flex flex-col px-4 py-2 hover:text-[var(--main)] transition-all"
             >
               {/* <div
               className="relative overflow-hidden"
