@@ -2,10 +2,12 @@ import { Button } from "@mantine/core";
 import {
   IconPhone,
   IconRoute,
+  IconShoppingCart,
   IconWorld,
   IconZoomScan,
 } from "@tabler/icons-react";
 import { Dealer } from "../lib/interfaces";
+import { getHref } from "../lib/utils";
 
 export function Retailer({
   retailer,
@@ -33,9 +35,13 @@ export function Retailer({
       icon: IconWorld,
       label: "Visit website",
       address: retailer.www,
-      href: retailer.www.startsWith("http")
-        ? retailer.www
-        : `https://${retailer.www}`,
+      href: getHref(retailer.www),
+    },
+    {
+      icon: IconShoppingCart,
+      label: "Shop online",
+      address: retailer.shopUrl,
+      href: getHref(retailer.shopUrl),
     },
   ];
   return (

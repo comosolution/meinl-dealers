@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
+import { getHref } from "../lib/utils";
 
 export default function OnlinePage() {
   const { brand, campaign, type } = useDealerContext();
@@ -22,9 +23,11 @@ export default function OnlinePage() {
     });
 
     const dealers: Dealer[] = await res.json();
-    const filteredDealers = dealers.filter((d) =>
-      type === "flagship" ? flagshipStores.includes(d.kdnr) : true
-    );
+    const filteredDealers =
+      dealers &&
+      dealers.filter((d) =>
+        type === "flagship" ? flagshipStores.includes(d.kdnr) : true
+      );
     const sortedDealers = filteredDealers.sort((a, b) =>
       a.name1.localeCompare(b.name1, "de", { sensitivity: "base" })
     );
@@ -67,9 +70,9 @@ export default function OnlinePage() {
               key={index}
               id={`letter-${retailer.name1[0].toUpperCase()}`}
               href={
-                retailer.www.startsWith("http")
-                  ? retailer.www
-                  : `https://${retailer.www}`
+                retailer.shopUrl
+                  ? getHref(retailer.shopUrl)
+                  : getHref(retailer.www)
               }
               target="_blank"
               className="flex flex-col px-4 py-2 hover:text-[var(--main)] transition-all"

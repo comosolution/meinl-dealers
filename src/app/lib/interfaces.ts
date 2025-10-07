@@ -13,6 +13,7 @@ export interface Dealer {
   phone: string;
   email: string;
   www: string;
+  shopUrl: string;
   coordinates: Location;
   brands: string[];
 }
