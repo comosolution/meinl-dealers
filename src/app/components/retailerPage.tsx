@@ -211,17 +211,19 @@ export default function RetailerPage() {
         const res = await fetch("/api/location");
         const data = await res.json();
 
-        if (data?.loc) {
-          const [latitude, longitude] = data.loc
-            .split(",")
-            .map((coord: string) => parseFloat(coord));
-
-          const userLocation = { latitude, longitude };
+        if (data?.latitude && data?.longitude) {
+          const userLocation = {
+            latitude: data.latitude,
+            longitude: data.longitude,
+          };
           setLocation(userLocation);
 
           if (map) {
-            map.panTo({ lat: latitude, lng: longitude });
-            map.setZoom(9); // optional zoom
+            map.panTo({
+              lat: userLocation.latitude,
+              lng: userLocation.longitude,
+            });
+            map.setZoom(9); // optional default zoom
           }
         }
       } catch (err) {
