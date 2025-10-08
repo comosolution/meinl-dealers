@@ -12,6 +12,7 @@ export default function CitySelect() {
       placeholder="Enter city"
       className="flex-1"
       w={400}
+      autoSelectOnBlur
       value={search}
       onChange={setSearch}
       data={germanCitiesAbove50000}

@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
     const cfIp = req.headers.get("cf-connecting-ip");
     const ip = forwarded?.split(",")[0] || cfIp || "8.8.8.8";
 
-    const token = process.env.IPINFO_TOKEN; // optional
+    const token = process.env.IPINFO_TOKEN;
     const res = await fetch(
       `https://ipinfo.io/${ip}/json?token=${token || ""}`
     );
