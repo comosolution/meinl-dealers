@@ -47,8 +47,10 @@ export function Retailer({
   return (
     <div
       ref={innerRef}
-      className={`flex flex-col gap-4 p-4 ${
-        active ? "bg-[var(--background)] shadow-xl" : ""
+      className={`flex flex-col gap-4 p-4 border ${
+        active
+          ? "bg-[var(--background)] shadow-xl border-[var(--main)]"
+          : "border-transparent"
       } hover:bg-[var(--background)] cursor-pointer transition-all`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
