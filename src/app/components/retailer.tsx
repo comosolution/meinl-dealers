@@ -118,7 +118,7 @@ export function Retailer({
                   lat: retailer.coordinates.latitude,
                   lng: retailer.coordinates.longitude,
                 });
-                map.setZoom(9);
+                map.setZoom(12);
               }}
               fullWidth
             >

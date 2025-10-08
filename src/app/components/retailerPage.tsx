@@ -339,6 +339,7 @@ export default function RetailerPage() {
             disableDefaultUI: true,
             zoomControl: true,
             styles: mapStyles,
+            minZoom: 5,
           }}
           onLoad={(mapInstance) => {
             setMap(mapInstance);

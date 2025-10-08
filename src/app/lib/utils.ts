@@ -18,7 +18,7 @@ export const getZoomLevel = (distance: number) => {
     500_000: 5,
   };
 
-  return distanceZoomMap[distance] || 6;
+  return distanceZoomMap[distance] || 9;
 };
 
 export const getDistanceFromZoom = (zoom: number) => {
@@ -30,5 +30,5 @@ export const getDistanceFromZoom = (zoom: number) => {
     5: 500_000,
   };
 
-  return zoomDistanceMap[zoom] || 500_000;
+  return zoomDistanceMap[zoom] || 100_000;
 };
