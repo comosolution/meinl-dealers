@@ -53,6 +53,31 @@ export default function RetailerPage() {
     }
   };
 
+  const fetchUserLocation = async () => {
+    try {
+      const res = await fetch("/api/location");
+      const data = await res.json();
+
+      if (data?.latitude && data?.longitude) {
+        const userLocation = {
+          latitude: data.latitude,
+          longitude: data.longitude,
+        };
+        setLocation(userLocation);
+
+        if (map) {
+          map.panTo({
+            lat: userLocation.latitude,
+            lng: userLocation.longitude,
+          });
+          map.setZoom(9);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to fetch user location:", err);
+    }
+  };
+
   const handleGetUserLocation = () => {
     if (!map) return;
 
@@ -206,32 +231,10 @@ export default function RetailerPage() {
   }, [map, submittedSearch]);
 
   useEffect(() => {
-    const fetchUserLocation = async () => {
-      try {
-        const res = await fetch("/api/location");
-        const data = await res.json();
-
-        if (data?.latitude && data?.longitude) {
-          const userLocation = {
-            latitude: data.latitude,
-            longitude: data.longitude,
-          };
-          setLocation(userLocation);
-
-          if (map) {
-            map.panTo({
-              lat: userLocation.latitude,
-              lng: userLocation.longitude,
-            });
-            map.setZoom(9); // optional default zoom
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch user location:", err);
-      }
-    };
-
-    fetchUserLocation();
+    if (map) {
+      fetchUserLocation();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
   useEffect(() => {
