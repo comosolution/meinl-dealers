@@ -1,5 +1,6 @@
 "use client";
 import { ActionIcon, Button, Select } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { IconChevronRight, IconCurrentLocation } from "@tabler/icons-react";
 import pluralize from "pluralize";
@@ -53,6 +54,7 @@ export default function RetailerPage() {
 
   const handleGetUserLocation = () => {
     if (!map) return;
+
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -69,11 +71,26 @@ export default function RetailerPage() {
           setPendingFilter(true);
         },
         (err) => {
-          console.error(`Error getting location: ${err.message}`);
+          notifications.show({
+            title: "Error getting location",
+            message: `${err.message} (code: ${err.code})`,
+            color: "black",
+            position: "top-right",
+          });
+          console.error(err);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
         }
       );
     } else {
-      console.error("Geolocation is not supported by this browser.");
+      notifications.show({
+        title: "Error getting location",
+        message: "Geolocation is not supported by this browser.",
+        color: "black",
+        position: "top-right",
+      });
     }
   };
 
