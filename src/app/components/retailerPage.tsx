@@ -206,6 +206,33 @@ export default function RetailerPage() {
   }, [map, submittedSearch]);
 
   useEffect(() => {
+    const fetchUserLocation = async () => {
+      try {
+        const res = await fetch("/api/location");
+        const data = await res.json();
+
+        if (data?.loc) {
+          const [latitude, longitude] = data.loc
+            .split(",")
+            .map((coord: string) => parseFloat(coord));
+
+          const userLocation = { latitude, longitude };
+          setLocation(userLocation);
+
+          if (map) {
+            map.panTo({ lat: latitude, lng: longitude });
+            map.setZoom(9); // optional zoom
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch user location:", err);
+      }
+    };
+
+    fetchUserLocation();
+  }, [map]);
+
+  useEffect(() => {
     if (map) {
       setTimeout(() => filterRetailers(), 100);
     }
