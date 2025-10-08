@@ -90,7 +90,11 @@ export default function OnlinePage() {
               />
             </div> */}
               <h2>{retailer.name1}</h2>
-              <p className="text-xs opacity-50">{retailer.www}</p>
+              <p className="text-xs opacity-50">
+                {retailer.www !== ""
+                  ? new URL(getHref(retailer.www)).hostname
+                  : retailer.www}
+              </p>
             </a>
           ))}
       </main>
