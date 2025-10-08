@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
 :root {
+  --main: #ef233c;
+  --main-rgb: 239, 35, 60;
   --background: var(--mantine-color-white);
   --foreground: var(--mantine-color-black);
   --background-subtle: var(--mantine-color-gray-1);
   --subtle: rgba(0, 0, 0, 0.1);
   --hover: rgba(255, 255, 255, 0.05);
-  --main: #ef233c;
   --transition: 300ms all ease-in-out;
   --defaultPadding: 12px;
   --filter-inverted: invert(1) brightness(0.9) contrast(1.2);
@@ -14,30 +15,37 @@
 
 .meinl-cymbals {
   --main: #d2934d;
+  --main-rgb: 210, 147, 77;
 }
 
 .meinl-stick--brush {
   --main: #6d492e;
+  --main-rgb: 109, 73, 46;
 }
 
 .meinl-sonic-energy {
   --main: #d2942f;
+  --main-rgb: 210, 148, 47;
 }
 
 .nino-percussion {
   --main: #52ae32;
+  --main-rgb: 82, 174, 50;
 }
 
 .ortega {
   --main: #f49600;
+  --main-rgb: 244, 150, 0;
 }
 
 .ibanez {
   --main: #303030;
+  --main-rgb: 48, 48, 48;
 }
 
 .tama {
   --main: #d80c18;
+  --main-rgb: 216, 12, 24;
 }
 
 body {
