@@ -27,7 +27,7 @@ export function Retailer({
   const data = [
     {
       icon: IconPhone,
-      label: retailer.phone,
+      label: `Call ${retailer.phone}`,
       address: retailer.phone,
       href: `tel:${retailer.phone}`,
     },
@@ -64,7 +64,7 @@ export function Retailer({
       </header>
       {active && (
         <>
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-2">
             {data.map(
               (d, i) =>
                 d.address && (
@@ -73,8 +73,9 @@ export function Retailer({
                     href={d.href!}
                     target="_blank"
                     onClick={(e) => e.stopPropagation()}
-                    className="link text-xs"
+                    className="flex gap-2 items-center link text-xs"
                   >
+                    <d.icon size={16} />
                     {d.label}
                   </a>
                 )
