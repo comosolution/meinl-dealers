@@ -14,7 +14,7 @@ export default function Header() {
   return (
     <div className="fixed top-0 z-30 w-full flex flex-col bg-[var(--background)]">
       {campaign && (
-        <div className="py-1 bg-[var(--main)] text-[var(--background)]">
+        <div className="py-1 bg-[var(--foreground)] text-[var(--background)]">
           <Marquee autoFill>
             <div className="flex items-baseline gap-2 px-8">
               <Image
@@ -37,7 +37,7 @@ export default function Header() {
           </Marquee>
         </div>
       )}
-      <header className="flex flex-col-reverse md:flex-row justify-between md:items-center gap-2 px-4 py-2">
+      <header className="flex flex-col-reverse md:flex-row justify-between md:items-center gap-2 px-4 py-2 bg-[var(--main)]">
         <div className="flex items-center sm:gap-1 bg-[var(--background-subtle)]">
           <TypeSelect />
           <IconChevronRight size={16} className="hidden sm:block" />

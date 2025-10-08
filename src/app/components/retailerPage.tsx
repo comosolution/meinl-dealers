@@ -246,9 +246,9 @@ export default function RetailerPage() {
   return (
     <main className="relative flex flex-col md:flex-row">
       <div
-        className={`${showSidebar ? "w-full md:w-[480px] p-4" : "w-0 p-0"}  ${
+        className={`${showSidebar ? "w-full md:w-[480px]" : "w-0"}  ${
           campaign ? "pt-40 md:pt-28" : "pt-28 md:pt-16"
-        }  flex flex-col gap-8 gradient max-h-[66vh] md:max-h-screen overflow-y-scroll transition-all duration-300`}
+        }  flex flex-col gap-8 max-h-[66vh] md:max-h-screen overflow-y-scroll transition-all duration-300`}
         style={
           showSidebar
             ? {
@@ -257,7 +257,7 @@ export default function RetailerPage() {
             : { transform: "translateX(-480px)" }
         }
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2 px-4">
           <form
             onSubmit={handleSearchSubmit}
             className="flex items-center gap-1"
@@ -273,7 +273,7 @@ export default function RetailerPage() {
               </ActionIcon>
             </Tooltip>
           </form>
-          <div className="flex flex-col w-full p-4">
+          <div className="flex flex-col w-full p-2">
             <Slider
               min={100000}
               max={500000}
@@ -304,8 +304,8 @@ export default function RetailerPage() {
           </div>
         </div>
         {retailers.length > 0 ? (
-          <div className="w-full flex flex-col gap-1 md:gap-2">
-            <p className="text-xs dimmed text-center">
+          <div className="w-full flex flex-col">
+            <p className="text-xs dimmed text-center p-4">
               {retailers.length} retail{" "}
               {pluralize("location", retailers.length)}
             </p>
