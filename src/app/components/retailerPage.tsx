@@ -1,5 +1,5 @@
 "use client";
-import { ActionIcon, Button, Select } from "@mantine/core";
+import { ActionIcon, Button, Slider, Tooltip } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { IconChevronRight, IconCurrentLocation } from "@tabler/icons-react";
@@ -7,7 +7,7 @@ import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { Dealer, Location } from "../lib/interfaces";
-import { getZoomLevel } from "../lib/utils";
+import { getDistanceFromZoom, getZoomLevel } from "../lib/utils";
 import { mapStyles } from "../styles/map";
 import CitySelect from "./citySelect";
 import { Retailer } from "./retailer";
@@ -29,7 +29,7 @@ export default function RetailerPage() {
     longitude: 10.6364508,
   });
   const [pendingFilter, setPendingFilter] = useState(false);
-  const [distance, setDistance] = useState<string | null>("100000");
+  const [distance, setDistance] = useState<string | null>("300000");
 
   const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const lastCenterRef = useRef<{ lat: number; lng: number } | null>(null);
@@ -67,7 +67,7 @@ export default function RetailerPage() {
             longitude: position.coords.longitude,
           });
           map.panTo(loc);
-          map.setZoom(10);
+          map.setZoom(9);
           setPendingFilter(true);
         },
         (err) => {
@@ -116,6 +116,11 @@ export default function RetailerPage() {
       setShowSearchButton(true);
     }
 
+    if (zoomChanged) {
+      const approxDistance = getDistanceFromZoom(newZoom);
+      setDistance(String(approxDistance));
+    }
+
     lastCenterRef.current = center;
     lastZoomRef.current = newZoom;
 
@@ -139,7 +144,7 @@ export default function RetailerPage() {
           longitude: loc.lng(),
         });
         map.panTo(loc);
-        map.setZoom(10);
+        map.setZoom(9);
       }
     }
 
@@ -192,18 +197,11 @@ export default function RetailerPage() {
           longitude: loc.lng(),
         });
         map.panTo(loc);
-        map.setZoom(10);
+        map.setZoom(9);
         setPendingFilter(true);
       }
     });
   }, [map, submittedSearch]);
-
-  useEffect(() => {
-    if (!map || !distance) return;
-
-    const zoom = getZoomLevel(Number(distance));
-    map.setZoom(zoom);
-  }, [distance, map]);
 
   useEffect(() => {
     if (map) {
@@ -229,30 +227,48 @@ export default function RetailerPage() {
         }
       >
         <div className="flex flex-col">
-          <form onSubmit={handleSearchSubmit} className="flex items-center">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="flex items-center gap-1"
+          >
             <CitySelect />
+            <Tooltip label="Use my current location" position="left" withArrow>
+              <ActionIcon
+                size="input-md"
+                color="black"
+                onClick={handleGetUserLocation}
+              >
+                <IconCurrentLocation size={20} />
+              </ActionIcon>
+            </Tooltip>
           </form>
-          <div className="flex justify-between">
-            <Button
-              variant="transparent"
-              color="black"
-              onClick={handleGetUserLocation}
-              leftSection={<IconCurrentLocation size={16} />}
-            >
-              Use my location
-            </Button>
-            <Select
-              variant="unstyled"
-              data={[
-                { label: "100km", value: "100000" },
-                { label: "200km", value: "200000" },
-                { label: "500km", value: "500000" },
+          <div className="flex flex-col w-full p-4">
+            <Slider
+              min={100000}
+              max={500000}
+              step={100000}
+              value={Number(distance)}
+              onChange={(val) => setDistance(String(val))}
+              onChangeEnd={() => {
+                if (map) {
+                  const zoom = getZoomLevel(Number(distance));
+                  map.setZoom(zoom);
+                }
+              }}
+              color="dark"
+              marks={[
+                { value: 100000, label: "100km" },
+                { value: 200000, label: "" },
+                { value: 300000, label: "300km" },
+                { value: 400000, label: "" },
+                { value: 500000, label: "500km" },
               ]}
-              value={distance}
-              onChange={setDistance}
-              w={80}
-              withCheckIcon={false}
-              allowDeselect={false}
+              label={null}
+              styles={{
+                markLabel: {
+                  fontSize: "10px",
+                },
+              }}
             />
           </div>
         </div>
@@ -327,7 +343,7 @@ export default function RetailerPage() {
           onLoad={(mapInstance) => {
             setMap(mapInstance);
             mapInstance.setCenter({ lat: 49.6096464, lng: 10.6364508 });
-            mapInstance.setZoom(9);
+            mapInstance.setZoom(7);
           }}
           onIdle={handleIdle}
         >
