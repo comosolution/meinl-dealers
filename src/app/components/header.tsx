@@ -12,7 +12,7 @@ export default function Header() {
   const { campaign } = useDealerContext();
 
   return (
-    <div className="fixed top-0 z-30 w-full flex flex-col bg-[var(--background)]">
+    <div className="fixed top-0 z-30 w-full flex flex-col shadow-md">
       {campaign && (
         <div className="py-1 bg-[var(--foreground)] text-[var(--background)]">
           <Marquee autoFill>
