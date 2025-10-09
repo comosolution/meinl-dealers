@@ -1,5 +1,5 @@
 import { Select, TextInput } from "@mantine/core";
-import { IconSearch, IconWorld } from "@tabler/icons-react";
+import { IconChevronRight, IconSearch, IconWorld } from "@tabler/icons-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
@@ -84,7 +84,7 @@ export default function OnlinePage() {
   return (
     <div
       className={`${
-        campaign ? "pt-32 md:pt-24" : "pt-24 pd:mt-14"
+        campaign ? "pt-36 md:pt-28" : "pt-28 md:pt-18"
       } p-4 bg-[rgba(var(--main-rgb),0.1)] min-h-screen`}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -149,13 +149,19 @@ export default function OnlinePage() {
                     />
                   </div>
                 )}
-                <div className="flex flex-col">
-                  <h2>{retailer.name1}</h2>
-                  <p className="text-xs opacity-50">
-                    {retailer.www !== ""
-                      ? new URL(getHref(retailer.www)).hostname
-                      : retailer.www}
-                  </p>
+                <div className="flex justify-between items-center">
+                  <div className="flex flex-col">
+                    <h2>{retailer.name1}</h2>
+                    <p className="text-xs opacity-50">
+                      {retailer.www !== ""
+                        ? new URL(getHref(retailer.www)).hostname
+                        : retailer.www}
+                    </p>
+                  </div>
+                  <IconChevronRight
+                    size={32}
+                    className="opacity-0 group-hover:opacity-100 -rotate-90 group-hover:rotate-0 transition-all duration-300"
+                  />
                 </div>
               </a>
             ))}
