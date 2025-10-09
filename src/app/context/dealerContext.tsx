@@ -12,7 +12,7 @@ import {
   useState,
 } from "react";
 import { brands } from "../data/data";
-import { Campaign } from "../lib/interfaces";
+import { Campaign, UserLocation } from "../lib/interfaces";
 
 type DealerMode = "retail" | "online" | "flagship";
 
@@ -27,6 +27,8 @@ interface DealerContextType {
   setSearch: (search: string) => void;
   submittedSearch: string | null;
   setSubmittedSearch: (search: string | null) => void;
+  userLocation: UserLocation | null;
+  setUserLocation: (userLocation: UserLocation | null) => void;
 }
 
 const DealerContext = createContext<DealerContextType | undefined>(undefined);
@@ -37,6 +39,7 @@ export function DealerProvider({ children }: { children: ReactNode }) {
   const [campaign, setCampaign] = useState<Campaign>();
   const [search, setSearch] = useState<string>("");
   const [submittedSearch, setSubmittedSearch] = useState<string | null>(null);
+  const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
 
   const searchParams = useSearchParams();
   const brandParam = searchParams.get("brand");
@@ -145,6 +148,8 @@ export function DealerProvider({ children }: { children: ReactNode }) {
         setSearch,
         submittedSearch,
         setSubmittedSearch,
+        userLocation,
+        setUserLocation,
       }}
     >
       {children}

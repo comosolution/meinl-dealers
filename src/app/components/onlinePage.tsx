@@ -7,7 +7,7 @@ import { Dealer } from "../lib/interfaces";
 import { getHref, normalizeCountryCode } from "../lib/utils";
 
 export default function OnlinePage() {
-  const { brand, campaign, type } = useDealerContext();
+  const { brand, campaign, type, userLocation } = useDealerContext();
   const [retailers, setRetailers] = useState<Dealer[]>([]);
   const [countries, setCountries] = useState<
     { label: string; value: string }[]
@@ -51,10 +51,13 @@ export default function OnlinePage() {
     ).sort((a, b) => a!.localeCompare(b!));
 
     const displayNames = new Intl.DisplayNames(["en"], { type: "region" });
-    const countryOptions = uniqueCountries.map((code) => ({
-      value: code!,
-      label: displayNames.of(code!) || code!,
-    }));
+    const countryOptions = uniqueCountries.map((code) => {
+      const normalized = normalizeCountryCode(code!);
+      return {
+        value: normalized!,
+        label: displayNames.of(normalized!) || normalized!,
+      };
+    });
 
     setCountries(countryOptions);
     setRetailers(sortedDealers);
@@ -64,6 +67,12 @@ export default function OnlinePage() {
     filterRetailers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brand, type]);
+
+  useEffect(() => {
+    if (userLocation) {
+      setCountry(userLocation.country);
+    }
+  }, [userLocation]);
 
   return (
     <div className={`${campaign ? "mt-32 md:mt-24" : "mt-24 md:mt-14"}  p-4`}>

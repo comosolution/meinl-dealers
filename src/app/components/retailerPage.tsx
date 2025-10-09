@@ -17,8 +17,14 @@ export default function RetailerPage() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
-  const { brand, campaign, setSearch, search, submittedSearch } =
-    useDealerContext();
+  const {
+    brand,
+    campaign,
+    setSearch,
+    search,
+    submittedSearch,
+    setUserLocation,
+  } = useDealerContext();
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSidebar, setShowSidebar] = useState(true);
@@ -64,6 +70,7 @@ export default function RetailerPage() {
           longitude: data.longitude,
         };
         setLocation(userLocation);
+        setUserLocation(data);
 
         if (map) {
           map.panTo({

@@ -24,6 +24,15 @@ export interface Location {
   distance?: number;
 }
 
+export interface UserLocation {
+  ip: string;
+  country: string;
+  city: string;
+  region: string;
+  latitude: number;
+  longitude: number;
+}
+
 export interface Campaign {
   id: number;
   brand: string;
