@@ -5,6 +5,7 @@ import { useDealerContext } from "../context/dealerContext";
 import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
 import { getHref, normalizeCountryCode } from "../lib/utils";
+import Loader from "./loader";
 
 export default function OnlinePage() {
   const { brand, campaign, type, userLocation } = useDealerContext();
@@ -14,8 +15,10 @@ export default function OnlinePage() {
   >([]);
   const [country, setCountry] = useState<string | null>("");
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const filterRetailers = async () => {
+    setLoading(true);
     const res = await fetch("/api/dealer", {
       method: "POST",
       body: JSON.stringify({
@@ -61,6 +64,7 @@ export default function OnlinePage() {
 
     setCountries(countryOptions);
     setRetailers(sortedDealers);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -73,6 +77,8 @@ export default function OnlinePage() {
       setCountry(userLocation.country);
     }
   }, [userLocation]);
+
+  if (loading) return <Loader />;
 
   return (
     <div className={`${campaign ? "mt-32 md:mt-24" : "mt-24 md:mt-14"}  p-4`}>
