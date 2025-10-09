@@ -32,3 +32,39 @@ export const getDistanceFromZoom = (zoom: number) => {
 
   return zoomDistanceMap[zoom] || 100_000;
 };
+
+export const normalizeCountryCode = (input: string): string | null => {
+  if (!input) return null;
+  const code = input.trim().toUpperCase();
+
+  const manualMap: Record<string, string> = {
+    D: "DE",
+    A: "AT",
+    CH: "CH",
+    NL: "NL",
+    B: "BE",
+    F: "FR",
+    GB: "GB",
+    UK: "GB",
+  };
+  if (manualMap[code]) return manualMap[code];
+
+  const isoAlpha3to2: Record<string, string> = {
+    DEU: "DE",
+    AUT: "AT",
+    CHE: "CH",
+    FRA: "FR",
+    NLD: "NL",
+    BEL: "BE",
+    USA: "US",
+    CAN: "CA",
+    GBR: "GB",
+    ITA: "IT",
+    ESP: "ES",
+  };
+  if (isoAlpha3to2[code]) return isoAlpha3to2[code];
+
+  if (/^[A-Z]{2}$/.test(code)) return code;
+
+  return null;
+};

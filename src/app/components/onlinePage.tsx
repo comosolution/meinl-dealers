@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
-import { getHref } from "../lib/utils";
+import { getHref, normalizeCountryCode } from "../lib/utils";
 
 export default function OnlinePage() {
   const { brand, campaign, type } = useDealerContext();
   const [retailers, setRetailers] = useState<Dealer[]>([]);
-  const [countries, setCountries] = useState<string[]>([]);
+  const [countries, setCountries] = useState<
+    { label: string; value: string }[]
+  >([]);
   const [country, setCountry] = useState<string | null>("");
   const [search, setSearch] = useState("");
 
@@ -27,6 +29,7 @@ export default function OnlinePage() {
     });
 
     const dealers: Dealer[] = await res.json();
+
     const filteredDealers =
       dealers &&
       dealers.filter((d) =>
@@ -39,11 +42,21 @@ export default function OnlinePage() {
       a.name1.localeCompare(b.name1, "de", { sensitivity: "base" })
     );
 
-    setCountries(
-      Array.from(
-        new Set(sortedDealers.map((s) => s.postalAddress.country.toUpperCase()))
+    const uniqueCountries = Array.from(
+      new Set(
+        sortedDealers
+          .map((s) => normalizeCountryCode(s.postalAddress.country))
+          .filter(Boolean)
       )
-    );
+    ).sort((a, b) => a!.localeCompare(b!));
+
+    const displayNames = new Intl.DisplayNames(["en"], { type: "region" });
+    const countryOptions = uniqueCountries.map((code) => ({
+      value: code!,
+      label: displayNames.of(code!) || code!,
+    }));
+
+    setCountries(countryOptions);
     setRetailers(sortedDealers);
   };
 
@@ -77,8 +90,7 @@ export default function OnlinePage() {
           retailers
             .filter((r) =>
               country
-                ? r.postalAddress.country.toUpperCase() ===
-                  country.toUpperCase()
+                ? normalizeCountryCode(r.postalAddress.country) === country
                 : true
             )
             .filter((r) => {

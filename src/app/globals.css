@@ -96,6 +96,7 @@ img.inverted {
   border-color: transparent;
 }
 
-.mantine-Autocomplete-option:where([data-combobox-selected]) {
+.mantine-Autocomplete-option:where([data-combobox-selected]),
+.mantine-Select-option:where([data-combobox-selected]) {
   background-color: var(--main);
 }
