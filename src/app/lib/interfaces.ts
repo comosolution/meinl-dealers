@@ -14,6 +14,7 @@ export interface Dealer {
   email: string;
   www: string;
   shopUrl: string;
+  logo: string;
   coordinates: Location;
   brands: string[];
 }

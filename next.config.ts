@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       new URL("https://meinlcymbals.com/**"),
       new URL("https://media.meinl.de/**"),
+      new URL("https://apidev.meinl.de/**"),
     ],
   },
 };

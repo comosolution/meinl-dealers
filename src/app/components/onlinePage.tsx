@@ -1,5 +1,6 @@
 import { Select, TextInput } from "@mantine/core";
 import { IconSearch, IconWorld } from "@tabler/icons-react";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { flagshipStores } from "../data/data";
@@ -81,8 +82,12 @@ export default function OnlinePage() {
   if (loading) return <Loader />;
 
   return (
-    <div className={`${campaign ? "mt-32 md:mt-24" : "mt-24 md:mt-14"}  p-4`}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <div
+      className={`${
+        campaign ? "pt-32 md:pt-24" : "pt-24 pd:mt-14"
+      } p-4 bg-[rgba(var(--main-rgb),0.1)] min-h-screen`}
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextInput
           size="md"
           placeholder="Search"
@@ -122,33 +127,36 @@ export default function OnlinePage() {
             .map((retailer, index) => (
               <a
                 key={index}
-                id={`letter-${retailer.name1[0].toUpperCase()}`}
                 href={
                   retailer.shopUrl
                     ? getHref(retailer.shopUrl)
                     : getHref(retailer.www)
                 }
                 target="_blank"
-                className="flex flex-col p-2 hover:text-[var(--main)] transition-all"
+                className="group flex flex-col justify-end gap-4 p-4 bg-[var(--background)] hover:text-[var(--main)] transition-all"
               >
-                {/* <div
-              className="relative overflow-hidden"
-              style={{ width: "120px", height: "60px" }}
-            >
-              <Image
-                src={`https://meinlcymbals.com${shop.logo}`}
-                fill
-                style={{ objectFit: "contain" }}
-                alt={`Logo ${shop.name1}`}
-                className="grayscale-100 group-hover:grayscale-0 transition-all"
-              />
-            </div> */}
-                <h2>{retailer.name1}</h2>
-                <p className="text-xs opacity-50">
-                  {retailer.www !== ""
-                    ? new URL(getHref(retailer.www)).hostname
-                    : retailer.www}
-                </p>
+                {retailer.logo && retailer.logo !== "" && (
+                  <div
+                    className="relative overflow-hidden"
+                    style={{ width: "100%", height: "120px" }}
+                  >
+                    <Image
+                      src={retailer.logo}
+                      fill
+                      style={{ objectFit: "contain" }}
+                      alt={`Logo ${retailer.name1}`}
+                      className="grayscale-100 group-hover:grayscale-0 transition-all"
+                    />
+                  </div>
+                )}
+                <div className="flex flex-col">
+                  <h2>{retailer.name1}</h2>
+                  <p className="text-xs opacity-50">
+                    {retailer.www !== ""
+                      ? new URL(getHref(retailer.www)).hostname
+                      : retailer.www}
+                  </p>
+                </div>
               </a>
             ))}
       </main>
