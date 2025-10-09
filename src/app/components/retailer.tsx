@@ -49,8 +49,8 @@ export function Retailer({
       ref={innerRef}
       className={`flex flex-col gap-4 p-4 border-t border-[var(--main)] ${
         active
-          ? "bg-[rgb(var(--main-rgb),0.1)]"
-          : "hover:bg-[rgb(var(--main-rgb),0.05)]"
+          ? "bg-[rgb(var(--main-rgb),0.3)]"
+          : "hover:bg-[rgb(var(--main-rgb),0.1)]"
       } cursor-pointer transition-all`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
@@ -75,7 +75,7 @@ export function Retailer({
                     href={d.href!}
                     target="_blank"
                     onClick={(e) => e.stopPropagation()}
-                    className="flex gap-2 items-center link text-xs"
+                    className="flex gap-1 items-center text-xs"
                   >
                     <d.icon size={16} />
                     {d.label}
