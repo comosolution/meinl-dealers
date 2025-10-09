@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require("fs");
 const path = require("path");
-const csv = require("csv-parser"); // npm install csv-parser
+const csv = require("csv-parser");
 
-const inputFile = path.join(__dirname, "worldcities.csv"); // path to your CSV
+const inputFile = path.join(__dirname, "worldcities.csv");
 const outputFile = path.join(__dirname, "cities.json");
 
 const results = [];

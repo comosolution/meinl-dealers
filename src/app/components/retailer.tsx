@@ -49,7 +49,7 @@ export function Retailer({
       ref={innerRef}
       className={`flex flex-col gap-4 p-4 border-t border-[var(--main)] ${
         active
-          ? "bg-[rgb(var(--main-rgb),0.3)]"
+          ? "bg-[rgb(var(--main-rgb),0.1)]"
           : "hover:bg-[rgb(var(--main-rgb),0.1)]"
       } cursor-pointer transition-all`}
       tabIndex={0}
