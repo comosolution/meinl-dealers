@@ -87,12 +87,13 @@ img.inverted {
   color: var(--mantine-color-dimmed);
 }
 
-.mantine-Input-input.mantine-InputBase-input {
-  border-color: transparent;
-}
-
+.mantine-Input-input:focus,
 .mantine-Autocomplete-input:focus {
   border-color: var(--main);
+}
+
+.mantine-Input-input.mantine-InputBase-input {
+  border-color: transparent;
 }
 
 .mantine-Autocomplete-option:where([data-combobox-selected]) {

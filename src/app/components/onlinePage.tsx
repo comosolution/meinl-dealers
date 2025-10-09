@@ -1,3 +1,5 @@
+import { Select, TextInput } from "@mantine/core";
+import { IconSearch, IconWorld } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { flagshipStores } from "../data/data";
@@ -7,7 +9,9 @@ import { getHref } from "../lib/utils";
 export default function OnlinePage() {
   const { brand, campaign, type } = useDealerContext();
   const [retailers, setRetailers] = useState<Dealer[]>([]);
-  const [letters, setLetters] = useState<string[]>([]);
+  const [countries, setCountries] = useState<string[]>([]);
+  const [country, setCountry] = useState<string | null>("");
+  const [search, setSearch] = useState("");
 
   const filterRetailers = async () => {
     const res = await fetch("/api/dealer", {
@@ -26,14 +30,19 @@ export default function OnlinePage() {
     const filteredDealers =
       dealers &&
       dealers.filter((d) =>
-        type === "flagship" ? flagshipStores.includes(d.kdnr) : true
+        type === "flagship"
+          ? flagshipStores.includes(d.kdnr)
+          : d.shopUrl !== "" || d.www !== ""
       );
+
     const sortedDealers = filteredDealers.sort((a, b) =>
       a.name1.localeCompare(b.name1, "de", { sensitivity: "base" })
     );
 
-    setLetters(
-      Array.from(new Set(sortedDealers.map((s) => s.name1[0].toUpperCase())))
+    setCountries(
+      Array.from(
+        new Set(sortedDealers.map((s) => s.postalAddress.country.toUpperCase()))
+      )
     );
     setRetailers(sortedDealers);
   };
@@ -44,40 +53,58 @@ export default function OnlinePage() {
   }, [brand, type]);
 
   return (
-    <div className="mt-28 md:mt-24 p-4">
-      {type !== "flagship" && (
-        <div className="fixed left-4 top-1/2 -translate-y-1/2 flex flex-col gap-1 text-sm">
-          {letters.map((letter) => (
-            <button
-              key={letter}
-              onClick={() => {
-                const el = document.getElementById(`letter-${letter}`);
-                if (el) {
-                  el.scrollIntoView({ behavior: "smooth", block: "center" });
-                }
-              }}
-              className="hover:text-[var(--main)] cursor-pointer"
-            >
-              {letter}
-            </button>
-          ))}
-        </div>
-      )}
-      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-16">
+    <div className={`${campaign ? "mt-32 md:mt-24" : "mt-24 md:mt-14"}  p-4`}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <TextInput
+          size="md"
+          placeholder="Search"
+          leftSection={<IconSearch size={20} />}
+          value={search}
+          onChange={(e) => setSearch(e.currentTarget.value)}
+        />
+        <Select
+          size="md"
+          placeholder="Select country"
+          data={countries}
+          checkIconPosition="right"
+          leftSection={<IconWorld size={20} />}
+          value={country}
+          onChange={setCountry}
+        />
+      </div>
+      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-4">
         {retailers.length > 0 &&
-          retailers.map((retailer, index) => (
-            <a
-              key={index}
-              id={`letter-${retailer.name1[0].toUpperCase()}`}
-              href={
-                retailer.shopUrl
-                  ? getHref(retailer.shopUrl)
-                  : getHref(retailer.www)
-              }
-              target="_blank"
-              className="flex flex-col px-4 py-2 hover:text-[var(--main)] transition-all"
-            >
-              {/* <div
+          retailers
+            .filter((r) =>
+              country
+                ? r.postalAddress.country.toUpperCase() ===
+                  country.toUpperCase()
+                : true
+            )
+            .filter((r) => {
+              const keywords = search.trim().toLowerCase().split(" ");
+              return keywords.every((keyword) =>
+                [
+                  r.kdnr.toString() || "",
+                  r.name1 || "",
+                  r.name2 || "",
+                  r.name3 || "",
+                ].some((value) => value.toLowerCase().includes(keyword))
+              );
+            })
+            .map((retailer, index) => (
+              <a
+                key={index}
+                id={`letter-${retailer.name1[0].toUpperCase()}`}
+                href={
+                  retailer.shopUrl
+                    ? getHref(retailer.shopUrl)
+                    : getHref(retailer.www)
+                }
+                target="_blank"
+                className="flex flex-col p-2 hover:text-[var(--main)] transition-all"
+              >
+                {/* <div
               className="relative overflow-hidden"
               style={{ width: "120px", height: "60px" }}
             >
@@ -89,14 +116,14 @@ export default function OnlinePage() {
                 className="grayscale-100 group-hover:grayscale-0 transition-all"
               />
             </div> */}
-              <h2>{retailer.name1}</h2>
-              <p className="text-xs opacity-50">
-                {retailer.www !== ""
-                  ? new URL(getHref(retailer.www)).hostname
-                  : retailer.www}
-              </p>
-            </a>
-          ))}
+                <h2>{retailer.name1}</h2>
+                <p className="text-xs opacity-50">
+                  {retailer.www !== ""
+                    ? new URL(getHref(retailer.www)).hostname
+                    : retailer.www}
+                </p>
+              </a>
+            ))}
       </main>
     </div>
   );
