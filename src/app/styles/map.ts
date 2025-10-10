@@ -83,6 +83,6 @@ export const mapStyles = [
   },
   {
     featureType: "poi",
-    stylers: [{ visibility: "on" }],
+    stylers: [{ visibility: "off" }],
   },
 ];

@@ -88,7 +88,7 @@ export default function OnlinePage() {
     <div
       className={`flex flex-col justify-between ${
         campaign ? "pt-36 md:pt-28" : "pt-28 md:pt-18"
-      } p-4 bg-[rgba(var(--main-rgb),0.1)] min-h-screen`}
+      } p-4 bg-[var(--background-subtle)] min-h-screen`}
     >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <TextInput
@@ -109,29 +109,31 @@ export default function OnlinePage() {
           searchable
         />
       </div>
-      <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-4">
-        {retailers.length > 0 &&
-          retailers
-            .filter((r) =>
-              country
-                ? normalizeCountryCode(r.postalAddress.country) === country
-                : true
-            )
-            .filter((r) => {
-              const keywords = search.trim().toLowerCase().split(" ");
-              return keywords.every((keyword) =>
-                [
-                  r.kdnr.toString() || "",
-                  r.name1 || "",
-                  r.name2 || "",
-                  r.name3 || "",
-                ].some((value) => value.toLowerCase().includes(keyword))
-              );
-            })
-            .map((retailer, index) => (
-              <Online key={index} retailer={retailer} />
-            ))}
-      </main>
+      <div className="flex-1">
+        <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-4">
+          {retailers.length > 0 &&
+            retailers
+              .filter((r) =>
+                country
+                  ? normalizeCountryCode(r.postalAddress.country) === country
+                  : true
+              )
+              .filter((r) => {
+                const keywords = search.trim().toLowerCase().split(" ");
+                return keywords.every((keyword) =>
+                  [
+                    r.kdnr.toString() || "",
+                    r.name1 || "",
+                    r.name2 || "",
+                    r.name3 || "",
+                  ].some((value) => value.toLowerCase().includes(keyword))
+                );
+              })
+              .map((retailer, index) => (
+                <Online key={index} retailer={retailer} />
+              ))}
+        </main>
+      </div>
       <Footer />
     </div>
   );
