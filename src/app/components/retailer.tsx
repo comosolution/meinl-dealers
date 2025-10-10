@@ -49,7 +49,7 @@ export function Retailer({
 
   const address = `${retailer.postalAddress.street}, ${
     retailer.postalAddress.zip
-  } ${retailer.postalAddress.city}, ${normalizeCountryCode(
+  } ${retailer.postalAddress.city} ${normalizeCountryCode(
     retailer.postalAddress.country
   )}`;
 
@@ -98,7 +98,7 @@ export function Retailer({
                     onClick={(e) => e.stopPropagation()}
                     className="flex gap-1 items-center link"
                   >
-                    <d.icon size={20} />
+                    <d.icon size={16} stroke={1.5} />
                     <h3>{d.label}</h3>
                   </a>
                 )
