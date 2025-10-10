@@ -62,11 +62,6 @@ export const mapStyles = [
     stylers: [{ color: "#8b8b8b" }],
   },
   {
-    featureType: "road",
-    elementType: "labels",
-    stylers: [{ visibility: "off" }],
-  },
-  {
     featureType: "transit",
     elementType: "geometry",
     stylers: [{ color: "#d4e0e8" }],

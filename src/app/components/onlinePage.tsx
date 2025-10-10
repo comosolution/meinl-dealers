@@ -90,25 +90,27 @@ export default function OnlinePage() {
         campaign ? "pt-36 md:pt-28" : "pt-28 md:pt-18"
       } p-4 bg-[var(--background-subtle)] min-h-screen`}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <TextInput
-          size="md"
-          placeholder="Search"
-          leftSection={<IconSearch size={20} />}
-          value={search}
-          onChange={(e) => setSearch(e.currentTarget.value)}
-        />
-        <Select
-          size="md"
-          placeholder="Select country"
-          data={countries}
-          checkIconPosition="right"
-          leftSection={<IconWorld size={20} />}
-          value={country}
-          onChange={setCountry}
-          searchable
-        />
-      </div>
+      {type !== "flagship" && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Select
+            size="md"
+            placeholder="Select country"
+            data={countries}
+            checkIconPosition="right"
+            leftSection={<IconWorld size={20} />}
+            value={country}
+            onChange={setCountry}
+            searchable
+          />
+          <TextInput
+            size="md"
+            placeholder="Search"
+            leftSection={<IconSearch size={20} />}
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+          />
+        </div>
+      )}
       <div className="flex-1">
         <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-4">
           {retailers.length > 0 &&
