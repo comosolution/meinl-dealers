@@ -10,6 +10,7 @@ import { Dealer, Location } from "../lib/interfaces";
 import { getDistanceFromZoom, getZoomLevel } from "../lib/utils";
 import { mapStyles } from "../styles/map";
 import CitySelect from "./citySelect";
+import Footer from "./footer";
 import { Retailer } from "./retailer";
 import RetailerPin from "./retailerPin";
 
@@ -258,7 +259,7 @@ export default function RetailerPage() {
       <div
         className={`${showSidebar ? "w-full md:w-[540px]" : "w-0"}  ${
           campaign ? "pt-4 md:pt-28" : "pt-4 md:pt-16"
-        }  flex flex-col gap-8 max-h-full md:max-h-screen overflow-y-scroll transition-all duration-300`}
+        }  flex flex-col justify-between gap-8 max-h-full md:max-h-screen overflow-y-scroll transition-all duration-300`}
         style={
           showSidebar
             ? {
@@ -314,7 +315,7 @@ export default function RetailerPage() {
           </div>
         </div>
         {retailers.length > 0 ? (
-          <div className="w-full flex flex-col">
+          <div className="flex-1 w-full flex flex-col">
             <p className="text-xs dimmed text-center p-4">
               {retailers.length} retail{" "}
               {pluralize("location", retailers.length)}
@@ -338,10 +339,9 @@ export default function RetailerPage() {
               ))}
           </div>
         ) : (
-          <div className="h-full flex justify-center items-center">
-            <p className="text-xs dimmed text-center">No dealers found.</p>
-          </div>
+          <p className="text-xs dimmed text-center">No dealers found.</p>
         )}
+        <Footer />
       </div>
       <div className="relative w-full h-[50vh] md:h-screen">
         <div

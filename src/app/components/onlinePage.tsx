@@ -5,6 +5,7 @@ import { useDealerContext } from "../context/dealerContext";
 import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
 import { normalizeCountryCode } from "../lib/utils";
+import Footer from "./footer";
 import Loader from "./loader";
 import Online from "./online";
 
@@ -83,7 +84,7 @@ export default function OnlinePage() {
 
   return (
     <div
-      className={`${
+      className={`flex flex-col justify-between ${
         campaign ? "pt-36 md:pt-28" : "pt-28 md:pt-18"
       } p-4 bg-[rgba(var(--main-rgb),0.1)] min-h-screen`}
     >
@@ -129,6 +130,7 @@ export default function OnlinePage() {
               <Online key={index} retailer={retailer} />
             ))}
       </main>
+      <Footer />
     </div>
   );
 }

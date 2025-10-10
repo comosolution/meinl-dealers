@@ -93,7 +93,7 @@ export function Retailer({
                     href={d.href!}
                     target="_blank"
                     onClick={(e) => e.stopPropagation()}
-                    className="flex gap-2 items-center link"
+                    className="flex gap-1 items-center link"
                   >
                     <d.icon size={20} />
                     <h3>{d.label}</h3>
