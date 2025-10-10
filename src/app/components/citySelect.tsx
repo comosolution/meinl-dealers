@@ -1,27 +1,31 @@
 "use client";
 import { ActionIcon, Autocomplete } from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
-import citiesData from "../data/cities.json";
-
-interface City {
-  city: string;
-  country: string;
-  population?: number;
-}
 
 export default function CitySelect() {
   const { search, setSearch } = useDealerContext();
+  const [data, setData] = useState<string[]>([]);
 
-  const filteredCities: string[] = useMemo(() => {
-    if (!search || search.length < 1) return [];
+  useEffect(() => {
+    const delayDebounce = setTimeout(async () => {
+      if (search.length < 2) {
+        setData([]);
+        return;
+      }
 
-    const filtered = (citiesData as City[]).filter((c) =>
-      c.city.toLowerCase().includes(search.toLowerCase())
-    );
+      try {
+        const res = await fetch(`/api/cities?q=${encodeURIComponent(search)}`);
+        const { cities } = await res.json();
+        setData(cities);
+      } catch (err) {
+        console.error("Failed to fetch cities", err);
+        setData([]);
+      }
+    }, 400);
 
-    return filtered.slice(0, 20).map((c) => `${c.city}, ${c.country}`);
+    return () => clearTimeout(delayDebounce);
   }, [search]);
 
   return (
@@ -30,10 +34,9 @@ export default function CitySelect() {
       placeholder="Enter city"
       className="flex-1"
       w={400}
-      autoSelectOnBlur
       value={search}
       onChange={setSearch}
-      data={filteredCities}
+      data={data}
       rightSection={
         <ActionIcon color="black" variant="transparent" type="submit">
           <IconSearch size={20} />
