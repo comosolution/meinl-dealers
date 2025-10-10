@@ -1,5 +1,6 @@
-import { IconChevronRight } from "@tabler/icons-react";
+import { IconChevronRight, IconTagStarred } from "@tabler/icons-react";
 import Image from "next/image";
+import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
 import { getHref } from "../lib/utils";
 
@@ -29,8 +30,9 @@ export default function Online({ retailer }: { retailer: Dealer }) {
         />
       </div>
 
-      <div className="flex justify-between items-center">
-        <div className="flex flex-col">
+      <div className="flex justify-between items-center gap-2">
+        {flagshipStores.includes(retailer.kdnr) && <IconTagStarred size={32} />}
+        <div className="flex-1 flex flex-col">
           <h2>{retailer.name1}</h2>
           <p className="text-xs opacity-50">
             {retailer.www !== ""

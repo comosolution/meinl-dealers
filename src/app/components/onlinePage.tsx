@@ -70,6 +70,8 @@ export default function OnlinePage() {
   };
 
   useEffect(() => {
+    setSearch("");
+    setCountry(null);
     filterRetailers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brand, type]);
