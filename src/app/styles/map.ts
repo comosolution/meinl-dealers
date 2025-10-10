@@ -1,11 +1,11 @@
 export const mapStyles = [
   {
     elementType: "geometry",
-    stylers: [{ color: "#f2f1ef" }], // soft warm grey background
+    stylers: [{ color: "#f2f1ef" }],
   },
   {
     elementType: "labels.text.fill",
-    stylers: [{ color: "#5b5b5b" }], // dark muted text
+    stylers: [{ color: "#5b5b5b" }],
   },
   {
     elementType: "labels.text.stroke",
@@ -14,7 +14,7 @@ export const mapStyles = [
   {
     featureType: "administrative",
     elementType: "geometry",
-    stylers: [{ color: "#a4a6a8" }], // subtle neutral borders
+    stylers: [{ color: "#a4a6a8" }],
   },
   {
     featureType: "administrative",
@@ -24,12 +24,12 @@ export const mapStyles = [
   {
     featureType: "poi",
     elementType: "geometry",
-    stylers: [{ color: "#d7e4d0" }], // soft sage green for POIs
+    stylers: [{ color: "#d7e4d0" }],
   },
   {
     featureType: "poi.park",
     elementType: "geometry",
-    stylers: [{ color: "#bcd7a6" }], // muted green for parks
+    stylers: [{ color: "#bcd7a6" }],
   },
   {
     featureType: "poi.park",
@@ -39,17 +39,17 @@ export const mapStyles = [
   {
     featureType: "road",
     elementType: "geometry",
-    stylers: [{ color: "#e1dcd5" }], // warm light beige roads
+    stylers: [{ color: "#e1dcd5" }],
   },
   {
     featureType: "road",
     elementType: "geometry.stroke",
-    stylers: [{ color: "#c7c2bc" }], // slightly darker strokes
+    stylers: [{ color: "#c7c2bc" }],
   },
   {
     featureType: "road.highway",
     elementType: "geometry",
-    stylers: [{ color: "#d3c2b5" }], // slightly pinkish tan highways
+    stylers: [{ color: "#d3c2b5" }],
   },
   {
     featureType: "road.highway",
@@ -69,12 +69,12 @@ export const mapStyles = [
   {
     featureType: "transit",
     elementType: "geometry",
-    stylers: [{ color: "#d4e0e8" }], // light blue-grey for transit
+    stylers: [{ color: "#d4e0e8" }],
   },
   {
     featureType: "water",
     elementType: "geometry",
-    stylers: [{ color: "#a7c7d9" }], // soft desaturated blue
+    stylers: [{ color: "#a7c7d9" }],
   },
   {
     featureType: "water",
@@ -83,6 +83,6 @@ export const mapStyles = [
   },
   {
     featureType: "poi",
-    stylers: [{ visibility: "on" }], // keep POIs visible for style richness
+    stylers: [{ visibility: "on" }],
   },
 ];
