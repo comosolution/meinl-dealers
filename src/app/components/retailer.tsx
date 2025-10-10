@@ -6,6 +6,7 @@ import {
   IconWorld,
   IconZoomScan,
 } from "@tabler/icons-react";
+import { useEffect, useRef, useState } from "react";
 import { Dealer } from "../lib/interfaces";
 import { getHref } from "../lib/utils";
 
@@ -23,6 +24,8 @@ export function Retailer({
   map: google.maps.Map | null;
 }) {
   const address = `${retailer.postalAddress.street}, ${retailer.postalAddress.zip} ${retailer.postalAddress.city}`;
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentHeight, setContentHeight] = useState(0);
 
   const data = [
     {
@@ -44,14 +47,24 @@ export function Retailer({
       href: getHref(retailer.shopUrl),
     },
   ];
+
+  // Measure content height dynamically
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+  }, [retailer, active]);
+
   return (
     <div
       ref={innerRef}
-      className={`flex flex-col gap-4 p-4 border-t border-[var(--main)] ${
+      className={`flex flex-col ${
+        active ? "gap-4" : ""
+      } p-4 border-t border-[var(--main)] cursor-pointer transition-all ${
         active
-          ? "bg-[var(--background-subtle)]"
+          ? "bg-[rgb(var(--main-rgb),0.1)]"
           : "hover:bg-[rgb(var(--main-rgb),0.1)]"
-      } cursor-pointer transition-all`}
+      }`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
     >
@@ -64,8 +77,12 @@ export function Retailer({
         </div>
         {active && <p className="text-xs">{address}</p>}
       </header>
-      {active && (
-        <>
+
+      <div
+        className="overflow-hidden transition-all duration-300"
+        style={{ maxHeight: active ? contentHeight : 0 }}
+      >
+        <div ref={contentRef} className="flex flex-col gap-4">
           <hr className="opacity-10" />
           <div className="flex flex-col gap-2">
             {data.map(
@@ -129,8 +146,8 @@ export function Retailer({
               View on map
             </Button>
           </Button.Group>
-        </>
-      )}
+        </div>
+      </div>
     </div>
   );
 }
