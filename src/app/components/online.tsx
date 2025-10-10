@@ -12,19 +12,23 @@ export default function Online({ retailer }: { retailer: Dealer }) {
       target="_blank"
       className="group flex flex-col justify-end gap-4 p-4 border border-transparent hover:border-[var(--main)] bg-[var(--background)] hover:text-[var(--main)] transition-all"
     >
-      {retailer.logo && retailer.logo !== "" && (
-        <div
-          className="relative overflow-hidden"
-          style={{ width: "100%", height: "120px" }}
-        >
-          <Image
-            src={retailer.logo}
-            fill
-            style={{ objectFit: "contain" }}
-            alt={`Logo ${retailer.name1}`}
-          />
-        </div>
-      )}
+      <div
+        className="relative overflow-hidden"
+        style={{ width: "100%", height: "120px" }}
+      >
+        <Image
+          src={
+            retailer.logo && retailer.logo !== ""
+              ? retailer.logo
+              : "/logo_b.svg"
+          }
+          fill
+          style={{ objectFit: "contain" }}
+          alt={`Logo ${retailer.name1}`}
+          className={retailer.logo && retailer.logo !== "" ? "" : "opacity-10"}
+        />
+      </div>
+
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
           <h2>{retailer.name1}</h2>
