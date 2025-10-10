@@ -87,7 +87,7 @@ export default function OnlinePage() {
         campaign ? "pt-36 md:pt-28" : "pt-28 md:pt-18"
       } p-4 bg-[rgba(var(--main-rgb),0.1)] min-h-screen`}
     >
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <TextInput
           size="md"
           placeholder="Search"
