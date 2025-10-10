@@ -8,7 +8,7 @@ import {
 } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 import { Dealer } from "../lib/interfaces";
-import { getHref } from "../lib/utils";
+import { getHref, normalizeCountryCode } from "../lib/utils";
 
 export function Retailer({
   retailer,
@@ -23,7 +23,6 @@ export function Retailer({
   innerRef?: React.Ref<HTMLDivElement>;
   map: google.maps.Map | null;
 }) {
-  const address = `${retailer.postalAddress.street}, ${retailer.postalAddress.zip} ${retailer.postalAddress.city}`;
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
 
@@ -47,6 +46,12 @@ export function Retailer({
       href: getHref(retailer.shopUrl),
     },
   ];
+
+  const address = `${retailer.postalAddress.street}, ${
+    retailer.postalAddress.zip
+  } ${retailer.postalAddress.city}, ${normalizeCountryCode(
+    retailer.postalAddress.country
+  )}`;
 
   useEffect(() => {
     if (contentRef.current) {
