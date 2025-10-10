@@ -133,7 +133,7 @@ export default function OnlinePage() {
                     : getHref(retailer.www)
                 }
                 target="_blank"
-                className="group flex flex-col justify-end gap-4 p-4 bg-[var(--background)] hover:text-[var(--main)] transition-all"
+                className="group flex flex-col justify-end gap-4 p-4 border border-transparent hover:border-[var(--main)] bg-[var(--background)] hover:text-[var(--main)] transition-all"
               >
                 {retailer.logo && retailer.logo !== "" && (
                   <div
@@ -145,7 +145,6 @@ export default function OnlinePage() {
                       fill
                       style={{ objectFit: "contain" }}
                       alt={`Logo ${retailer.name1}`}
-                      className="grayscale-100 group-hover:grayscale-0 transition-all"
                     />
                   </div>
                 )}
