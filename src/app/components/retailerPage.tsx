@@ -254,11 +254,11 @@ export default function RetailerPage() {
   if (!isLoaded) return null;
 
   return (
-    <main className="relative flex flex-col md:flex-row">
+    <main className="relative flex flex-col-reverse md:flex-row">
       <div
         className={`${showSidebar ? "w-full md:w-[480px]" : "w-0"}  ${
-          campaign ? "pt-40 md:pt-28" : "pt-28 md:pt-16"
-        }  flex flex-col gap-8 max-h-[66vh] md:max-h-screen overflow-y-scroll transition-all duration-300`}
+          campaign ? "pt-4 md:pt-28" : "pt-4 md:pt-16"
+        }  flex flex-col gap-8 max-h-full md:max-h-screen overflow-y-scroll transition-all duration-300`}
         style={
           showSidebar
             ? {
@@ -343,7 +343,7 @@ export default function RetailerPage() {
           </div>
         )}
       </div>
-      <div className="relative w-full h-screen">
+      <div className="relative w-full h-[50vh] md:h-screen">
         <div
           className={`hidden md:block absolute left-0 ${
             campaign ? "top-28" : "top-16"
