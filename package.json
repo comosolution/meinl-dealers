@@ -19,7 +19,6 @@
     "geolib": "^3.3.4",
     "next": "15.5.0",
     "next-auth": "^4.24.11",
-    "pluralize": "^8.0.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-fast-marquee": "^1.6.4",

@@ -3,7 +3,6 @@ import { ActionIcon, Button, Slider, Tooltip } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { IconChevronRight, IconCurrentLocation } from "@tabler/icons-react";
-import pluralize from "pluralize";
 import { useEffect, useRef, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { Dealer, Location } from "../lib/interfaces";
@@ -316,10 +315,6 @@ export default function RetailerPage() {
         </div>
         {retailers.length > 0 ? (
           <div className="flex-1 w-full flex flex-col">
-            <p className="text-xs dimmed text-center p-4">
-              {retailers.length} retail{" "}
-              {pluralize("location", retailers.length)}
-            </p>
             {retailers
               .sort(
                 (a, b) =>

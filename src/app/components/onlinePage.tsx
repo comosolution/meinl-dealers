@@ -126,6 +126,8 @@ export default function OnlinePage() {
                     r.name1 || "",
                     r.name2 || "",
                     r.name3 || "",
+                    r.postalAddress.city || "",
+                    r.postalAddress.street || "",
                   ].some((value) => value.toLowerCase().includes(keyword))
                 );
               })
