@@ -48,7 +48,6 @@ export function Retailer({
     },
   ];
 
-  // Measure content height dynamically
   useEffect(() => {
     if (contentRef.current) {
       setContentHeight(contentRef.current.scrollHeight);
@@ -62,7 +61,7 @@ export function Retailer({
         active ? "gap-4" : ""
       } p-4 border-t border-[var(--main)] cursor-pointer transition-all ${
         active
-          ? "bg-[rgb(var(--main-rgb),0.1)]"
+          ? "bg-[var(--background-subtle)]"
           : "hover:bg-[rgb(var(--main-rgb),0.1)]"
       }`}
       tabIndex={0}
@@ -77,14 +76,13 @@ export function Retailer({
         </div>
         {active && <p className="text-xs">{address}</p>}
       </header>
-
       <div
         className="overflow-hidden transition-all duration-300"
         style={{ maxHeight: active ? contentHeight : 0 }}
       >
         <div ref={contentRef} className="flex flex-col gap-4">
           <hr className="opacity-10" />
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             {data.map(
               (d, i) =>
                 d.address && (
