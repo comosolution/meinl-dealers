@@ -49,7 +49,7 @@ export function Retailer({
       ref={innerRef}
       className={`flex flex-col gap-4 p-4 border-t border-[var(--main)] ${
         active
-          ? "bg-[rgb(var(--main-rgb),0.1)]"
+          ? "bg-[var(--background-subtle)]"
           : "hover:bg-[rgb(var(--main-rgb),0.1)]"
       } cursor-pointer transition-all`}
       tabIndex={0}
@@ -57,7 +57,7 @@ export function Retailer({
     >
       <header className="flex flex-col">
         <div className="flex justify-between items-center">
-          <h3 className="text-xl font-bold tracking-tight">{retailer.name1}</h3>
+          <h2>{retailer.name1}</h2>
           <span className="text-[10px] font-mono tracking-tighter dimmed">
             {retailer.coordinates.distance?.toFixed(0)}km
           </span>
@@ -66,6 +66,7 @@ export function Retailer({
       </header>
       {active && (
         <>
+          <hr className="opacity-10" />
           <div className="flex flex-col gap-2">
             {data.map(
               (d, i) =>
@@ -75,10 +76,10 @@ export function Retailer({
                     href={d.href!}
                     target="_blank"
                     onClick={(e) => e.stopPropagation()}
-                    className="flex gap-1 items-center text-xs"
+                    className="flex gap-2 items-center link"
                   >
-                    <d.icon size={16} />
-                    {d.label}
+                    <d.icon size={20} />
+                    <h3>{d.label}</h3>
                   </a>
                 )
             )}

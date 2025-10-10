@@ -256,7 +256,7 @@ export default function RetailerPage() {
   return (
     <main className="relative flex flex-col-reverse md:flex-row">
       <div
-        className={`${showSidebar ? "w-full md:w-[480px]" : "w-0"}  ${
+        className={`${showSidebar ? "w-full md:w-[540px]" : "w-0"}  ${
           campaign ? "pt-4 md:pt-28" : "pt-4 md:pt-16"
         }  flex flex-col gap-8 max-h-full md:max-h-screen overflow-y-scroll transition-all duration-300`}
         style={
@@ -264,7 +264,7 @@ export default function RetailerPage() {
             ? {
                 transform: "translateX(0)",
               }
-            : { transform: "translateX(-480px)" }
+            : { transform: "translateX(-540px)" }
         }
       >
         <div className="flex flex-col gap-2 px-4">
