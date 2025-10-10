@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="flex flex-col items-center gap-1 p-4">
+    <footer className="flex flex-col items-center gap-1 p-4 text-center">
       <p className="text-xs">© Roland Meinl Musikinstrumente GmbH & Co. KG</p>
       <nav className="flex gap-4">
         {[
