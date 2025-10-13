@@ -17,14 +17,8 @@ export default function RetailerPage() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
-  const {
-    brand,
-    campaign,
-    setSearch,
-    search,
-    submittedSearch,
-    setUserLocation,
-  } = useDealerContext();
+  const { brand, campaign, setSearch, search, setUserLocation } =
+    useDealerContext();
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSidebar, setShowSidebar] = useState(true);
@@ -75,6 +69,7 @@ export default function RetailerPage() {
             lng: userLocation.longitude,
           });
           map.setZoom(9);
+          setDistance(String(getDistanceFromZoom(9)));
         }
       }
     } catch (err) {
@@ -98,6 +93,7 @@ export default function RetailerPage() {
           });
           map.panTo(loc);
           map.setZoom(9);
+          setDistance(String(getDistanceFromZoom(9)));
           setPendingFilter(true);
         },
         (err) => {
@@ -169,15 +165,11 @@ export default function RetailerPage() {
       const result = await geocoder.geocode({ address: search });
       if (result.results.length > 0) {
         const loc = result.results[0].geometry.location;
-        setLocation({
-          latitude: loc.lat(),
-          longitude: loc.lng(),
-        });
         map.panTo(loc);
         map.setZoom(9);
+        setDistance(String(getDistanceFromZoom(9)));
       }
     }
-
     filterRetailers();
   };
 
@@ -214,25 +206,7 @@ export default function RetailerPage() {
       setPendingFilter(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, location, brand]);
-
-  useEffect(() => {
-    if (!map || !submittedSearch) return;
-
-    const geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address: submittedSearch }, (results, status) => {
-      if (status === "OK" && results && results[0]) {
-        const loc = results[0].geometry.location;
-        setLocation({
-          latitude: loc.lat(),
-          longitude: loc.lng(),
-        });
-        map.panTo(loc);
-        map.setZoom(9);
-        setPendingFilter(true);
-      }
-    });
-  }, [map, submittedSearch]);
+  }, [map, brand]);
 
   useEffect(() => {
     if (map) {
@@ -246,7 +220,7 @@ export default function RetailerPage() {
       setTimeout(() => filterRetailers(), 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [brand, campaign]);
+  }, [campaign]);
 
   if (!isLoaded) return null;
 
