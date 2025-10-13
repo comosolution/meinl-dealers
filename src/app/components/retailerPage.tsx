@@ -217,7 +217,7 @@ export default function RetailerPage() {
 
   useEffect(() => {
     if (map) {
-      setTimeout(() => filterRetailers(), 100);
+      setTimeout(() => filterRetailers(), 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [campaign]);
