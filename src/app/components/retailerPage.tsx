@@ -68,8 +68,8 @@ export default function RetailerPage() {
             lat: userLocation.latitude,
             lng: userLocation.longitude,
           });
-          map.setZoom(9);
-          setDistance(String(getDistanceFromZoom(9)));
+          map.setZoom(7);
+          setDistance(String(getDistanceFromZoom(7)));
         }
       }
     } catch (err) {
