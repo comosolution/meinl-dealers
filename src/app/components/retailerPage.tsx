@@ -31,12 +31,9 @@ export default function RetailerPage() {
   const [showSearchButton, setShowSearchButton] = useState(false);
   const [retailers, setRetailers] = useState<Dealer[]>([]);
   const [selectedRetailer, setSelectedRetailer] = useState("");
-  const [location, setLocation] = useState<Location | null>({
-    latitude: 49.6096464,
-    longitude: 10.6364508,
-  });
+  const [location, setLocation] = useState<Location | null>(null);
   const [pendingFilter, setPendingFilter] = useState(false);
-  const [distance, setDistance] = useState<string | null>("100000");
+  const [distance, setDistance] = useState<string | null>("300000");
 
   const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const lastCenterRef = useRef<{ lat: number; lng: number } | null>(null);
@@ -249,7 +246,7 @@ export default function RetailerPage() {
       setTimeout(() => filterRetailers(), 100);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, brand, campaign]);
+  }, [brand, campaign]);
 
   if (!isLoaded) return null;
 
@@ -379,8 +376,8 @@ export default function RetailerPage() {
           }}
           onLoad={(mapInstance) => {
             setMap(mapInstance);
-            mapInstance.setCenter({ lat: 49.6096464, lng: 10.6364508 });
-            mapInstance.setZoom(9);
+            mapInstance.setCenter({ lat: 51.1634, lng: 10.4477 });
+            mapInstance.setZoom(7);
           }}
           onIdle={handleIdle}
         >
