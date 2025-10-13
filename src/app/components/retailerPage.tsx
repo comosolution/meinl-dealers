@@ -199,14 +199,6 @@ export default function RetailerPage() {
   };
 
   useEffect(() => {
-    if (map && retailers.length > 0 && location) {
-      filterRetailers();
-      setPendingFilter(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, brand]);
-
-  useEffect(() => {
     if (map) {
       fetchUserLocation();
     }
@@ -214,11 +206,11 @@ export default function RetailerPage() {
   }, [map]);
 
   useEffect(() => {
-    if (map) {
+    if (map && campaign) {
       setTimeout(() => filterRetailers(), 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [campaign]);
+  }, [map, campaign]);
 
   if (!isLoaded) return null;
 
