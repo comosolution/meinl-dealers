@@ -14,7 +14,7 @@ export const mapStyles = [
   {
     featureType: "administrative",
     elementType: "geometry",
-    stylers: [{ color: "#a4a6a8" }],
+    stylers: [{ color: "#000000" }],
   },
   {
     featureType: "administrative",
