@@ -41,7 +41,7 @@ export default function Login() {
         className="w-[420px] relative z-50 p-8 flex flex-col items-center gap-8 backdrop-blur-md shadow-2xl shadow-black/20"
       >
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-2">
-          <Logo />
+          <Logo inverted />
           <PasswordInput
             size="lg"
             value={password}
