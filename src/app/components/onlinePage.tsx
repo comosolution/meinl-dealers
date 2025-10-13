@@ -15,7 +15,7 @@ export default function OnlinePage() {
   const [countries, setCountries] = useState<
     { label: string; value: string }[]
   >([]);
-  const [country, setCountry] = useState<string | null>("");
+  const [country, setCountry] = useState<string | null>("DE");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -71,7 +71,9 @@ export default function OnlinePage() {
 
   useEffect(() => {
     setSearch("");
-    setCountry(null);
+    setCountry(
+      !userLocation || type === "flagship" ? "DE" : userLocation.country
+    );
     filterRetailers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [brand, type]);
