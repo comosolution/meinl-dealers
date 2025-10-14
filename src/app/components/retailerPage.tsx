@@ -26,7 +26,6 @@ export default function RetailerPage() {
   const [retailers, setRetailers] = useState<Dealer[]>([]);
   const [selectedRetailer, setSelectedRetailer] = useState("");
   const [location, setLocation] = useState<Location | null>(null);
-  const [pendingFilter, setPendingFilter] = useState(false);
   const [distance, setDistance] = useState<string | null>("300000");
 
   const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -78,44 +77,51 @@ export default function RetailerPage() {
   const handleGetUserLocation = () => {
     if (!map) return;
 
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const loc = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          map.panTo(loc);
-          map.setZoom(9);
-          setDistance(String(getDistanceFromZoom(9)));
-          setPendingFilter(true);
-        },
-        (err) => {
-          notifications.show({
-            title: "Error getting location",
-            message: `${err.message} (code: ${err.code})`,
-            color: "black",
-            position: "top-right",
-          });
-          console.error(err);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-        }
-      );
-    } else {
+    if (!("geolocation" in navigator)) {
       notifications.show({
         title: "Error getting location",
         message: "Geolocation is not supported by this browser.",
         color: "black",
         position: "top-right",
       });
+      return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const loc = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        const newZoom = 9;
+        const newDistance = getDistanceFromZoom(newZoom);
+
+        setLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+        setDistance(String(newDistance));
+
+        map.panTo(loc);
+        map.setZoom(newZoom);
+
+        const listener = google.maps.event.addListenerOnce(map, "idle", () => {
+          filterRetailers(newDistance);
+          google.maps.event.removeListener(listener);
+        });
+      },
+      (err) => {
+        notifications.show({
+          title: "Error getting location",
+          message: `${err.message} (code: ${err.code})`,
+          color: "black",
+          position: "top-right",
+        });
+        console.error(err);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
   };
 
   const handleIdle = () => {
@@ -147,28 +153,31 @@ export default function RetailerPage() {
 
     lastCenterRef.current = center;
     lastZoomRef.current = newZoom;
-
-    if (pendingFilter) {
-      filterRetailers();
-      setPendingFilter(false);
-    }
   };
 
   const handleSearchSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
-    if (!map) return;
+    if (!map || !search) return;
 
-    if (search) {
-      const geocoder = new google.maps.Geocoder();
-      const result = await geocoder.geocode({ address: search });
-      if (result.results.length > 0) {
-        const loc = result.results[0].geometry.location;
-        map.panTo(loc);
-        map.setZoom(9);
-        setDistance(String(getDistanceFromZoom(9)));
-      }
+    const geocoder = new google.maps.Geocoder();
+    const result = await geocoder.geocode({ address: search });
+
+    if (result.results.length > 0) {
+      const loc = result.results[0].geometry.location;
+
+      const newZoom = 9;
+      const newDistance = getDistanceFromZoom(newZoom);
+
+      setDistance(String(newDistance));
+
+      map.panTo(loc);
+      map.setZoom(newZoom);
+
+      const listener = google.maps.event.addListenerOnce(map, "idle", () => {
+        filterRetailers(newDistance);
+        google.maps.event.removeListener(listener);
+      });
     }
-    filterRetailers();
   };
 
   const handleAreaSubmit = () => {
@@ -177,24 +186,28 @@ export default function RetailerPage() {
     filterRetailers();
   };
 
-  const filterRetailers = async () => {
+  const filterRetailers = async (distanceOverride?: number) => {
     if (!map) return;
     const latLng = map.getCenter();
     if (!latLng) return;
+
+    const distanceToUse = distanceOverride ?? Number(distance);
 
     const res = await fetch("/api/dealer", {
       method: "POST",
       body: JSON.stringify({
         brands: brand,
         campagne: campaign?.id,
-        latitude: latLng.lat() || location!.latitude,
-        longitude: latLng.lng() || location!.longitude,
-        distance: +distance! / 1000,
+        latitude: latLng.lat(),
+        longitude: latLng.lng(),
+        distance: distanceToUse / 1000, // km
         type: 1,
       }),
     });
+
     const dealers = await res.json();
     setRetailers(dealers);
+
     setTimeout(() => setShowSearchButton(false), 900);
   };
 
