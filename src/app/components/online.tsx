@@ -7,7 +7,7 @@ import { getHref } from "../lib/utils";
 
 export default function Online({ retailer }: { retailer: Dealer }) {
   const [imgSrc, setImgSrc] = useState(
-    retailer.logo && retailer.logo !== "" ? retailer.logo : "/logo_b.svg"
+    retailer.logo && retailer.logo !== "" ? retailer.logo : "/logo_l.svg"
   );
 
   return (
@@ -30,7 +30,6 @@ export default function Online({ retailer }: { retailer: Dealer }) {
           onError={() => setImgSrc("/logo_l.svg")}
         />
       </div>
-
       <div className="flex justify-between items-center gap-2">
         <div className="flex-1 flex flex-col">
           <h2>{retailer.name1}</h2>
