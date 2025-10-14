@@ -217,14 +217,12 @@ export default function RetailerPage() {
   return (
     <main className="relative flex flex-col-reverse md:flex-row">
       <div
-        className={`${showSidebar ? "w-full md:w-[540px]" : "w-0"}  ${
+        className={`${showSidebar ? "w-full md:w-[540px]" : "w-0"} ${
           campaign ? "pt-4 md:pt-28" : "pt-4 md:pt-16"
-        }  flex flex-col justify-between gap-8 max-h-full md:max-h-screen overflow-y-scroll transition-all duration-300`}
+        } flex flex-col justify-between gap-8 h-[calc(100vh-50vh)] md:h-screen overflow-y-scroll transition-all duration-300`}
         style={
           showSidebar
-            ? {
-                transform: "translateX(0)",
-              }
+            ? { transform: "translateX(0)" }
             : { transform: "translateX(-540px)" }
         }
       >
@@ -295,7 +293,7 @@ export default function RetailerPage() {
               ))}
           </div>
         ) : (
-          <p className="text-xs dimmed text-center">No dealers found.</p>
+          <></>
         )}
         <Footer />
       </div>

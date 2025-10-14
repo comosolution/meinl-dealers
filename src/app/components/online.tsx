@@ -28,6 +28,7 @@ export default function Online({ retailer }: { retailer: Dealer }) {
           style={{ objectFit: "contain" }}
           alt={`Logo ${retailer.name1}`}
           onError={() => setImgSrc("/logo_l.svg")}
+          className="md:opacity-80 md:group-hover:opacity-100 transition-all"
         />
       </div>
       <div className="flex justify-between items-center gap-2">
