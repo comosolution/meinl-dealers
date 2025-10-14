@@ -1,10 +1,15 @@
-import { IconChevronRight, IconTagStarred } from "@tabler/icons-react";
+import { IconTagStarred } from "@tabler/icons-react";
 import Image from "next/image";
+import { useState } from "react";
 import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
 import { getHref } from "../lib/utils";
 
 export default function Online({ retailer }: { retailer: Dealer }) {
+  const [imgSrc, setImgSrc] = useState(
+    retailer.logo && retailer.logo !== "" ? retailer.logo : "/logo_b.svg"
+  );
+
   return (
     <a
       href={
@@ -18,20 +23,15 @@ export default function Online({ retailer }: { retailer: Dealer }) {
         style={{ width: "100%", height: "120px" }}
       >
         <Image
-          src={
-            retailer.logo && retailer.logo !== ""
-              ? retailer.logo
-              : "/logo_b.svg"
-          }
+          src={imgSrc}
           fill
           style={{ objectFit: "contain" }}
           alt={`Logo ${retailer.name1}`}
-          className={retailer.logo && retailer.logo !== "" ? "" : "opacity-10"}
+          onError={() => setImgSrc("/logo_l.svg")}
         />
       </div>
 
       <div className="flex justify-between items-center gap-2">
-        {flagshipStores.includes(retailer.kdnr) && <IconTagStarred size={32} />}
         <div className="flex-1 flex flex-col">
           <h2>{retailer.name1}</h2>
           <p className="text-xs opacity-50">
@@ -40,10 +40,7 @@ export default function Online({ retailer }: { retailer: Dealer }) {
               : retailer.www}
           </p>
         </div>
-        <IconChevronRight
-          size={32}
-          className="opacity-0 group-hover:opacity-100 -rotate-90 group-hover:rotate-0 transition-all duration-300"
-        />
+        {flagshipStores.includes(retailer.kdnr) && <IconTagStarred size={32} />}
       </div>
     </a>
   );

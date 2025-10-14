@@ -62,9 +62,9 @@ export function Retailer({
   return (
     <div
       ref={innerRef}
-      className={`flex flex-col ${
-        active ? "gap-4" : ""
-      } p-4 border-t border-[var(--main)] cursor-pointer transition-all ${
+      className={`flex flex-col gap-4 p-4 ${
+        active ? "" : "pb-0"
+      } border-t border-[var(--main)] cursor-pointer transition-all ${
         active
           ? "bg-[var(--background-subtle)]"
           : "hover:bg-[rgb(var(--main-rgb),0.1)]"
@@ -79,7 +79,7 @@ export function Retailer({
             {retailer.coordinates.distance?.toFixed(0)}km
           </span>
         </div>
-        {active && <p className="text-xs">{address}</p>}
+        <p className="text-xs">{address}</p>
       </header>
       <div
         className="overflow-hidden transition-all duration-300"

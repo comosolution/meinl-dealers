@@ -135,8 +135,8 @@ export default function OnlinePage() {
                   ].some((value) => value.toLowerCase().includes(keyword))
                 );
               })
-              .map((retailer, index) => (
-                <Online key={index} retailer={retailer} />
+              .map((retailer) => (
+                <Online key={retailer.kdnr} retailer={retailer} />
               ))}
         </main>
       </div>
