@@ -79,13 +79,18 @@ export default function BrandSelect() {
           {brands.map((b) => (
             <Combobox.Option value={b} key={b}>
               <div className="flex gap-4 items-center">
-                <Image
-                  src={`/brands/${b.replaceAll(" ", "-").toUpperCase()}.png`}
-                  width={size}
-                  height={size}
-                  alt={b}
-                  className="inverted"
-                />
+                <div
+                  className="relative overflow-hidden"
+                  style={{ width: `${size}px`, height: `${size}px` }}
+                >
+                  <Image
+                    src={`/brands/${b.replaceAll(" ", "-").toUpperCase()}.png`}
+                    fill
+                    alt={`${b} Logo`}
+                    style={{ objectFit: "contain" }}
+                    className="inverted"
+                  />
+                </div>
                 <p>{b}</p>
               </div>
             </Combobox.Option>
