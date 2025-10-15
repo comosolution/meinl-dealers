@@ -28,6 +28,9 @@ export function Retailer({
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
 
+  const isTouchDevice =
+    typeof window !== "undefined" && "ontouchstart" in window;
+
   const data = [
     {
       icon: IconPhone,
@@ -73,8 +76,12 @@ export function Retailer({
       }`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
-      onMouseEnter={() => onHover?.(true)}
-      onMouseLeave={() => onHover?.(false)}
+      onMouseEnter={() => {
+        if (!isTouchDevice) onHover?.(true);
+      }}
+      onMouseLeave={() => {
+        if (!isTouchDevice) onHover?.(false);
+      }}
     >
       <header className="flex flex-col">
         <div className="flex justify-between items-center">
