@@ -231,7 +231,7 @@ export default function RetailerPage() {
     <div>
       <form
         onSubmit={handleSearchSubmit}
-        className="flex items-center gap-2 px-4 py-2 bg-neutral-800"
+        className="flex items-center gap-2 px-8 py-2 bg-neutral-800"
       >
         <p className="font-bold text-[var(--background)]">SEARCH:</p>
         <CitySelect />
@@ -250,7 +250,7 @@ export default function RetailerPage() {
         <div
           className={`${
             showSidebar ? "w-full md:w-[540px]" : "w-0"
-          } flex flex-col justify-between gap-8 h-[calc(100vh-50vh)] md:h-screen overflow-y-scroll transition-all duration-300`}
+          } flex flex-col justify-between h-[calc(100vh-50vh)] md:h-screen overflow-y-scroll transition-all duration-300`}
           style={
             showSidebar
               ? { transform: "translateX(0)" }

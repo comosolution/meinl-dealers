@@ -82,12 +82,16 @@ img.inverted {
   color: var(--mantine-color-dimmed);
 }
 
-.mantine-Input-input:focus,
-.mantine-Autocomplete-input:focus {
+.mantine-Autocomplete-input {
+  color: white;
+}
+
+.mantine-Input-input:focus {
   border-color: var(--main);
 }
 
-.mantine-Input-input.mantine-InputBase-input {
+.mantine-Input-input.mantine-InputBase-input,
+.mantine-Autocomplete-input:focus {
   border-color: transparent;
 }
 
