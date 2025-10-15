@@ -31,72 +31,76 @@ export default function BrandSelect() {
   const size = 24;
 
   return (
-    <Combobox
-      store={combobox}
-      onOptionSubmit={(val) => {
-        setBrand(val);
-        combobox.closeDropdown();
-      }}
-      disabled={brandParam}
-    >
-      <Combobox.Target>
-        <InputBase
-          tabIndex={0}
-          w={210}
-          size="md"
-          className="flex-1"
-          variant="filled"
-          component="button"
-          type="button"
-          pointer
-          onClick={() => combobox.toggleDropdown()}
-        >
-          {selectedOption ? (
-            <div className="flex gap-2 items-center">
-              <div
-                className="relative overflow-hidden"
-                style={{ width: `${size}px`, height: `${size}px` }}
-              >
-                <Image
-                  src={`/brands/${selectedOption
-                    .replaceAll(" ", "-")
-                    .toUpperCase()}.png`}
-                  fill
-                  alt={selectedOption}
-                  style={{ objectFit: "contain" }}
-                  className="inverted"
-                />
-              </div>
-              <p className="hidden sm:block">{selectedOption}</p>
-            </div>
-          ) : (
-            <Input.Placeholder>Select brand</Input.Placeholder>
-          )}
-        </InputBase>
-      </Combobox.Target>
-      <Combobox.Dropdown>
-        <Combobox.Options>
-          {brands.map((b) => (
-            <Combobox.Option value={b} key={b}>
-              <div className="flex gap-4 items-center">
+    <div className={brandParam ? "hidden" : ""}>
+      <Combobox
+        store={combobox}
+        onOptionSubmit={(val) => {
+          setBrand(val);
+          combobox.closeDropdown();
+        }}
+        disabled={brandParam}
+      >
+        <Combobox.Target>
+          <InputBase
+            tabIndex={0}
+            w={210}
+            size="md"
+            className="flex-1"
+            variant="filled"
+            component="button"
+            type="button"
+            pointer
+            onClick={() => combobox.toggleDropdown()}
+          >
+            {selectedOption ? (
+              <div className="flex gap-2 items-center">
                 <div
                   className="relative overflow-hidden"
                   style={{ width: `${size}px`, height: `${size}px` }}
                 >
                   <Image
-                    src={`/brands/${b.replaceAll(" ", "-").toUpperCase()}.png`}
+                    src={`/brands/${selectedOption
+                      .replaceAll(" ", "-")
+                      .toUpperCase()}.png`}
                     fill
-                    alt={`${b} Logo`}
+                    alt={selectedOption}
                     style={{ objectFit: "contain" }}
                     className="inverted"
                   />
                 </div>
-                <p>{b}</p>
+                <p className="hidden sm:block">{selectedOption}</p>
               </div>
-            </Combobox.Option>
-          ))}
-        </Combobox.Options>
-      </Combobox.Dropdown>
-    </Combobox>
+            ) : (
+              <Input.Placeholder>Select brand</Input.Placeholder>
+            )}
+          </InputBase>
+        </Combobox.Target>
+        <Combobox.Dropdown>
+          <Combobox.Options>
+            {brands.map((b) => (
+              <Combobox.Option value={b} key={b}>
+                <div className="flex gap-4 items-center">
+                  <div
+                    className="relative overflow-hidden"
+                    style={{ width: `${size}px`, height: `${size}px` }}
+                  >
+                    <Image
+                      src={`/brands/${b
+                        .replaceAll(" ", "-")
+                        .toUpperCase()}.png`}
+                      fill
+                      alt={`${b} Logo`}
+                      style={{ objectFit: "contain" }}
+                      className="inverted"
+                    />
+                  </div>
+                  <p>{b}</p>
+                </div>
+              </Combobox.Option>
+            ))}
+          </Combobox.Options>
+        </Combobox.Dropdown>
+      </Combobox>
+    </div>
   );
 }

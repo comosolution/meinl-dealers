@@ -87,11 +87,7 @@ export default function OnlinePage() {
   if (loading) return <Loader />;
 
   return (
-    <div
-      className={`flex flex-col justify-between ${
-        campaign ? "pt-36 md:pt-28" : "pt-28 md:pt-18"
-      } p-4 bg-[var(--background-subtle)] min-h-screen`}
-    >
+    <div className={`flex flex-col justify-between p-4 min-h-screen`}>
       {type !== "flagship" && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Select

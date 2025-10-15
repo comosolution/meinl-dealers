@@ -1,5 +1,5 @@
 "use client";
-import { ActionIcon, Button, Slider, Tooltip } from "@mantine/core";
+import { ActionIcon, Button, Select, Tooltip } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { IconChevronRight, IconCurrentLocation } from "@tabler/icons-react";
@@ -228,164 +228,158 @@ export default function RetailerPage() {
   if (!isLoaded) return null;
 
   return (
-    <main className="relative flex flex-col-reverse md:flex-row">
-      <div
-        className={`${showSidebar ? "w-full md:w-[540px]" : "w-0"} ${
-          campaign ? "pt-4 md:pt-28" : "pt-4 md:pt-16"
-        } flex flex-col justify-between gap-8 h-[calc(100vh-50vh)] md:h-screen overflow-y-scroll transition-all duration-300`}
-        style={
-          showSidebar
-            ? { transform: "translateX(0)" }
-            : { transform: "translateX(-540px)" }
-        }
+    <div>
+      <form
+        onSubmit={handleSearchSubmit}
+        className="flex items-center gap-2 px-4 py-2 bg-neutral-800"
       >
-        <div className="flex flex-col gap-2 px-4">
-          <p className="px-4 py-2">
-            Find your nearest {brand} dealer by entering the name of your city
-            or postal code.
-          </p>
-          <form
-            onSubmit={handleSearchSubmit}
-            className="flex items-center gap-1"
-          >
-            <CitySelect />
-            <Tooltip label="Use my current location" position="left" withArrow>
-              <ActionIcon
-                size="input-md"
-                color="black"
-                onClick={handleGetUserLocation}
-              >
-                <IconCurrentLocation size={20} />
-              </ActionIcon>
-            </Tooltip>
-          </form>
-          <div className="flex flex-col w-full p-2">
-            <Slider
-              min={100000}
-              max={500000}
-              step={100000}
-              value={Number(distance)}
-              onChange={(val) => setDistance(String(val))}
-              onChangeEnd={() => {
-                if (map) {
-                  const zoom = getZoomLevel(Number(distance));
-                  map.setZoom(zoom);
-                }
-              }}
-              color="dark"
-              marks={[
-                { value: 100000, label: "100km" },
-                { value: 200000, label: "" },
-                { value: 300000, label: "300km" },
-                { value: 400000, label: "" },
-                { value: 500000, label: "500km" },
-              ]}
-              label={null}
-              styles={{
-                markLabel: {
-                  fontSize: "10px",
-                },
-              }}
-            />
-          </div>
-        </div>
-        {retailers.length > 0 ? (
-          <div className="flex-1 w-full flex flex-col">
-            {retailers
-              .sort(
-                (a, b) =>
-                  (a.coordinates.distance || 0) - (b.coordinates.distance || 0)
-              )
-              .map((retailer, index) => (
-                <Retailer
-                  key={index}
-                  retailer={retailer}
-                  handleRetailerClick={handleRetailerClick}
-                  active={retailer.kdnr === selectedRetailer}
-                  innerRef={(el) => {
-                    retailerRefs.current[retailer.kdnr] = el;
-                  }}
-                  map={map}
-                />
-              ))}
-          </div>
-        ) : (
-          <></>
-        )}
-        <Footer />
-      </div>
-      <div className="relative w-full h-[50vh] md:h-screen">
-        <div
-          className={`hidden md:block absolute left-0 ${
-            campaign ? "top-28" : "top-16"
-          } z-30 backdrop-blur-md`}
-        >
+        <p className="font-bold text-[var(--background)]">SEARCH:</p>
+        <CitySelect />
+        <Tooltip label="Use my current location" position="left" withArrow>
           <ActionIcon
             size="input-md"
-            variant="light"
-            color="gray"
-            onClick={() => setShowSidebar(!showSidebar)}
+            color="white"
+            variant="transparent"
+            onClick={handleGetUserLocation}
           >
-            <IconChevronRight
-              size={20}
-              className={`${
-                showSidebar ? "rotate-180" : "rotate-0"
-              } transition-all duration-300`}
-            />
+            <IconCurrentLocation size={20} />
           </ActionIcon>
-        </div>
-        {showSearchButton && (
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
-            <Button size="xs" color="black" onClick={handleAreaSubmit}>
-              Search this area
-            </Button>
-          </div>
-        )}
-        <GoogleMap
-          id="map"
-          mapContainerStyle={{
-            width: "100%",
-            height: "100%",
-          }}
-          options={{
-            disableDefaultUI: true,
-            zoomControl: true,
-            styles: mapStyles,
-            minZoom: 5,
-          }}
-          onLoad={(mapInstance) => {
-            setMap(mapInstance);
-            mapInstance.setCenter({ lat: 51.1634, lng: 10.4477 });
-            mapInstance.setZoom(7);
-          }}
-          onIdle={handleIdle}
+        </Tooltip>
+      </form>
+      <main className="relative flex flex-col-reverse md:flex-row">
+        <div
+          className={`${
+            showSidebar ? "w-full md:w-[540px]" : "w-0"
+          } flex flex-col justify-between gap-8 h-[calc(100vh-50vh)] md:h-screen overflow-y-scroll transition-all duration-300`}
+          style={
+            showSidebar
+              ? { transform: "translateX(0)" }
+              : { transform: "translateX(-540px)" }
+          }
         >
-          {retailers.length > 0 &&
-            retailers.map((retailer, index) => {
-              return (
-                <RetailerPin
-                  key={index}
-                  retailer={retailer}
-                  selectedRetailer={selectedRetailer}
-                  handleRetailerClick={handleRetailerClick}
-                />
-              );
-            })}
-          {location && (
-            <Marker
-              position={{ lat: location.latitude, lng: location.longitude }}
-              icon={{
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 6,
-                fillColor: "#000000",
-                fillOpacity: 1,
-                strokeColor: "#ffffff",
-                strokeWeight: 1,
-              }}
-            />
+          <div className="flex flex-col gap-2 p-4">
+            <div className="flex items-center justify-end gap-1 w-full">
+              <p className="font-bold">Distance:</p>
+              <Select
+                size="md"
+                w={120}
+                value={distance}
+                onChange={(val) => {
+                  setDistance(val);
+                  if (map) {
+                    const zoom = getZoomLevel(Number(val));
+                    map.setZoom(zoom);
+                  }
+                }}
+                color="dark"
+                data={[
+                  { value: "100000", label: "100km" },
+                  { value: "200000", label: "200km" },
+                  { value: "300000", label: "300km" },
+                  { value: "400000", label: "400km" },
+                  { value: "500000", label: "500km" },
+                ]}
+                checkIconPosition="right"
+              />
+            </div>
+          </div>
+          {retailers.length > 0 ? (
+            <div className="flex-1 w-full flex flex-col">
+              {retailers
+                .sort(
+                  (a, b) =>
+                    (a.coordinates.distance || 0) -
+                    (b.coordinates.distance || 0)
+                )
+                .map((retailer, index) => (
+                  <Retailer
+                    key={index}
+                    retailer={retailer}
+                    handleRetailerClick={handleRetailerClick}
+                    active={retailer.kdnr === selectedRetailer}
+                    innerRef={(el) => {
+                      retailerRefs.current[retailer.kdnr] = el;
+                    }}
+                    map={map}
+                  />
+                ))}
+            </div>
+          ) : (
+            <></>
           )}
-        </GoogleMap>
-      </div>
-    </main>
+          <Footer />
+        </div>
+        <div className="relative w-full h-[50vh] md:h-screen">
+          <div
+            className={`hidden md:block absolute left-0 top-4 z-30 backdrop-blur-md`}
+          >
+            <ActionIcon
+              size="input-md"
+              variant="light"
+              color="gray"
+              onClick={() => setShowSidebar(!showSidebar)}
+            >
+              <IconChevronRight
+                size={20}
+                className={`${
+                  showSidebar ? "rotate-180" : "rotate-0"
+                } transition-all duration-300`}
+              />
+            </ActionIcon>
+          </div>
+          {showSearchButton && (
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+              <Button size="xs" color="black" onClick={handleAreaSubmit}>
+                Search this area
+              </Button>
+            </div>
+          )}
+          <GoogleMap
+            id="map"
+            mapContainerStyle={{
+              width: "100%",
+              height: "100%",
+            }}
+            options={{
+              disableDefaultUI: true,
+              zoomControl: true,
+              styles: mapStyles,
+              minZoom: 5,
+            }}
+            onLoad={(mapInstance) => {
+              setMap(mapInstance);
+              mapInstance.setCenter({ lat: 51.1634, lng: 10.4477 });
+              mapInstance.setZoom(7);
+            }}
+            onIdle={handleIdle}
+          >
+            {retailers.length > 0 &&
+              retailers.map((retailer, index) => {
+                return (
+                  <RetailerPin
+                    key={index}
+                    retailer={retailer}
+                    selectedRetailer={selectedRetailer}
+                    handleRetailerClick={handleRetailerClick}
+                  />
+                );
+              })}
+            {location && (
+              <Marker
+                position={{ lat: location.latitude, lng: location.longitude }}
+                icon={{
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale: 6,
+                  fillColor: "#000000",
+                  fillOpacity: 1,
+                  strokeColor: "#ffffff",
+                  strokeWeight: 1,
+                }}
+              />
+            )}
+          </GoogleMap>
+        </div>
+      </main>
+    </div>
   );
 }

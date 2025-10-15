@@ -54,9 +54,10 @@ body {
 }
 
 h1 {
-  font-size: 36px;
+  font-size: 56px;
   line-height: 40px;
   font-weight: bold;
+  text-transform: uppercase;
 }
 
 h2 {

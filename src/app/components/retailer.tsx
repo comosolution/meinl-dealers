@@ -64,7 +64,7 @@ export function Retailer({
       ref={innerRef}
       className={`flex flex-col gap-4 p-4 ${
         active ? "" : "pb-0"
-      } border-t border-[var(--main)] cursor-pointer transition-all ${
+      } border-t-2 border-[var(--main)] cursor-pointer transition-all ${
         active
           ? "bg-[var(--background-subtle)]"
           : "hover:bg-[rgb(var(--main-rgb),0.1)]"

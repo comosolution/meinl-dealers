@@ -3,7 +3,7 @@ import { SegmentedControl } from "@mantine/core";
 import {
   IconBuildingStore,
   IconShoppingCart,
-  IconStars,
+  IconStar,
 } from "@tabler/icons-react";
 import { useDealerContext } from "../context/dealerContext";
 
@@ -18,14 +18,18 @@ export default function TypeSelect() {
       data={[
         { icon: IconBuildingStore, label: "Retail", value: "retail" },
         { icon: IconShoppingCart, label: "Online", value: "online" },
-        { icon: IconStars, label: "Flagship", value: "flagship" },
+        { icon: IconStar, label: "Flagship", value: "flagship" },
       ].map((i) => {
         return {
           value: i.value,
           label: (
             <div className="flex justify-center items-center gap-1">
-              <i.icon />
-              <p className="text-sm sm:text-base">{i.label}</p>
+              <i.icon
+                color={
+                  i.value === "flagship" ? "var(--main)" : "var(--foreground)"
+                }
+              />
+              <p className="text-sm sm:text-base">{i.label} Stores</p>
             </div>
           ),
         };

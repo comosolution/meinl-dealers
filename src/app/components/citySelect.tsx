@@ -30,15 +30,16 @@ export default function CitySelect() {
 
   return (
     <Autocomplete
+      variant="unstyled"
       size="md"
-      placeholder="Enter city"
+      placeholder="Enter your city"
       className="flex-1"
       w={400}
       value={search}
       onChange={setSearch}
       data={data}
       rightSection={
-        <ActionIcon color="black" variant="transparent" type="submit">
+        <ActionIcon color="white" variant="transparent" type="submit">
           <IconSearch size={20} />
         </ActionIcon>
       }
