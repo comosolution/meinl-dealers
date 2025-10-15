@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Logo({ inverted }: { inverted?: boolean }) {
   return (
-    <div className="flex justify-center items-center gap-1">
+    <div className="flex justify-center items-center gap-2">
       <Image
         src="/logo_w.svg"
         alt="Meinl Logo"
@@ -15,7 +15,7 @@ export default function Logo({ inverted }: { inverted?: boolean }) {
           inverted ? "text-[var(--foreground)]" : "text-[var(--background)]"
         }`}
       >
-        DealerLocator
+        Dealer Locator
       </p>
     </div>
   );

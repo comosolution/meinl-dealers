@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --main: #ef233c;
+  --main: #ff0000;
   --main-rgb: 239, 35, 60;
   --background: var(--mantine-color-white);
   --foreground: var(--mantine-color-black);

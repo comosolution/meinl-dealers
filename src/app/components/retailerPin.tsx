@@ -1,6 +1,4 @@
 import { OverlayView } from "@react-google-maps/api";
-import Image from "next/image";
-import { useDealerContext } from "../context/dealerContext";
 import { Dealer } from "../lib/interfaces";
 
 export default function RetailerPin({
@@ -12,10 +10,10 @@ export default function RetailerPin({
   selectedRetailer: string;
   handleRetailerClick: (id: string, scroll?: boolean) => void;
 }) {
-  const { brand } = useDealerContext();
-
   if (!retailer.coordinates.latitude || !retailer.coordinates.longitude)
     return null;
+
+  const isSelected = retailer.kdnr === selectedRetailer;
 
   return (
     <OverlayView
@@ -26,53 +24,30 @@ export default function RetailerPin({
       mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
     >
       <div
-        onClick={() => {
-          handleRetailerClick(retailer.kdnr, true);
-        }}
+        onClick={() => handleRetailerClick(retailer.kdnr, true)}
         style={{
           position: "relative",
-          zIndex: retailer.kdnr === selectedRetailer ? 20 : 10,
           width: 36,
           height: 36,
           transform: "translate(-50%, -100%)",
           cursor: "pointer",
+          zIndex: isSelected ? 20 : 10,
+          transition: "transform 0.2s ease",
         }}
       >
-        <div
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32"
+          width="36"
+          height="36"
           style={{
-            width: "100%",
-            height: "100%",
-            padding: "2px",
-            backgroundColor:
-              retailer.kdnr === selectedRetailer ? "var(--main)" : "#000000",
+            display: "block",
+            fill: isSelected ? "var(--main)" : "#000",
+            transition: "fill 0.3s ease",
           }}
-          className="flex items-center"
         >
-          <Image
-            src={
-              brand
-                ? `/brands/${brand.replaceAll(" ", "-").toUpperCase()}.png`
-                : "/logo_w.svg"
-            }
-            alt="Meinl Logo"
-            width={32}
-            height={32}
-          />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            bottom: -8,
-            left: 0,
-            width: 0,
-            height: 0,
-            borderLeft: "18px solid transparent",
-            borderRight: "18px solid transparent",
-            borderTop: `8px solid ${
-              retailer.kdnr === selectedRetailer ? "var(--main)" : "#000000"
-            }`,
-          }}
-        />
+          <path d="M16 0C9.4 0 4 5.4 4 12c0 7.5 9.6 18.7 11.5 20.8a.7.7 0 0 0 1 .1c1.9-2.1 11.5-13.3 11.5-20.9 0-6.6-5.4-12-12-12zm0 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10z" />
+        </svg>
       </div>
     </OverlayView>
   );

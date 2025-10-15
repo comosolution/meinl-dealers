@@ -240,6 +240,10 @@ export default function RetailerPage() {
         }
       >
         <div className="flex flex-col gap-2 px-4">
+          <p className="px-4 py-2">
+            Find your nearest {brand} dealer by entering the name of your city
+            or postal code.
+          </p>
           <form
             onSubmit={handleSearchSubmit}
             className="flex items-center gap-1"
