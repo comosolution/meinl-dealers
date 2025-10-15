@@ -132,7 +132,7 @@ export function Retailer({
                 e.stopPropagation();
                 const mapEl = document.getElementById("map");
                 if (mapEl) {
-                  mapEl.scrollIntoView({ behavior: "smooth", block: "center" });
+                  mapEl.scrollIntoView({ behavior: "smooth" });
                 }
 
                 if (!map) return;

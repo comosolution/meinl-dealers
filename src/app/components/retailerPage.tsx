@@ -45,7 +45,7 @@ export default function RetailerPage() {
         setSelectedRetailer(id);
         const el = retailerRefs.current[id];
         if (el && scroll) {
-          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          el.scrollIntoView({ behavior: "smooth" });
         }
       }, 200);
     }

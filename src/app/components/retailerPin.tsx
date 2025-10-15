@@ -46,7 +46,7 @@ export default function RetailerPin({
           height="36"
           style={{
             display: "block",
-            fill: isSelected ? "var(--main)" : "#000",
+            fill: isHovered || isSelected ? "var(--main)" : "#000",
             transition: "all 0.3s ease",
             transform: isHovered || isSelected ? "scale(1.2)" : "scale(1)",
           }}
