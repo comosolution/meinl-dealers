@@ -221,8 +221,8 @@ export default function RetailerPage() {
 
   useEffect(() => {
     if (map && campaign) {
-      map.setZoom(3);
-      setTimeout(() => filterRetailers(2000000), 500);
+      map.setZoom(2);
+      setTimeout(() => filterRetailers(20000000), 500);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, campaign]);
@@ -346,7 +346,7 @@ export default function RetailerPage() {
               disableDefaultUI: true,
               zoomControl: true,
               styles: mapStyles,
-              minZoom: campaign ? 3 : 5,
+              minZoom: campaign ? 2 : 5,
             }}
             onLoad={(mapInstance) => {
               setMap(mapInstance);
