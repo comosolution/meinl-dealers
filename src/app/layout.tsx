@@ -62,7 +62,7 @@ export default function RootLayout({
         <Suspense>
           <MantineProvider theme={theme}>
             <DealerProvider>
-              <Notifications />
+              <Notifications position="top-right" />
               <App>{children}</App>
             </DealerProvider>
           </MantineProvider>

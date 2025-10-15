@@ -84,7 +84,6 @@ export default function RetailerPage() {
         title: "Error getting location",
         message: "Geolocation is not supported by this browser.",
         color: "black",
-        position: "top-right",
       });
       return;
     }
@@ -118,7 +117,6 @@ export default function RetailerPage() {
           title: "Error getting location",
           message: `${err.message} (code: ${err.code})`,
           color: "black",
-          position: "top-right",
         });
         console.error(err);
       },

@@ -107,7 +107,6 @@ export function DealerProvider({ children }: { children: ReactNode }) {
             {action}
           </>
         ),
-        position: "top-right",
         autoClose: false,
       });
       return;
@@ -127,7 +126,6 @@ export function DealerProvider({ children }: { children: ReactNode }) {
             {action}
           </>
         ),
-        position: "top-right",
         autoClose: false,
       });
       return;
