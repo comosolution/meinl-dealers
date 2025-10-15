@@ -35,7 +35,7 @@ export default function RetailerPin({
           height: 36,
           transform: "translate(-50%, -100%)",
           cursor: "pointer",
-          zIndex: isSelected ? 20 : 10,
+          zIndex: isHovered || isSelected ? 20 : 10,
           transition: "transform 0.2s ease",
         }}
       >
