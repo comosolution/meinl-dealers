@@ -1,1 +1,1 @@
-# MEINL Dealer Locator
+# Meinl Dealer Locator

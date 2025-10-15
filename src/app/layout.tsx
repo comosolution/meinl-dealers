@@ -15,7 +15,7 @@ const titillium = Titillium_Web({
 });
 
 export const metadata: Metadata = {
-  title: "MEINL DealerLocator",
+  title: "Meinl Dealer Locator",
   description: "Find your authorized MEINL dealer",
 };
 

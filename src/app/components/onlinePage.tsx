@@ -4,6 +4,7 @@ import { useDealerContext } from "../context/dealerContext";
 import { flagshipStores } from "../data/data";
 import { Dealer } from "../lib/interfaces";
 import { normalizeCountryCode } from "../lib/utils";
+import { label } from "../styles/styles";
 import Footer from "./footer";
 import Loader from "./loader";
 import Online from "./online";
@@ -90,9 +91,7 @@ export default function OnlinePage() {
       {type !== "flagship" && (
         <div className="px-8 py-2 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 bg-neutral-800">
           <div className="flex items-center gap-2">
-            <p className="font-bold text-[var(--background)] uppercase">
-              Country:
-            </p>
+            <p className={label}>Country:</p>
             <Select
               size="md"
               variant="unstyled"
@@ -106,9 +105,7 @@ export default function OnlinePage() {
             />
           </div>
           <div className="flex items-center gap-2">
-            <p className="font-bold text-[var(--background)] uppercase">
-              Search:
-            </p>
+            <p className={label}>Search:</p>
             <TextInput
               size="md"
               variant="unstyled"

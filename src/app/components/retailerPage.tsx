@@ -8,6 +8,7 @@ import { useDealerContext } from "../context/dealerContext";
 import { Dealer, Location } from "../lib/interfaces";
 import { getDistanceFromZoom, getZoomLevel } from "../lib/utils";
 import { mapStyles } from "../styles/map";
+import { label } from "../styles/styles";
 import CitySelect from "./citySelect";
 import Footer from "./footer";
 import { Retailer } from "./retailer";
@@ -234,7 +235,7 @@ export default function RetailerPage() {
         onSubmit={handleSearchSubmit}
         className="flex items-center gap-2 px-8 py-2 bg-neutral-800"
       >
-        <p className="font-bold text-[var(--background)] uppercase">Search:</p>
+        <p className={label}>Search:</p>
         <CitySelect />
         <Tooltip label="Use my current location" position="left" withArrow>
           <ActionIcon
