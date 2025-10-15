@@ -9,19 +9,24 @@ import {
 import { useDealerContext } from "../context/dealerContext";
 
 export default function TypeSelect() {
-  const { type, setType } = useDealerContext();
+  const { type, setType, campaign } = useDealerContext();
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const types = [
+    { icon: IconBuildingStore, label: "Retail", value: "retail" },
+    { icon: IconShoppingCart, label: "Online", value: "online" },
+  ];
+
+  if (!campaign) {
+    types.push({ icon: IconStar, label: "Flagship", value: "flagship" });
+  }
 
   return (
     <SegmentedControl
       size="md"
       value={type}
       onChange={(val) => setType(val as "retail" | "online")}
-      data={[
-        { icon: IconBuildingStore, label: "Retail", value: "retail" },
-        { icon: IconShoppingCart, label: "Online", value: "online" },
-        { icon: IconStar, label: "Flagship", value: "flagship" },
-      ].map((i) => {
+      data={types.map((i) => {
         return {
           value: i.value,
           label: (
