@@ -16,12 +16,14 @@ export function Retailer({
   active,
   innerRef,
   map,
+  onHover,
 }: {
   retailer: Dealer;
   handleRetailerClick: (id: string) => void;
   active: boolean;
   innerRef?: React.Ref<HTMLDivElement>;
   map: google.maps.Map | null;
+  onHover?: (hovering: boolean) => void;
 }) {
   const contentRef = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
@@ -71,6 +73,8 @@ export function Retailer({
       }`}
       tabIndex={0}
       onClick={() => handleRetailerClick(retailer.kdnr)}
+      onMouseEnter={() => onHover?.(true)}
+      onMouseLeave={() => onHover?.(false)}
     >
       <header className="flex flex-col">
         <div className="flex justify-between items-center">

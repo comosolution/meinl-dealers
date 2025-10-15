@@ -26,6 +26,7 @@ export default function RetailerPage() {
   const [showSearchButton, setShowSearchButton] = useState(false);
   const [retailers, setRetailers] = useState<Dealer[]>([]);
   const [selectedRetailer, setSelectedRetailer] = useState("");
+  const [hoveredRetailer, setHoveredRetailer] = useState<string | null>(null);
   const [location, setLocation] = useState<Location | null>(null);
   const [distance, setDistance] = useState<string | null>("300000");
 
@@ -303,6 +304,9 @@ export default function RetailerPage() {
                       retailerRefs.current[retailer.kdnr] = el;
                     }}
                     map={map}
+                    onHover={(hovering) =>
+                      setHoveredRetailer(hovering ? retailer.kdnr : null)
+                    }
                   />
                 ))}
             </div>
@@ -363,6 +367,7 @@ export default function RetailerPage() {
                     key={index}
                     retailer={retailer}
                     selectedRetailer={selectedRetailer}
+                    hoveredRetailer={hoveredRetailer}
                     handleRetailerClick={handleRetailerClick}
                   />
                 );

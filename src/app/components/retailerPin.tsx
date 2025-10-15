@@ -4,16 +4,20 @@ import { Dealer } from "../lib/interfaces";
 export default function RetailerPin({
   retailer,
   selectedRetailer,
+  hoveredRetailer,
   handleRetailerClick,
 }: {
   retailer: Dealer;
   selectedRetailer: string;
+  hoveredRetailer?: string | null;
+
   handleRetailerClick: (id: string, scroll?: boolean) => void;
 }) {
   if (!retailer.coordinates.latitude || !retailer.coordinates.longitude)
     return null;
 
   const isSelected = retailer.kdnr === selectedRetailer;
+  const isHovered = retailer.kdnr === hoveredRetailer;
 
   return (
     <OverlayView
@@ -43,7 +47,8 @@ export default function RetailerPin({
           style={{
             display: "block",
             fill: isSelected ? "var(--main)" : "#000",
-            transition: "fill 0.3s ease",
+            transition: "all 0.3s ease",
+            transform: isHovered || isSelected ? "scale(1.2)" : "scale(1)",
           }}
         >
           <path
