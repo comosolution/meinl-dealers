@@ -53,13 +53,6 @@ body {
   background: var(--background);
 }
 
-h1 {
-  font-size: 56px;
-  line-height: 40px;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
 h2 {
   font-size: 20px;
   font-weight: bold;

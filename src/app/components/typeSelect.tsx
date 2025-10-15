@@ -1,5 +1,6 @@
 "use client";
 import { SegmentedControl } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import {
   IconBuildingStore,
   IconShoppingCart,
@@ -9,6 +10,7 @@ import { useDealerContext } from "../context/dealerContext";
 
 export default function TypeSelect() {
   const { type, setType } = useDealerContext();
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <SegmentedControl
@@ -29,7 +31,10 @@ export default function TypeSelect() {
                   i.value === "flagship" ? "var(--main)" : "var(--foreground)"
                 }
               />
-              <p className="text-sm sm:text-base">{i.label} Stores</p>
+              <p className="text-sm sm:text-base">
+                {i.label}
+                {!isMobile && " Stores"}
+              </p>
             </div>
           ),
         };

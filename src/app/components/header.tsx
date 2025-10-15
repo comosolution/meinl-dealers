@@ -1,4 +1,5 @@
 "use client";
+import { useMediaQuery } from "@mantine/hooks";
 import Image from "next/image";
 import { useDealerContext } from "../context/dealerContext";
 import BrandSelect from "./brandSelect";
@@ -7,18 +8,23 @@ import TypeSelect from "./typeSelect";
 export default function Header() {
   const { campaign, brand } = useDealerContext();
 
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const size = isMobile ? 32 : 64;
+
   return (
     <div className="relative top-0 z-30 w-full flex flex-col shadow-md">
-      <div className="flex flex-col items-start gap-4 p-16 bg-[var(--background-subtle)]">
+      <div className="flex flex-col items-start gap-4 p-8 md:p-16 bg-[var(--background-subtle)]">
         <div className="flex items-center gap-2">
           <Image
             src={`/brands/${brand!.replaceAll(" ", "-").toUpperCase()}.png`}
-            width={64}
-            height={64}
+            width={size}
+            height={size}
             alt={`${brand} Logo`}
             className="object-contain place-self-center inverted"
           />
-          <h1>Dealer Locator</h1>
+          <h1 className="text-2xl md:text-6xl font-bold uppercase">
+            Dealer Locator
+          </h1>
         </div>
         <p className="">
           Find your nearest {brand} dealer by entering the name of your city or
