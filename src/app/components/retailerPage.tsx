@@ -221,7 +221,6 @@ export default function RetailerPage() {
   useEffect(() => {
     if (map && campaign) {
       map.setZoom(3);
-      setShowSidebar(false);
       setTimeout(() => filterRetailers(2000000), 500);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
