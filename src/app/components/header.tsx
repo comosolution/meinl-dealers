@@ -13,7 +13,7 @@ export default function Header() {
 
   return (
     <div className="relative w-full flex flex-col shadow-md">
-      <div className="flex flex-col items-start gap-2 p-8 bg-[var(--background-subtle)]">
+      <div className="flex flex-col items-start gap-2 p-8">
         <div className="flex items-center gap-2">
           <Image
             src={`/brands/${brand!.replaceAll(" ", "-").toUpperCase()}.png`}
