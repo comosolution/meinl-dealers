@@ -1,4 +1,4 @@
-import { Button } from "@mantine/core";
+import { Avatar, Button } from "@mantine/core";
 import {
   IconPhone,
   IconRoute,
@@ -97,8 +97,7 @@ export function Retailer({
         style={{ maxHeight: active ? contentHeight : 0 }}
       >
         <div ref={contentRef} className="flex flex-col gap-4">
-          <hr className="opacity-10" />
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-2 py-2">
             {data.map(
               (d, i) =>
                 d.address && (
@@ -107,9 +106,11 @@ export function Retailer({
                     href={d.href!}
                     target="_blank"
                     onClick={(e) => e.stopPropagation()}
-                    className="flex gap-1 items-center link"
+                    className="flex gap-2 items-center link"
                   >
-                    <d.icon size={16} stroke={2.5} />
+                    <Avatar>
+                      <d.icon size={16} stroke={2.5} />
+                    </Avatar>
                     <h3>{d.label}</h3>
                   </a>
                 )
