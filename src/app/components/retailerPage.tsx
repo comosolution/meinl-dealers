@@ -233,7 +233,7 @@ export default function RetailerPage() {
         onSubmit={handleSearchSubmit}
         className="flex items-center gap-2 px-8 py-2 bg-neutral-800"
       >
-        <p className="font-bold text-[var(--background)]">SEARCH:</p>
+        <p className="font-bold text-[var(--background)] uppercase">Search:</p>
         <CitySelect />
         <Tooltip label="Use my current location" position="left" withArrow>
           <ActionIcon
@@ -328,7 +328,7 @@ export default function RetailerPage() {
             </ActionIcon>
           </div>
           {showSearchButton && (
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+            <div className="absolute top-5 left-1/2 -translate-x-1/2 z-20">
               <Button size="xs" color="black" onClick={handleAreaSubmit}>
                 Search this area
               </Button>

@@ -1,5 +1,4 @@
 import { Select, TextInput } from "@mantine/core";
-import { IconSearch, IconWorld } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 import { flagshipStores } from "../data/data";
@@ -87,30 +86,42 @@ export default function OnlinePage() {
   if (loading) return <Loader />;
 
   return (
-    <div className={`flex flex-col justify-between p-4 min-h-screen`}>
+    <div className={`flex flex-col justify-between min-h-screen`}>
       {type !== "flagship" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Select
-            size="md"
-            placeholder="Select country"
-            data={countries}
-            checkIconPosition="right"
-            leftSection={<IconWorld size={20} />}
-            value={country}
-            onChange={setCountry}
-            searchable
-          />
-          <TextInput
-            size="md"
-            placeholder="Search"
-            leftSection={<IconSearch size={20} />}
-            value={search}
-            onChange={(e) => setSearch(e.currentTarget.value)}
-          />
+        <div className="px-8 py-2 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 bg-neutral-800">
+          <div className="flex items-center gap-2">
+            <p className="font-bold text-[var(--background)] uppercase">
+              Country:
+            </p>
+            <Select
+              size="md"
+              variant="unstyled"
+              placeholder="Select country"
+              data={countries}
+              checkIconPosition="right"
+              value={country}
+              onChange={setCountry}
+              searchable
+              className="w-full"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <p className="font-bold text-[var(--background)] uppercase">
+              Search:
+            </p>
+            <TextInput
+              size="md"
+              variant="unstyled"
+              placeholder="Enter store name"
+              value={search}
+              onChange={(e) => setSearch(e.currentTarget.value)}
+              className="w-full"
+            />
+          </div>
         </div>
       )}
       <div className="flex-1">
-        <main className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-4">
+        <main className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 py-4">
           {retailers.length > 0 &&
             retailers
               .filter((r) =>

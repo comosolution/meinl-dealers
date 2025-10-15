@@ -82,7 +82,9 @@ img.inverted {
   color: var(--mantine-color-dimmed);
 }
 
-.mantine-Autocomplete-input {
+.mantine-Autocomplete-input,
+.mantine-TextInput-input:where([data-variant="unstyled"]),
+.mantine-Select-input:where([data-variant="unstyled"]) {
   color: white;
 }
 
@@ -91,7 +93,9 @@ img.inverted {
 }
 
 .mantine-Input-input.mantine-InputBase-input,
-.mantine-Autocomplete-input:focus {
+.mantine-Autocomplete-input:focus,
+.mantine-TextInput-input:where([data-variant="unstyled"]):focus,
+.mantine-Select-input:where([data-variant="unstyled"]):focus {
   border-color: transparent;
 }
 
