@@ -9,11 +9,11 @@ export default function Header() {
   const { campaign, brand } = useDealerContext();
 
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const size = isMobile ? 32 : 64;
+  const size = isMobile ? 24 : 48;
 
   return (
     <div className="relative w-full flex flex-col shadow-md">
-      <div className="flex flex-col items-start gap-2 p-8 md:px-16 bg-[var(--background-subtle)]">
+      <div className="flex flex-col items-start gap-2 p-8 bg-[var(--background-subtle)]">
         <div className="flex items-center gap-2">
           <Image
             src={`/brands/${brand!.replaceAll(" ", "-").toUpperCase()}.png`}

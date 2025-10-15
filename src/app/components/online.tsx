@@ -16,7 +16,7 @@ export default function Online({ retailer }: { retailer: Dealer }) {
         retailer.shopUrl ? getHref(retailer.shopUrl) : getHref(retailer.www)
       }
       target="_blank"
-      className="group flex flex-col justify-end gap-4 p-4 border border-transparent hover:border-[var(--main)] bg-[var(--background)] hover:text-[var(--main)] transition-all shadow-xl"
+      className="group flex flex-col justify-end gap-4 p-4 border-2 border-transparent hover:border-[var(--main)] bg-[var(--background)] hover:text-[var(--main)] transition-all shadow-xl"
     >
       <div
         className="relative overflow-hidden"
