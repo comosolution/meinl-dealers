@@ -12,7 +12,7 @@ export default function Header() {
   const size = isMobile ? 24 : 48;
 
   return (
-    <div className="relative w-full flex flex-col shadow-md">
+    <div className="relative w-full flex flex-col">
       <div className="flex flex-col items-start gap-2 p-8">
         <div className="flex items-center gap-2">
           <Image

@@ -87,7 +87,7 @@ export default function OnlinePage() {
   if (loading) return <Loader />;
 
   return (
-    <div className={`flex flex-col justify-between min-h-screen`}>
+    <div className="flex flex-col justify-between min-h-screen bg-[var(--background-subtle)]">
       {type !== "flagship" && (
         <div className="px-8 py-2 grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 bg-neutral-800">
           <div className="flex items-center gap-2">
