@@ -16,7 +16,7 @@ const titillium = Titillium_Web({
 
 export const metadata: Metadata = {
   title: "Meinl Dealer Locator",
-  description: "Find your authorized MEINL dealer",
+  description: "Find your authorized Meinl dealer",
 };
 
 const theme = createTheme({

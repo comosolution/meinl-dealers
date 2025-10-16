@@ -13,12 +13,12 @@ export default function TypeSelect() {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const types = [
-    { icon: IconBuildingStore, label: "Retail", value: "retail" },
-    { icon: IconShoppingCart, label: "Online", value: "online" },
+    { icon: IconBuildingStore, label: "Retail Stores", value: "retail" },
+    { icon: IconShoppingCart, label: "Online Stores", value: "online" },
   ];
 
   if (!campaign) {
-    types.push({ icon: IconStar, label: "Flagship", value: "flagship" });
+    types.push({ icon: IconStar, label: "Flagship Store", value: "flagship" });
   }
 
   return (
@@ -37,8 +37,7 @@ export default function TypeSelect() {
                 }
               />
               <p className="text-sm sm:text-base">
-                {i.label}
-                {!isMobile && " Stores"}
+                {isMobile ? i.label.split(" ")[0] : i.label}
               </p>
             </div>
           ),
