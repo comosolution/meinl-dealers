@@ -25,7 +25,7 @@ export default function OnlinePage() {
       method: "POST",
       body: JSON.stringify({
         brands: brand,
-        campagne: campaign?.id,
+        campagne: campaign?.salt,
         latitude: null,
         longitude: null,
         distance: null,

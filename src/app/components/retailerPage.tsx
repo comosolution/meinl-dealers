@@ -197,7 +197,7 @@ export default function RetailerPage() {
       method: "POST",
       body: JSON.stringify({
         brands: brand,
-        campagne: campaign?.id,
+        campagne: campaign?.salt,
         latitude: latLng.lat(),
         longitude: latLng.lng(),
         distance: distanceToUse / 1000, // km

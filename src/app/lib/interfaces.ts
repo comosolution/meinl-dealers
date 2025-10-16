@@ -36,6 +36,7 @@ export interface UserLocation {
 
 export interface Campaign {
   id: number;
+  salt: string;
   brand: string;
   title: string;
   description: string;
