@@ -13,6 +13,12 @@
   --filter-inverted: invert(1) brightness(0.9) contrast(1.2);
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .meinl-cymbals {
   --main: #d2934d;
   --main-rgb: 210, 147, 77;

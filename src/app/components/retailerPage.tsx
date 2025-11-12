@@ -251,7 +251,7 @@ export default function RetailerPage() {
         <div
           className={`${
             showSidebar ? "w-full md:w-[540px]" : "w-0"
-          } flex flex-col justify-between min-h-[calc(100vh-70vh)] md:h-screen overflow-y-scroll transition-all duration-300`}
+          } flex flex-col justify-between min-h-[calc(100vh-70vh)] md:h-screen overflow-y-scroll overflow-x-hidden transition-all duration-300`}
           style={
             showSidebar
               ? { transform: "translateX(0)" }
