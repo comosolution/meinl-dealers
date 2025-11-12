@@ -17,6 +17,12 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  scrollbar-width: 0;
+  scrollbar-color: transparent;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 .meinl-cymbals {

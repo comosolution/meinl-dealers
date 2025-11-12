@@ -20,7 +20,7 @@ export default function PageWrapper({
   }
 
   return (
-    <div className="w-screen min-h-screen flex flex-col">
+    <div className="w-screen min-h-screen flex flex-col overflow-x-hidden">
       <Header />
       {children}
     </div>
