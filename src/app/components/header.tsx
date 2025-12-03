@@ -1,4 +1,5 @@
 "use client";
+import { Badge } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import Image from "next/image";
 import { useDealerContext } from "../context/dealerContext";
@@ -10,6 +11,14 @@ export default function Header() {
 
   const isMobile = useMediaQuery("(max-width: 768px)");
   const size = isMobile ? 24 : 48;
+
+  const DevIndicator = () => {
+    return process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ? (
+      <Badge variant="light" color="dark">
+        DEV
+      </Badge>
+    ) : null;
+  };
 
   return (
     <div className="relative w-full flex flex-col">
@@ -25,6 +34,7 @@ export default function Header() {
           <h1 className="text-2xl md:text-6xl font-bold uppercase">
             Dealer Locator
           </h1>
+          <DevIndicator />
         </div>
         <p className="">
           Find your nearest {brand} dealer by entering the name of your city or

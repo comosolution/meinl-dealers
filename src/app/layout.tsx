@@ -5,7 +5,7 @@ import "@mantine/notifications/styles.css";
 import type { Metadata } from "next";
 import { Titillium_Web } from "next/font/google";
 import { Suspense } from "react";
-import App from "./components/app";
+import Header from "./components/header";
 import { DealerProvider } from "./context/dealerContext";
 import "./globals.css";
 
@@ -63,7 +63,10 @@ export default function RootLayout({
           <MantineProvider theme={theme}>
             <DealerProvider>
               <Notifications position="top-right" />
-              <App>{children}</App>
+              <div className="w-screen min-h-screen flex flex-col overflow-x-hidden">
+                <Header />
+                {children}
+              </div>
             </DealerProvider>
           </MantineProvider>
         </Suspense>

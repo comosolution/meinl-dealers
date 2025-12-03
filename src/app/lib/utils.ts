@@ -1,10 +1,3 @@
-import clsx, { ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-
 export function getHref(www: string): string {
   return www.startsWith("http") ? www : `https://${www}`;
 }
