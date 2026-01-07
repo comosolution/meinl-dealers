@@ -9,7 +9,7 @@ import {
 import { useDealerContext } from "../context/dealerContext";
 
 export default function TypeSelect() {
-  const { type, setType, campaign } = useDealerContext();
+  const { type, setType, campaign, brand } = useDealerContext();
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const types = [
@@ -18,7 +18,12 @@ export default function TypeSelect() {
   ];
 
   if (!campaign) {
-    types.push({ icon: IconStar, label: "Flagship Store", value: "flagship" });
+    types.push({
+      icon: IconStar,
+      label:
+        brand === "Meinl Sonic Energy" ? "Experience Center" : "Flagship Store",
+      value: "flagship",
+    });
   }
 
   return (

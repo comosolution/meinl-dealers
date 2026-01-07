@@ -226,6 +226,11 @@ export default function RetailerPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, campaign]);
 
+  useEffect(() => {
+    filterRetailers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [distance]);
+
   if (!isLoaded) return null;
 
   return (
@@ -235,7 +240,7 @@ export default function RetailerPage() {
         className="flex items-center gap-2 px-8 py-2 bg-neutral-800"
       >
         <p className={label}>Search:</p>
-        <CitySelect />
+        <CitySelect onSubmitSearch={handleSearchSubmit} />
         <Tooltip label="Use my current location" position="left" withArrow>
           <ActionIcon
             size="input-md"

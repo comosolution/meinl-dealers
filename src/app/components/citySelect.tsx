@@ -4,7 +4,11 @@ import { IconSearch } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useDealerContext } from "../context/dealerContext";
 
-export default function CitySelect() {
+export default function CitySelect({
+  onSubmitSearch,
+}: {
+  onSubmitSearch: () => void;
+}) {
   const { search, setSearch } = useDealerContext();
   const [data, setData] = useState<string[]>([]);
 
@@ -28,6 +32,14 @@ export default function CitySelect() {
     return () => clearTimeout(delayDebounce);
   }, [search]);
 
+  const handleChange = (value: string) => {
+    setSearch(value);
+
+    if (data.includes(value)) {
+      onSubmitSearch();
+    }
+  };
+
   return (
     <Autocomplete
       variant="unstyled"
@@ -36,7 +48,7 @@ export default function CitySelect() {
       className="flex-1"
       w={400}
       value={search}
-      onChange={setSearch}
+      onChange={handleChange}
       data={data}
       rightSection={
         <ActionIcon color="white" variant="transparent" type="submit">
