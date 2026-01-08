@@ -29,11 +29,10 @@ export default function Header() {
             </h1>
             <DevIndicator />
           </div>
-          <p className="">
+          <p>
             Find your nearest {brand} dealer by entering the name of your city
             or postal code.
           </p>
-
           {campaign && (
             <div className="flex flex-col gap-2 pt-8">
               <h2 className="text-[var(--main)] uppercase">{campaign.title}</h2>
@@ -41,12 +40,20 @@ export default function Header() {
             </div>
           )}
         </div>
-        <div className="relative" style={{ height: `${size}px` }}>
+        <div
+          className="relative"
+          style={{ height: `${size}px`, minWidth: `${size}px` }}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`/logos/${brand!.replaceAll(" ", "-").toUpperCase()}.png`}
             alt={`${brand} Logo`}
-            style={{ height: "100%", width: "auto", display: "block" }}
+            style={{
+              height: "100%",
+              width: "auto",
+              display: "block",
+              objectFit: "contain",
+            }}
           />
         </div>
       </div>
