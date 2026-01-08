@@ -29,6 +29,12 @@ interface DealerContextType {
   setSubmittedSearch: (search: string | null) => void;
   userLocation: UserLocation | null;
   setUserLocation: (userLocation: UserLocation | null) => void;
+  distance: string | null;
+  setDistance: (distance: string | null) => void;
+  mapCenter: { lat: number; lng: number } | null;
+  setMapCenter: (center: { lat: number; lng: number } | null) => void;
+  mapZoom: number | null;
+  setMapZoom: (zoom: number | null) => void;
 }
 
 const DealerContext = createContext<DealerContextType | undefined>(undefined);
@@ -40,6 +46,12 @@ export function DealerProvider({ children }: { children: ReactNode }) {
   const [search, setSearch] = useState<string>("");
   const [submittedSearch, setSubmittedSearch] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
+  const [distance, setDistance] = useState<string | null>("300000");
+  const [mapCenter, setMapCenter] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [mapZoom, setMapZoom] = useState<number | null>(null);
 
   const searchParams = useSearchParams();
   const brandParam = searchParams.get("brand");
@@ -148,6 +160,12 @@ export function DealerProvider({ children }: { children: ReactNode }) {
         setSubmittedSearch,
         userLocation,
         setUserLocation,
+        distance,
+        setDistance,
+        mapCenter,
+        setMapCenter,
+        mapZoom,
+        setMapZoom,
       }}
     >
       {children}

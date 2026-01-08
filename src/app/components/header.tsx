@@ -1,7 +1,6 @@
 "use client";
 import { Badge } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import Image from "next/image";
 import { useDealerContext } from "../context/dealerContext";
 import BrandSelect from "./brandSelect";
 import TypeSelect from "./typeSelect";
@@ -10,7 +9,7 @@ export default function Header() {
   const { campaign, brand } = useDealerContext();
 
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const size = isMobile ? 32 : 64;
+  const size = isMobile ? 32 : 88;
 
   const DevIndicator = () => {
     return process.env.NEXT_PUBLIC_VERCEL_ENV === "preview" ? (
@@ -42,13 +41,14 @@ export default function Header() {
             </div>
           )}
         </div>
-        <Image
-          src={`/brands/${brand!.replaceAll(" ", "-").toUpperCase()}.png`}
-          width={size}
-          height={size}
-          alt={`${brand} Logo`}
-          className="object-contain inverted"
-        />
+        <div className="relative" style={{ height: `${size}px` }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/logos/${brand!.replaceAll(" ", "-").toUpperCase()}.png`}
+            alt={`${brand} Logo`}
+            style={{ height: "100%", width: "auto", display: "block" }}
+          />
+        </div>
       </div>
       <header className="flex flex-col-reverse md:flex-row justify-between md:items-center gap-2 px-4 py-2 bg-[var(--background-subtle)]">
         <TypeSelect />

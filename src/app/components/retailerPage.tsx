@@ -18,8 +18,19 @@ export default function RetailerPage() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
-  const { brand, campaign, setSearch, search, setUserLocation } =
-    useDealerContext();
+  const {
+    brand,
+    campaign,
+    setSearch,
+    search,
+    setUserLocation,
+    distance,
+    setDistance,
+    mapCenter,
+    mapZoom,
+    setMapCenter,
+    setMapZoom,
+  } = useDealerContext();
 
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [showSidebar, setShowSidebar] = useState(true);
@@ -28,7 +39,6 @@ export default function RetailerPage() {
   const [selectedRetailer, setSelectedRetailer] = useState("");
   const [hoveredRetailer, setHoveredRetailer] = useState<string | null>(null);
   const [location, setLocation] = useState<Location | null>(null);
-  const [distance, setDistance] = useState<string | null>("300000");
 
   const retailerRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const lastCenterRef = useRef<{ lat: number; lng: number } | null>(null);
@@ -153,6 +163,9 @@ export default function RetailerPage() {
 
     lastCenterRef.current = center;
     lastZoomRef.current = newZoom;
+
+    setMapCenter(center);
+    setMapZoom(newZoom);
   };
 
   const handleSearchSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
@@ -358,8 +371,13 @@ export default function RetailerPage() {
             }}
             onLoad={(mapInstance) => {
               setMap(mapInstance);
-              mapInstance.setCenter({ lat: 51.1634, lng: 10.4477 });
-              mapInstance.setZoom(7);
+              if (mapCenter) {
+                mapInstance.setCenter(mapCenter);
+                if (mapZoom) mapInstance.setZoom(mapZoom);
+              } else {
+                mapInstance.setCenter({ lat: 51.1634, lng: 10.4477 });
+                mapInstance.setZoom(7);
+              }
             }}
             onIdle={handleIdle}
           >
